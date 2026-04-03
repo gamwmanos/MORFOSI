@@ -23,7 +23,7 @@ export default function Header() {
       <div className="bg-white px-6 lg:px-12 py-4 flex items-center justify-between border-b-[6px] border-brand-teal">
         <div className="flex items-center">
           <Link href="/" className="block">
-            <img src="/morfosi.jpg" alt="Μόρφωση" className="h-16 md:h-24 w-auto object-contain mix-blend-multiply drop-shadow-sm" />
+            <img src="/morfosi.jpg" alt="Μόρφωση" className="h-16 md:h-24 w-auto object-contain" />
           </Link>
         </div>
 

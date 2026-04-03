@@ -7,7 +7,7 @@ export default function Stats() {
         </h2>
         <p className="text-white font-bold text-lg mb-20 tracking-widest">Οι αριθμοί μας σήμερα</p>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-16 text-center text-white border-t border-white/20 items-end mt-12 min-h-[160px]">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-16 text-center text-white items-end mt-12 min-h-[160px]">
           
           <div className="border-t-4 border-brand-orange hover:border-white pt-6 relative top-0 hover:-top-[24px] transition-all duration-700 ease-out cursor-default group w-full">
             <span className="font-sans font-black leading-none block mb-4 tracking-tighter shadow-sm text-5xl lg:text-7xl group-hover:text-6xl group-hover:lg:text-[8rem] transition-all duration-700 ease-out">

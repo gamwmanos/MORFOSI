@@ -576,48 +576,48 @@ export default function CalculatorWizard() {
              <motion.div key="step5" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }} className="w-full bg-white border-[6px] border-gray-900 shadow-[20px_20px_0px_rgba(0,0,0,1)] relative overflow-hidden flex flex-col h-[85vh]">
                 
                 {/* Header Block */}
-                <div className="bg-gray-900 border-b-[6px] border-gray-900 p-8 md:p-10 flex flex-col lg:flex-row justify-between items-center gap-6 shrink-0 relative z-20">
+                <div className="bg-gray-900 border-b-[6px] border-gray-900 p-6 md:p-8 flex flex-col lg:flex-row justify-between items-center gap-4 shrink-0 relative z-20">
                    <div className="text-center lg:text-left">
-                      <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter uppercase mb-4">
-                        ΒΑΣΗ ΣΧΟΛΩΝ <span className="text-black bg-brand-orange px-3 mt-2 lg:mt-0 inline-block border-[4px] border-black transform rotate-1">2023</span>
+                      <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tighter uppercase mb-3">
+                        ΒΑΣΗ ΣΧΟΛΩΝ <span className="text-black bg-brand-orange px-2 mt-1 lg:mt-0 inline-block border-[3px] border-black transform rotate-1">2023</span>
                       </h2>
-                      <p className="text-white font-black text-sm md:text-base uppercase tracking-widest bg-brand-teal inline-block px-4 py-2 border-[3px] border-black shadow-[4px_4px_0px_rgba(255,255,255,1)]">
+                      <p className="text-white font-black text-xs md:text-sm uppercase tracking-widest bg-brand-teal inline-block px-3 py-1.5 border-[3px] border-black shadow-[3px_3px_0px_rgba(255,255,255,1)]">
                         Βρέθηκαν {filteredFaculties.length} σχολές • {currentFieldParams?.name}
                       </p>
                    </div>
-                   <button onClick={() => setStep(4)} className="bg-brand-orange text-gray-900 border-[4px] border-gray-900 px-6 py-4 font-black uppercase text-sm md:text-base shadow-[6px_6px_0px_rgba(255,255,255,1)] hover:bg-yellow-400 active:translate-y-1 active:translate-x-1 active:shadow-[2px_2px_0px_rgba(255,255,255,1)] flex items-center gap-2 transition-all">
-                      <X size={24} strokeWidth={4} /> ΚΛΕΙΣΙΜΟ
+                   <button onClick={() => setStep(4)} className="bg-brand-orange text-gray-900 border-[3px] border-gray-900 px-4 py-3 font-black uppercase text-sm shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:bg-yellow-400 active:translate-y-1 active:translate-x-1 active:shadow-[2px_2px_0px_rgba(255,255,255,1)] flex items-center gap-2 transition-all">
+                      <X size={20} strokeWidth={4} /> ΚΛΕΙΣΙΜΟ
                    </button>
                 </div>
 
                 {/* Filters Bar */}
-                <div className="p-6 md:p-8 border-b-[6px] border-gray-900 bg-brand-teal flex flex-col xl:flex-row gap-6 shrink-0 z-10 shadow-sm relative">
+                <div className="p-4 md:p-6 border-b-[4px] border-gray-900 bg-brand-teal flex flex-col xl:flex-row gap-4 shrink-0 z-10 shadow-sm relative">
                    
                    {/* Search Box */}
                    <div className="relative w-full xl:w-1/2">
-                      <div className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-900 font-black">
-                         <Search size={28} strokeWidth={4} />
+                      <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-900 font-black">
+                         <Search size={22} strokeWidth={4} />
                       </div>
                       <input 
                          type="text"
                          placeholder="ΑΝΑΖΗΤΗΣΗ ΣΧΟΛΗΣ Η ΠΟΛΗΣ..."
                          value={searchQuery}
                          onChange={(e) => setSearchQuery(e.target.value)}
-                         className="w-full pl-16 pr-6 py-6 bg-white border-[4px] border-gray-900 font-black text-gray-900 focus:outline-none focus:bg-yellow-100 transition-colors uppercase text-xl placeholder-gray-400 shadow-[6px_6px_0px_rgba(0,0,0,1)]"
+                         className="w-full pl-12 pr-4 py-4 bg-white border-[3px] border-gray-900 font-black text-gray-900 focus:outline-none focus:bg-yellow-100 transition-colors uppercase text-lg placeholder-gray-400 shadow-[4px_4px_0px_rgba(0,0,0,1)]"
                       />
                    </div>
 
                    {/* Filter Toggles */}
-                   <div className="flex flex-col sm:flex-row gap-6 w-full xl:w-auto">
+                   <div className="flex flex-col sm:flex-row gap-4 w-full xl:w-auto">
                       <button 
                          onClick={() => setShowOnlyPass(false)}
-                         className={`flex-1 xl:flex-none px-8 py-5 border-[4px] border-gray-900 font-black uppercase text-sm md:text-base tracking-widest transition-all ${!showOnlyPass ? 'bg-black text-white shadow-[8px_8px_0px_rgba(249,115,22,1)]' : 'bg-white text-gray-900 hover:bg-gray-200 shadow-[6px_6px_0px_rgba(0,0,0,1)]'}`}
+                         className={`flex-1 xl:flex-none px-6 py-4 border-[3px] border-gray-900 font-black uppercase text-xs md:text-sm tracking-widest transition-all ${!showOnlyPass ? 'bg-black text-white shadow-[6px_6px_0px_rgba(249,115,22,1)]' : 'bg-white text-gray-900 hover:bg-gray-200 shadow-[4px_4px_0px_rgba(0,0,0,1)]'}`}
                       >
                          ΟΛΕΣ ΟΙ ΣΧΟΛΕΣ
                       </button>
                       <button 
                          onClick={() => setShowOnlyPass(true)}
-                         className={`flex-1 xl:flex-none px-8 py-5 border-[4px] border-gray-900 font-black uppercase text-sm md:text-base tracking-widest transition-all ${showOnlyPass ? 'bg-emerald-500 text-gray-900 shadow-[8px_8px_0px_rgba(0,0,0,1)]' : 'bg-white text-emerald-600 hover:bg-emerald-50 shadow-[6px_6px_0px_rgba(0,0,0,1)]'}`}
+                         className={`flex-1 xl:flex-none px-6 py-4 border-[3px] border-gray-900 font-black uppercase text-xs md:text-sm tracking-widest transition-all ${showOnlyPass ? 'bg-emerald-500 text-gray-900 shadow-[6px_6px_0px_rgba(0,0,0,1)]' : 'bg-white text-emerald-600 hover:bg-emerald-50 shadow-[4px_4px_0px_rgba(0,0,0,1)]'}`}
                       >
                          ΜΟΝΟ ΟΣΕΣ ΠΕΡΝΑΩ
                       </button>
@@ -625,88 +625,88 @@ export default function CalculatorWizard() {
                 </div>
 
                 {/* The Huge List View */}
-                <div className="p-6 md:p-10 bg-gray-100 flex-1 overflow-y-auto">
+                <div className="p-4 md:p-6 bg-gray-100 flex-1 overflow-y-auto">
                    
                    {filteredFaculties.length === 0 ? (
                       <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                         <div className="w-32 h-32 border-[6px] border-gray-300 flex items-center justify-center mb-6 rotate-12 bg-white shadow-[8px_8px_0px_rgba(0,0,0,0.1)]">
-                            <Search size={64} strokeWidth={4} className="text-gray-300" />
+                         <div className="w-24 h-24 border-[4px] border-gray-300 flex items-center justify-center mb-6 rotate-12 bg-white shadow-[6px_6px_0px_rgba(0,0,0,0.1)]">
+                            <Search size={48} strokeWidth={4} className="text-gray-300" />
                          </div>
-                         <h3 className="text-4xl font-black uppercase tracking-tight text-gray-400 mb-4 bg-white px-6 py-2 border-[4px] border-gray-300">ΑΔΕΙΟ</h3>
-                         <p className="font-black text-xl text-center text-gray-500">Δεν βρέθηκαν σχολές με τα κριτήριά σου.</p>
+                         <h3 className="text-3xl font-black uppercase tracking-tight text-gray-400 mb-3 bg-white px-5 py-2 border-[3px] border-gray-300">ΑΔΕΙΟ</h3>
+                         <p className="font-black text-lg text-center text-gray-500">Δεν βρέθηκαν σχολές με τα κριτήριά σου.</p>
                       </div>
                    ) : (
-                      <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto pb-12">
+                      <div className="flex flex-col gap-5 w-full max-w-7xl mx-auto pb-8">
                          {filteredFaculties.map((faculty, idx) => (
                             <div 
                                key={faculty.id} 
-                               className={`w-full bg-white border-[6px] border-gray-900 p-0 flex flex-col lg:flex-row transition-all shadow-[12px_12px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[16px_16px_0px_rgba(0,0,0,1)]`}
+                               className={`w-full bg-white border-[4px] border-gray-900 p-0 flex flex-col lg:flex-row transition-all shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[10px_10px_0px_rgba(0,0,0,1)]`}
                             >
                                {/* Side Accent line */}
-                               <div className={`w-full h-4 lg:w-6 lg:h-auto border-b-[6px] lg:border-b-0 lg:border-r-[6px] border-gray-900 shrink-0 ${faculty.passed ? 'bg-emerald-400' : 'bg-red-500'}`}></div>
+                               <div className={`w-full h-3 lg:w-4 lg:h-auto border-b-[4px] lg:border-b-0 lg:border-r-[4px] border-gray-900 shrink-0 ${faculty.passed ? 'bg-emerald-400' : 'bg-red-500'}`}></div>
                                
                                {/* School Info */}
-                               <div className="flex-1 p-6 lg:p-10">
-                                  <div className="mb-6 flex">
-                                     <span className={`px-4 py-2 font-black text-xs md:text-sm uppercase tracking-widest border-[4px] border-gray-900 shadow-[4px_4px_0px_rgba(0,0,0,1)] ${faculty.passed ? 'bg-emerald-400 text-black' : 'bg-red-500 text-white'}`}>
+                               <div className="flex-1 p-4 lg:p-6">
+                                  <div className="mb-3 flex">
+                                     <span className={`px-3 py-1 font-black text-[10px] md:text-xs uppercase tracking-widest border-[3px] border-gray-900 shadow-[3px_3px_0px_rgba(0,0,0,1)] ${faculty.passed ? 'bg-emerald-400 text-black' : 'bg-red-500 text-white'}`}>
                                         {faculty.passed ? 'ΕΠΙΤΥΧΙΑ! ΜΠΑΙΝΕΙΣ.' : 'ΑΠΕΤΥΧΕΣ / ΘΕΛΕΙ ΠΡΟΣΠΑΘΕΙΑ'}
                                      </span>
                                   </div>
-                                  <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 tracking-tight uppercase leading-none mb-8 font-sans">
+                                  <h3 className="text-xl md:text-2xl lg:text-2xl font-black text-gray-900 tracking-tight uppercase leading-none mb-4 font-sans">
                                      {faculty.name}
                                   </h3>
-                                  <div className="flex flex-wrap gap-4 text-gray-900 font-black text-xs md:text-sm uppercase tracking-widest">
-                                     <div className="flex items-center gap-3 bg-yellow-100 px-4 py-3 border-[4px] border-gray-900 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-                                        <Building2 size={20} strokeWidth={3} /> {faculty.institution}
+                                  <div className="flex flex-wrap gap-2 text-gray-900 font-black text-[10px] md:text-xs uppercase tracking-widest">
+                                     <div className="flex items-center gap-2 bg-yellow-100 px-3 py-2 border-[3px] border-gray-900 shadow-[3px_3px_0px_rgba(0,0,0,1)]">
+                                        <Building2 size={16} strokeWidth={3} /> {faculty.institution}
                                      </div>
-                                     <div className="flex items-center gap-3 bg-gray-100 px-4 py-3 border-[4px] border-gray-900 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-                                        <MapPin size={20} strokeWidth={3} /> {faculty.city}
+                                     <div className="flex items-center gap-2 bg-gray-100 px-3 py-2 border-[3px] border-gray-900 shadow-[3px_3px_0px_rgba(0,0,0,1)]">
+                                        <MapPin size={16} strokeWidth={3} /> {faculty.city}
                                      </div>
                                   </div>
                                </div>
 
                                {/* Calculation Box */}
-                               <div className="flex flex-col sm:flex-row items-stretch lg:min-w-[480px] border-t-[6px] lg:border-t-0 lg:border-l-[6px] border-gray-900 shrink-0 bg-white">
+                               <div className="flex flex-col sm:flex-row items-stretch lg:min-w-[400px] border-t-[4px] lg:border-t-0 lg:border-l-[4px] border-gray-900 shrink-0 bg-white">
                                   
                                   {/* User points for this faculty */}
-                                  <div className={`flex-1 flex flex-col justify-center p-6 lg:p-8 border-b-[6px] sm:border-b-0 sm:border-r-[6px] border-gray-900 ${faculty.passed ? 'bg-emerald-100' : 'bg-gray-100'}`}>
-                                     <span className="text-xs lg:text-sm bg-black text-white px-3 py-2 border-[2px] border-black inline-block font-black uppercase tracking-widest mb-6 w-fit shadow-[4px_4px_0px_rgba(0,0,0,0.3)]">ΤΑ ΜΟΡΙΑ ΣΟΥ</span>
-                                     <span className={`text-5xl lg:text-6xl font-black tracking-tighter drop-shadow-md ${faculty.passed ? 'text-emerald-700' : 'text-gray-900'}`}>
+                                  <div className={`flex-1 flex flex-col justify-center p-4 lg:p-5 border-b-[4px] sm:border-b-0 sm:border-r-[4px] border-gray-900 ${faculty.passed ? 'bg-emerald-100' : 'bg-gray-100'}`}>
+                                     <span className="text-[10px] sm:text-xs bg-black text-white px-2 py-1 border-[2px] border-black inline-block font-black uppercase tracking-widest mb-3 w-fit shadow-[3px_3px_0px_rgba(0,0,0,0.3)]">ΤΑ ΜΟΡΙΑ ΣΟΥ</span>
+                                     <span className={`text-3xl lg:text-4xl font-black tracking-tighter drop-shadow-md ${faculty.passed ? 'text-emerald-700' : 'text-gray-900'}`}>
                                         {faculty.personalPoints.toLocaleString('el-GR')}
                                      </span>
-                                     <span className={`text-sm lg:text-base font-black mt-4 inline-flex items-center uppercase ${faculty.passed ? 'text-emerald-700' : 'text-red-600'}`}>
+                                     <span className={`text-xs lg:text-sm font-bold mt-2 inline-flex items-center uppercase ${faculty.passed ? 'text-emerald-700' : 'text-red-600'}`}>
                                         {faculty.diff >= 0 ? '+' : ''}{faculty.diff.toLocaleString('el-GR')} ΑΠΟ ΤΗ ΒΑΣΗ
                                      </span>
                                   </div>
 
                                   {/* Base 2023 */}
-                                  <div className="flex-1 flex flex-col justify-center p-6 lg:p-8 bg-white relative group/info">
-                                     <span className="text-xs lg:text-sm bg-gray-200 text-gray-500 px-3 py-2 border-[2px] border-gray-300 inline-block font-black uppercase tracking-widest mb-6 w-fit">ΒΑΣΗ 2023</span>
-                                     <span className="text-4xl lg:text-5xl font-black tracking-tighter text-gray-400 line-through decoration-[4px] decoration-gray-900 opacity-70">
+                                  <div className="flex-1 flex flex-col justify-center p-4 lg:p-5 bg-white relative group/info border-l-[3px] border-gray-100">
+                                     <span className="text-[10px] sm:text-xs bg-gray-100 text-gray-500 px-2 py-1 border-[2px] border-gray-200 inline-block font-black uppercase tracking-widest mb-3 w-fit">ΒΑΣΗ 2023</span>
+                                     <span className="text-2xl lg:text-3xl font-black tracking-tighter text-gray-900">
                                         {faculty.base2023.toLocaleString('el-GR')}
                                      </span>
                                      
-                                     <div className="mt-6">
-                                        <button className="bg-white border-[3px] border-gray-900 text-xs md:text-sm font-black uppercase py-2 px-4 hover:bg-brand-orange transition-colors cursor-help flex items-center gap-2 shadow-[4px_4px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-none">
-                                           <Info size={18} strokeWidth={3} /> ΣΥΝΤΕΛΕΣΤΕΣ
+                                     <div className="mt-3">
+                                        <button className="bg-white border-[2px] border-gray-900 text-[10px] md:text-xs font-black uppercase py-1.5 px-3 hover:bg-brand-orange text-gray-900 transition-colors cursor-help flex items-center gap-2 shadow-[2px_2px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-none">
+                                           <Info size={14} strokeWidth={3} className="text-gray-900" /> ΣΥΝΤΕΛΕΣΤΕΣ
                                         </button>
-                                        <div className="absolute top-1/2 -left-4 sm:left-auto sm:right-[110%] -translate-y-1/2 w-72 bg-white border-[6px] border-gray-900 shadow-[12px_12px_0px_rgba(0,0,0,1)] p-6 opacity-0 invisible group-hover/info:opacity-100 group-hover/info:visible transition-all text-gray-900 z-50 rounded-none pointer-events-none">
-                                            <div className="text-xs font-black uppercase tracking-widest text-brand-orange mb-4 border-b-[4px] border-gray-900 pb-3">ΒΑΡΥΤΗΤΕΣ ΜΑΘΗΜΑΤΩΝ</div>
-                                            <div className="flex justify-between items-center mb-3">
-                                                <span className="text-sm font-black truncate pr-3">{currentFieldParams?.subjects[0].name.split(' ')[0]}</span> 
-                                                <span className="font-black text-brand-teal text-lg">{(faculty.coeffs.s1 * 100).toFixed(0)}%</span>
+                                        <div className="absolute top-1/2 -left-4 sm:left-auto sm:right-[110%] -translate-y-1/2 w-64 bg-white border-[4px] border-gray-900 shadow-[8px_8px_0px_rgba(0,0,0,1)] p-5 opacity-0 invisible group-hover/info:opacity-100 group-hover/info:visible transition-all text-gray-900 z-50 rounded-none pointer-events-none">
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-brand-orange mb-3 border-b-[3px] border-gray-900 pb-2">ΒΑΡΥΤΗΤΕΣ ΜΑΘΗΜΑΤΩΝ</div>
+                                            <div className="flex justify-between items-center mb-2">
+                                                <span className="text-xs font-black truncate pr-3">{currentFieldParams?.subjects[0].name.split(' ')[0]}</span> 
+                                                <span className="font-black text-brand-teal text-base">{(faculty.coeffs.s1 * 100).toFixed(0)}%</span>
                                             </div>
-                                            <div className="flex justify-between items-center mb-3">
-                                                <span className="text-sm font-black truncate pr-3">{currentFieldParams?.subjects[1].name.split(' ')[0]}</span> 
-                                                <span className="font-black text-brand-teal text-lg">{(faculty.coeffs.s2 * 100).toFixed(0)}%</span>
+                                            <div className="flex justify-between items-center mb-2">
+                                                <span className="text-xs font-black truncate pr-3">{currentFieldParams?.subjects[1].name.split(' ')[0]}</span> 
+                                                <span className="font-black text-brand-teal text-base">{(faculty.coeffs.s2 * 100).toFixed(0)}%</span>
                                             </div>
-                                            <div className="flex justify-between items-center mb-3">
-                                                <span className="text-sm font-black truncate pr-3">{currentFieldParams?.subjects[2].name.split(' ')[0]}</span> 
-                                                <span className="font-black text-brand-teal text-lg">{(faculty.coeffs.s3 * 100).toFixed(0)}%</span>
+                                            <div className="flex justify-between items-center mb-2">
+                                                <span className="text-xs font-black truncate pr-3">{currentFieldParams?.subjects[2].name.split(' ')[0]}</span> 
+                                                <span className="font-black text-brand-teal text-base">{(faculty.coeffs.s3 * 100).toFixed(0)}%</span>
                                             </div>
-                                            <div className="flex justify-between items-center border-t-[3px] border-gray-200 pt-3 mt-3">
-                                                <span className="text-sm font-black truncate pr-3">{currentFieldParams?.subjects[3].name.split(' ')[0]}</span> 
-                                                <span className="font-black text-brand-teal text-lg">{(faculty.coeffs.s4 * 100).toFixed(0)}%</span>
+                                            <div className="flex justify-between items-center border-t-[2px] border-gray-200 pt-2 mt-2">
+                                                <span className="text-xs font-black truncate pr-3">{currentFieldParams?.subjects[3].name.split(' ')[0]}</span> 
+                                                <span className="font-black text-brand-teal text-base">{(faculty.coeffs.s4 * 100).toFixed(0)}%</span>
                                             </div>
                                         </div>
                                      </div>

@@ -30,7 +30,7 @@ export default async function Footer() {
           {/* 1. Logo & About */}
           <div className="flex flex-col">
             <Link href="/" className="mb-6 block w-56">
-              <img src="/morfosi.jpg" alt="Μόρφωση" className="w-full h-auto object-contain invert mix-blend-screen opacity-90" />
+              <img src="/morfosi.jpg" alt="Μόρφωση" className="w-full h-auto object-contain" />
             </Link>
             <p className="text-gray-400 font-medium text-sm leading-relaxed mb-8">
               Ο μεγαλύτερος Εκπαιδευτικός Οργανισμός στην Ελλάδα. Σχεδιάζουμε το μέλλον της εκπαίδευσης με γνώμονα την αριστεία και την καινοτομία.
