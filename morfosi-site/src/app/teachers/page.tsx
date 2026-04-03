@@ -144,10 +144,8 @@ export default async function TeachersPage() {
                 <span className="text-white font-black text-xs uppercase tracking-[0.3em]">Ακαδημαϊκή Ομάδα</span>
               </div>
 
-              <h1 className="text-6xl md:text-8xl lg:text-[110px] font-black text-white uppercase tracking-tighter leading-[0.85] mb-8">
-                <span className="text-white">OΙ </span><span className="text-brand-teal">ΚΑΘΗΓΗΤΕΣ</span>
-                <br />
-                <span className="text-brand-orange">ΜΑΣ.</span>
+              <h1 className="text-5xl md:text-7xl lg:text-[100px] font-black text-white uppercase tracking-tighter leading-none mb-8 whitespace-nowrap">
+                <span className="text-white">OΙ </span><span className="text-brand-teal">ΚΑΘΗΓΗΤΕΣ </span><span className="text-brand-orange">ΜΑΣ.</span>
               </h1>
 
               <p className="text-gray-300 font-bold text-xl md:text-2xl max-w-2xl leading-relaxed border-l-[6px] border-brand-teal pl-6">
