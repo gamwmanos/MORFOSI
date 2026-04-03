@@ -460,7 +460,7 @@ export default async function ContactPage() {
                 style={{ minHeight: "480px", display: "block" }}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                src={`https://maps.google.com/maps?q=${encodeURIComponent("25ης Μαρτίου 84, Άγιος Δημήτριος, Αθήνα 173 41")}&t=m&z=17&ie=UTF8&iwloc=near&output=embed`}
+                src={`https://maps.google.com/maps?q=${encodeURIComponent("25ης Μαρτίου 84, Αγίου Δημητρίου 17, Πετρούπολη 132 31")}&t=m&z=18&ie=UTF8&iwloc=near&output=embed`}
               />
             </div>
           </div>
