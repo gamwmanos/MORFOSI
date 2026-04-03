@@ -18,6 +18,20 @@ export const examMaterialType = defineType({
       type: 'date',
     }),
     defineField({
+      name: 'examCategory',
+      title: 'Κατηγορία',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Πανελλήνιες', value: 'panellinies' },
+          { title: 'Ο.Ε.Φ.Ε.', value: 'oefe' },
+          { title: 'Προσομοιώσεις Μόρφωσης', value: 'morfosi' },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
+      initialValue: 'morfosi'
+    }),
+    defineField({
       name: 'classDropdown',
       title: 'Τάξη',
       type: 'string',

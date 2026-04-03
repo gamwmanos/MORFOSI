@@ -3,10 +3,12 @@ import Link from "next/link";
 export default function System() {
   return (
     <section className="relative w-full py-24 bg-white overflow-hidden border-b-8 border-brand-teal min-h-[85vh] flex items-center">
-      {/* Huge faded background text */}
-      <h2 className="absolute top-1/2 left-0 -translate-y-1/2 text-[12vw] font-black text-gray-100 whitespace-nowrap z-0 select-none tracking-tighter">
-        ΜΟΡΦΩΣΗ
-      </h2>
+      {/* Huge fading background text with billboard scroll animation - Left to Right */}
+      <div className="absolute top-[20%] left-0 w-full overflow-hidden pointer-events-none z-0">
+        <h2 className="text-[25vw] font-black text-gray-100 whitespace-nowrap select-none tracking-tighter animate-billboard inline-block uppercase">
+          ΜΟΡΦΩΣΗ
+        </h2>
+      </div>
 
       <div className="w-full px-6 lg:px-12 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-16 xl:max-w-[1600px] mx-auto">
         

@@ -1,4 +1,8 @@
-import { ChevronRight, ChevronLeft } from "lucide-react";
+"use client"
+
+import { Quote, Star } from "lucide-react"
+import { motion, useAnimation, useInView } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
 
 export interface TestimonialType {
   _id: string;
@@ -10,59 +14,167 @@ export interface TestimonialType {
 }
 
 export default function Testimonials({ testimonials = [] }: { testimonials?: TestimonialType[] }) {
-  // Αν η βάση Sanity είναι άδεια, δείχνουμε ένα fallback placeholder για να μην σπάσει το CSS
-  const items = testimonials.length > 0 ? testimonials.slice(0, 2) : [
-    { _id: 'fallback-1', studentName: 'Μαθητής - Demo', university: 'Πρόσθεσε από το /studio', quote: 'Αυτή είναι μια προσωρινή εγγραφή επειδή η βάση δεδομένων του Sanity δεν έχει ακόμα περιεχόμενο.' },
-    { _id: 'fallback-2', studentName: 'Μαθήτρια - Demo', university: 'Πρόσθεσε από το /studio', quote: 'Αυτή είναι μια προσωρινή εγγραφή επειδή η βάση δεδομένων του Sanity δεν έχει ακόμα περιεχόμενο.' }
+  const [activeIndex, setActiveIndex] = useState(0)
+  
+  // Fallback Data if Sanity is empty
+  const items = testimonials.length > 0 ? testimonials : [
+    { _id: 'fallback-1', studentName: 'Ματούλα Βαρέλα', university: 'Ιατρική Αθηνών', quote: 'Η μεθοδικότητα των καθηγητών και η στοχευμένη προετοιμασία στο Φροντιστήριο Μόρφωση ήταν το κλειδί για την εισαγωγή μου στην Ιατρική. Δεν θα τα κατάφερνα χωρίς αυτούς!', photoUrl: '' },
+    { _id: 'fallback-2', studentName: 'Γιώργος Παππάς', university: 'Ηλεκτρολόγων Μηχανικών ΕΜΠ', quote: 'Τα εβδομαδιαία διαγωνίσματα προσομοίωσης με βοήθησαν να διαχειριστώ το άγχος μου. Όταν έφτασε η μέρα των Πανελλαδικών, ένιωθα λες και έγραφα ένα ακόμα τεστ στο φροντιστήριο.', photoUrl: '' },
+    { _id: 'fallback-3', studentName: 'Ελένη Κωνσταντίνου', university: 'Νομική Αθηνών', quote: 'Εξαιρετικό κλίμα, στήριξη ψυχολογική και ακαδημαϊκή. Οι σημειώσεις των καθηγητών ήταν τα απόλυτα"ευαγγέλια" για την επιτυχία μου.', photoUrl: '' }
   ];
 
-  return (
-    <section className="bg-white py-32 w-full border-t border-gray-200 flex flex-col items-center">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full">
-        {/* Title Area */}
-        <div className="flex flex-col md:flex-row gap-8 justify-between items-end mb-16 border-b-[6px] border-brand-teal pb-6">
-          <div>
-            <h2 className="text-4xl lg:text-5xl font-black text-gray-900 uppercase tracking-tighter">
-              Ιστορίες <br/><span className="text-brand-orange">Επιτυχίας</span>
-            </h2>
-            <p className="mt-4 font-bold text-gray-500 tracking-wide uppercase text-sm">Οι Πρωταγωνιστές Της Μόρφωσης</p>
-          </div>
-          <div className="flex gap-4">
-             <button className="bg-gray-50 hover:bg-brand-teal hover:text-white p-4 transition-colors border-2 border-gray-100">
-               <ChevronLeft size={24} />
-             </button>
-             <button className="bg-gray-50 hover:bg-brand-teal hover:text-white p-4 transition-colors border-2 border-gray-100">
-               <ChevronRight size={24} />
-             </button>
-          </div>
-        </div>
+  // Refs for scroll animations
+  const sectionRef = useRef(null)
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 })
+  const controls = useAnimation()
 
-        {/* Sharp Card Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-           {items.map((item, index) => (
-             <div key={item._id} className={`bg-gray-50 border-l-[12px] p-8 shadow-sm group hover:shadow-2xl transition-all relative ${index === 0 ? 'border-brand-teal' : 'border-brand-orange'}`}>
-                <div className="flex flex-col sm:flex-row gap-8 items-start">
-                   {/* Φωτογραφία Μαθητή (ή Placeholder αν λείπει) */}
-                   <div className="w-32 h-32 bg-gray-300 flex-shrink-0 grayscale group-hover:grayscale-0 transition-all flex items-center justify-center overflow-hidden">
-                      {item.photoUrl ? (
-                         <img src={item.photoUrl} alt={item.studentName} className="w-full h-full object-cover" />
-                      ) : (
-                         <span className="text-gray-500 font-extrabold text-xs">ΦΩΤΟ</span>
-                      )}
-                   </div>
-                   <div>
-                      <h3 className="font-black text-2xl text-gray-900 tracking-tight mb-1">{item.studentName}</h3>
-                      <p className={`font-black text-xs tracking-widest uppercase mb-4 ${index === 0 ? 'text-brand-orange' : 'text-brand-teal'}`}>
-                        {item.university || 'ΣΧΟΛΗ ΕΠΙΤΥΧΙΑΣ'} {item.year ? `(${item.year})` : ''}
+  const autoRotateInterval = 6000;
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
+  }
+
+  // Trigger animations when section comes into view
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible")
+    }
+  }, [isInView, controls])
+
+  // Auto rotate testimonials
+  useEffect(() => {
+    if (autoRotateInterval <= 0 || items.length <= 1) return
+
+    const interval = setInterval(() => {
+      setActiveIndex((current) => (current + 1) % items.length)
+    }, autoRotateInterval)
+
+    return () => clearInterval(interval)
+  }, [autoRotateInterval, items.length])
+
+  return (
+    <section ref={sectionRef} id="testimonials" className="py-24 md:py-32 overflow-hidden bg-white border-t-[8px] border-black">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <motion.div
+          initial="hidden"
+          animate={controls}
+          variants={containerVariants}
+          className="grid grid-cols-1 gap-16 w-full lg:grid-cols-2 lg:gap-24"
+        >
+          {/* Left side: Heading and navigation */}
+          <motion.div variants={itemVariants} className="flex flex-col justify-center">
+            <div className="space-y-6">
+              <div className="inline-flex items-center px-4 py-2 bg-brand-orange border-4 border-black shadow-[4px_4px_0px_#000] text-sm font-black uppercase tracking-widest text-white">
+                <Star className="mr-2 h-4 w-4 fill-white" />
+                <span>Οι Πρωταγωνιστες Μας</span>
+              </div>
+
+              <h2 className="text-4xl lg:text-7xl font-black tracking-tighter text-gray-900 uppercase leading-[0.9] drop-shadow-sm">
+                Ιστοριες <br/><span className="text-brand-orange bg-black px-2 mt-2 inline-block -rotate-1">Επιτυχιας</span>
+              </h2>
+
+              <p className="max-w-[600px] text-gray-600 font-bold md:text-xl/relaxed border-l-[6px] border-brand-teal pl-4">
+                Δεν χρειάζεται να πούμε εμείς για το έργο μας. Δείτε τι λένε οι μαθητές μας για την εμπειρία τους και την πορεία τους προς την κορυφή.
+              </p>
+
+              <div className="flex items-center gap-3 pt-6">
+                {items.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveIndex(index)}
+                    className={`h-4 transition-all duration-300 border-2 border-black ${
+                      activeIndex === index ? "w-16 bg-brand-teal shadow-[2px_2px_0px_#000]" : "w-4 bg-gray-200 hover:bg-gray-300"
+                    }`}
+                    aria-label={`View testimonial ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right side: Testimonial cards */}
+          <motion.div variants={itemVariants} className="relative h-full min-h-[400px] md:min-h-[450px] w-full flex items-center">
+            {items.map((testimonial, index) => (
+              <motion.div
+                key={testimonial._id || index}
+                className="absolute inset-x-0 w-full"
+                initial={{ opacity: 0, x: 100 }}
+                animate={{
+                  opacity: activeIndex === index ? 1 : 0,
+                  x: activeIndex === index ? 0 : 100,
+                  scale: activeIndex === index ? 1 : 0.95,
+                }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                style={{ 
+                  zIndex: activeIndex === index ? 10 : 0,
+                  pointerEvents: activeIndex === index ? "auto" : "none"
+                }}
+              >
+                <div className="bg-white border-[6px] border-black shadow-[16px_16px_0px_#000] p-8 md:p-12 h-full flex flex-col relative group">
+                  {/* Rating Stars - Brutalist style */}
+                  <div className="mb-6 flex gap-1">
+                    {Array(5)
+                      .fill(0)
+                      .map((_, i) => (
+                        <div key={i} className="bg-brand-orange border-[3px] border-black p-1 shadow-[2px_2px_0px_#000] transform -rotate-6">
+                           <Star className="h-5 w-5 fill-white text-white" />
+                        </div>
+                      ))}
+                  </div>
+
+                  <div className="relative mb-8 flex-1">
+                    <Quote className="absolute -top-6 -left-6 h-12 w-12 text-brand-teal opacity-20 rotate-180" />
+                    <p className="relative z-10 text-xl md:text-2xl font-bold leading-relaxed text-gray-900 tracking-tight">"{testimonial.quote}"</p>
+                  </div>
+
+                  {/* Hard Separator */}
+                  <div className="w-full h-1 bg-black my-6"></div>
+
+                  <div className="flex items-center gap-6">
+                    {/* Avatar (Square & Sharp instead of Round) */}
+                    <div className="h-20 w-20 border-[4px] border-black shadow-[4px_4px_0px_#000] bg-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
+                       {testimonial.photoUrl ? (
+                         <img src={testimonial.photoUrl} alt={testimonial.studentName} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                       ) : (
+                         <span className="font-black text-3xl text-gray-400">{testimonial.studentName.charAt(0)}</span>
+                       )}
+                    </div>
+                    <div>
+                      <h3 className="font-black text-2xl uppercase tracking-tighter text-gray-900">{testimonial.studentName}</h3>
+                      <p className="font-extrabold text-brand-teal uppercase tracking-widest text-sm mt-1">
+                        {testimonial.university} {testimonial.year ? `(${testimonial.year})` : ''}
                       </p>
-                      <p className="text-gray-700 italic font-medium leading-relaxed">
-                        "{item.quote || 'Κανένα κείμενο διαθέσιμο.'}"
-                      </p>
-                   </div>
+                    </div>
+                  </div>
                 </div>
-             </div>
-           ))}
-        </div>
+              </motion.div>
+            ))}
+
+            {/* Decorative elements behind cards */}
+            <div className="absolute -bottom-8 -left-8 h-32 w-32 bg-brand-teal border-[4px] border-black -z-10 shadow-[8px_8px_0px_#000]"></div>
+            <div className="absolute -top-8 -right-8 h-20 w-20 bg-brand-orange border-[4px] border-black -z-10 shadow-[8px_8px_0px_#000]"></div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   )

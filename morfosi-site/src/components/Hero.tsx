@@ -1,58 +1,111 @@
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Calculator, FileText, Globe, GraduationCap } from "lucide-react";
 import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="flex flex-col lg:flex-row w-full min-h-[85vh] bg-white">
-      {/* Left Text Box - White Theme (Top of Site changed to white for blending into video scroll) */}
-      <div className="w-full lg:w-[55%] flex flex-col justify-center px-8 lg:px-16 py-16 relative">
-        {/* Subtle grid pattern for white background */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "linear-gradient(#0c82a2 1px, transparent 1px), linear-gradient(90deg, #0c82a2 1px, transparent 1px)", backgroundSize: "30px 30px" }}></div>
+    <section className="relative w-full min-h-[85vh] bg-brand-teal-dark overflow-hidden flex flex-col xl:flex-row pb-12 xl:pb-0">
+      {/* Background Decor */}
+      <div 
+        className="absolute inset-0 opacity-[0.1] pointer-events-none" 
+        style={{ 
+          backgroundImage: "linear-gradient(#f97316 2px, transparent 2px), linear-gradient(90deg, #f97316 2px, transparent 2px)", 
+          backgroundSize: "40px 40px" 
+        }}
+      ></div>
 
-        <h1 className="text-brand-teal-dark text-[11vw] lg:text-[6rem] leading-[0.9] font-black tracking-tighter mb-12 relative z-10 uppercase break-words px-2 lg:px-0">
-          Το Φροντιστηριο <br/> Που <span className="text-brand-teal">Στηριζει</span> <br />Τους Στοχους Σου <br/>
-          <span className="text-brand-orange text-[5vw] lg:text-[2.5rem] tracking-tight mt-6 block leading-none">Ολοκληρωμενη Προετοιμασια</span>
+      {/* Left Content Area (Text & Links) */}
+      <div className="w-full xl:w-[55%] flex flex-col justify-center px-6 lg:px-16 pt-16 xl:py-16 relative z-20">
+        
+        {/* Main Headline */}
+        <h1 className="text-white text-[12vw] sm:text-[5.5rem] leading-[0.9] font-black tracking-tighter mb-8 uppercase drop-shadow-[4px_4px_0px_#000]">
+          Το Φροντιστηριο <br/> Που <span className="text-brand-orange bg-black px-2 py-1 transform -rotate-2 inline-block">Στηριζει</span> <br />Τους Στοχους Σου
         </h1>
+        
+        <div className="mb-12">
+           <span className="text-white text-xl md:text-2xl lg:text-3xl font-black bg-brand-orange border-4 border-black px-6 py-3 shadow-[6px_6px_0px_#000] inline-block tracking-widest uppercase">
+             Ολοκληρωμενη Προετοιμασια
+           </span>
+        </div>
 
-        <div className="mb-16 relative z-10 max-w-xl">
-          <h2 className="text-gray-900 text-xl font-black mb-4 uppercase tracking-widest pl-2">Τι ακριβώς ψάχνεις;</h2>
-          <div className="flex shadow-2xl border-4 border-gray-100">
-            <select className="flex-1 bg-white text-gray-900 font-extrabold px-6 py-6 appearance-none focus:outline-none rounded-none text-lg">
-              <option>Επιλογή Βαθμίδας</option>
-              <option>Γενικό Λύκειο</option>
-              <option>ΕΠΑΛ</option>
-              <option>Γυμνάσιο</option>
-              <option>Δημοτικό</option>
-            </select>
-            <button className="bg-brand-orange text-white px-10 flex items-center justify-center hover:bg-brand-teal transition-colors">
-              <ChevronRight size={40} />
-            </button>
+        {/* Quick Links Dashboard (Replaces bottom list, now layered) */}
+        <div className="mt-8">
+          <div className="flex items-center gap-4 mb-6">
+             <div className="h-[4px] bg-brand-orange w-12 border-y border-black"></div>
+             <h3 className="text-white font-black text-xl tracking-widest uppercase text-shadow-sm">Βρες Γρηγορα</h3>
+             <div className="h-[4px] bg-brand-orange flex-1 border-y border-black"></div>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            {/* The Featured CTA from the user request (Moved here) */}
+            <Link href="/calculator" className="bg-brand-orange border-4 border-black p-5 shadow-[6px_6px_0px_#000] hover:translate-y-1 hover:shadow-[2px_2px_0px_#000] transition-all group relative overflow-hidden">
+               <div className="absolute -right-4 -top-8 opacity-10 rotate-12 group-hover:rotate-45 transition-transform duration-500">
+                  <Calculator size={120} />
+               </div>
+               <div className="relative z-10 flex flex-col gap-2">
+                 <div className="w-12 h-12 bg-black text-white flex items-center justify-center border-2 border-black">
+                   <Calculator strokeWidth={3} />
+                 </div>
+                 <span className="font-black text-black uppercase tracking-widest text-lg mt-2">Υπολογισμος<br/>Μοριων</span>
+               </div>
+            </Link>
+
+            {/* Other Quick Links as Sharp Cards */}
+            <div className="flex flex-col gap-4">
+               {/* Search / Select component inside a card */}
+               <div className="flex border-4 border-black bg-white shadow-[4px_4px_0px_#000] h-[5.5rem]">
+                  <select className="flex-1 bg-transparent text-gray-900 font-extrabold px-4 appearance-none focus:outline-none text-sm uppercase tracking-wider">
+                    <option>Επιλογη Βαθμιδας</option>
+                    <option>Γενικό Λύκειο</option>
+                    <option>ΕΠΑΛ</option>
+                    <option>Γυμνάσιο</option>
+                  </select>
+                  <button className="bg-black text-white w-16 flex items-center justify-center hover:bg-brand-teal transition-colors border-l-4 border-black">
+                    <ChevronRight size={24} strokeWidth={4} />
+                  </button>
+               </div>
+
+               {/* Standard Link */}
+               <Link href="/exams" className="flex items-center justify-between bg-white border-4 border-black px-4 shadow-[4px_4px_0px_#000] h-[5.5rem] group hover:bg-brand-teal hover:text-white transition-colors">
+                  <span className="font-black text-gray-900 uppercase tracking-wider text-sm flex items-center gap-3">
+                     <FileText className="text-brand-orange" size={20} /> Θεματα 
+                  </span>
+                  <ChevronRight size={20} strokeWidth={3} className="text-black group-hover:translate-x-1 group-hover:text-white transition-transform" />
+               </Link>
+            </div>
+
           </div>
         </div>
-
-        <div className="relative z-10 mt-auto pt-8 border-t-[6px] border-gray-100">
-          <h3 className="text-brand-teal border-l-[6px] border-brand-teal pl-4 font-black text-lg mb-6 tracking-widest uppercase">Βρες γρηγορα</h3>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-6">
-            {["Θέματα Πανελλαδικών", "Υπολογισμός Μορίων", "Διαγωνίσματα", "Τράπεζα Θεμάτων", "Πανόραμα Σχολών", "School Portal"].map((link, i) => (
-              <li key={i}>
-                <Link href="#" className="text-gray-700 font-extrabold text-sm uppercase flex items-center gap-2 group tracking-widest hover:text-brand-orange transition-colors">
-                  <span className="w-0 group-hover:w-4 h-1 bg-brand-orange transition-all"></span>
-                  <ChevronRight size={18} className="text-brand-teal group-hover:hidden" />
-                  {link}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
 
-      {/* Right Image Placeholder Box */}
-      <div className="w-full lg:w-[45%] min-h-[50vh] lg:min-h-full bg-gray-100 relative mt-16 xl:mt-0">
-        <div className="absolute inset-0 flex flex-col items-center justify-center border-l-[12px] border-brand-orange text-center p-8 bg-zinc-200">
-           <span className="text-6xl font-black text-white drop-shadow-md mb-4 tracking-widest">PLACEHOLDER</span>
-           <span className="text-xl font-black text-gray-700 uppercase bg-white px-6 py-2 shadow-sm border-2 border-dashed border-gray-400">Κεντρική μεγάλη φωτογραφία 1920x1080</span>
-        </div>
+      {/* Right Image Display Area */}
+      <div className="w-full xl:w-[45%] flex items-center justify-center relative mt-16 xl:mt-0 px-6 xl:px-0 z-10">
+         
+         {/* Decorative Element Behind Image */}
+         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-brand-orange opacity-80 blur-[100px] rounded-full pointer-events-none"></div>
+
+         {/* Neo-Brutalist Image Frame */}
+         <div className="relative w-full max-w-lg xl:max-w-2xl aspect-[4/5] xl:aspect-square bg-brand-orange border-[6px] border-black shadow-[16px_16px_0px_#000] -rotate-2 hover:rotate-0 transition-transform duration-500 ease-out z-20">
+            {/* The Generated Image */}
+            <img 
+               src="/hero_greek.png" 
+               alt="Εκπαίδευση με σύγχρονα μέσα" 
+               className="w-full h-full object-cover grayscale-[10%] contrast-[1.05]"
+            />
+            
+            {/* Overlay Badge */}
+            <div className="absolute -bottom-6 -left-6 bg-white border-[4px] border-black px-6 py-4 shadow-[8px_8px_0px_#000] transform rotate-3 flex items-center gap-3">
+               <div className="bg-brand-teal p-2 border-2 border-black">
+                  <GraduationCap className="text-white" size={24} />
+               </div>
+               <div className="flex flex-col">
+                 <span className="font-black text-black leading-none uppercase text-sm">Επιτυχιες</span>
+                 <span className="font-extrabold text-brand-orange text-xs uppercase tracking-widest">+ 500 Απόφοιτοι</span>
+               </div>
+            </div>
+         </div>
       </div>
+
     </section>
   );
 }
