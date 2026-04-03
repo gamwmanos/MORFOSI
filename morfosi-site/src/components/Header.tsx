@@ -29,7 +29,7 @@ export default function Header() {
 
         <nav className="hidden xl:flex items-center gap-8 ml-10 flex-1">
           <div className="group relative">
-             <Link href="#" className="text-gray-900 font-extrabold text-sm hover:text-brand-teal uppercase transition-colors">
+             <Link href="/teachers" className="text-gray-900 font-extrabold text-sm hover:text-brand-teal uppercase transition-colors">
                ΕΚΠΑΙΔΕΥΣΗ
              </Link>
              <div className="absolute -bottom-6 left-0 w-full h-[6px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
@@ -47,7 +47,7 @@ export default function Header() {
              <div className="absolute -bottom-6 left-0 w-full h-[6px] bg-brand-teal scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
           </div>
           <div className="group relative">
-             <Link href="#" className="text-gray-900 font-extrabold text-sm hover:text-brand-teal uppercase transition-colors">
+             <Link href="/news" className="text-gray-900 font-extrabold text-sm hover:text-brand-teal uppercase transition-colors">
                ΝΕΑ
              </Link>
              <div className="absolute -bottom-6 left-0 w-full h-[6px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>

@@ -121,9 +121,9 @@ export default async function Home() {
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b-[6px] border-gray-900 pb-4 gap-6">
               <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter text-gray-900 leading-none">ΝΕΑ &<br/><span className="text-brand-orange">ΑΝΑΚΟΙΝΩΣΕΙΣ</span></h2>
-              <button className="text-brand-teal font-black text-sm tracking-widest uppercase hover:text-gray-900 transition-colors">
-                ΠΕΡΙΣΣΟΤΕРА {">"}
-              </button>
+              <Link href="/news" className="text-brand-teal font-black text-sm tracking-widest uppercase hover:text-gray-900 transition-colors flex items-center gap-2">
+                ΠΕΡΙΣΣΟΤΕΡΑ →
+              </Link>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
