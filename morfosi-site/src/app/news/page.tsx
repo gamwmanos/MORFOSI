@@ -2,6 +2,7 @@ import { client } from "@/sanity/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import NewsletterForm from "@/components/NewsletterForm";
 import {
   Newspaper, Calendar, Tag, ArrowRight, Clock, Users, ChevronRight,
   Megaphone, Bell, BookOpen, GraduationCap, TrendingUp, Star
@@ -126,8 +127,6 @@ const CARD_ACCENTS = [
   { border: 'border-brand-purple',  num: 'bg-brand-purple',  tag: 'bg-brand-purple/10',  tagText: 'text-brand-purple' },
   { border: 'border-brand-red',     num: 'bg-brand-red',     tag: 'bg-brand-red/10',     tagText: 'text-brand-red' },
 ];
-
-import type { ReactNode } from "react";
 
 export default async function NewsPage() {
   let posts: any[] = [];
@@ -472,21 +471,7 @@ export default async function NewsPage() {
                   <p className="text-gray-700 font-bold text-sm leading-relaxed mb-6">
                     Γραφτείτε για να λαμβάνετε άμεσα τα τελευταία νέα και τις ανακοινώσεις μας στο email σας.
                   </p>
-                  <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
-                    <input
-                      type="email"
-                      placeholder="Το email σας"
-                      id="newsletter-email-sidebar"
-                      className="bg-gray-100 border-[3px] border-black px-4 py-3 text-sm font-bold placeholder:text-gray-400 focus:outline-none focus:border-brand-teal transition-colors"
-                    />
-                    <button
-                      type="submit"
-                      className="bg-brand-orange text-white font-black text-xs uppercase tracking-widest py-4 border-[3px] border-black shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] transition-all flex items-center justify-center gap-2"
-                    >
-                      ΕΓΓΡΑΦΗ
-                      <ArrowRight size={14} strokeWidth={3} />
-                    </button>
-                  </form>
+                  <NewsletterForm />
                 </div>
               </div>
 
