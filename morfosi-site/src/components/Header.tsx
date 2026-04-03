@@ -28,15 +28,30 @@ export default function Header() {
         </div>
 
         <nav className="hidden xl:flex items-center gap-8 ml-10 flex-1">
-          {["ΕΚΠΑΙΔΕΥΣΗ", "ΦΙΛΟΣΟΦΙΑ", "ΠΑΝΕΛΛΗΝΙΕΣ", "ΝΕΑ & ΑΝΑΚΟΙΝΩΣΕΙΣ"].map((item, i) => (
-            <div key={i} className="group relative">
-              <Link href="#" className="text-gray-900 font-extrabold text-sm hover:text-brand-teal flex items-center gap-1 uppercase transition-colors">
-                {item} <ChevronDown size={16} />
-              </Link>
-              {/* Boxy sharp line on hover */}
-              <div className="absolute -bottom-6 left-0 w-full h-[6px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-            </div>
-          ))}
+          <div className="group relative">
+             <Link href="#" className="text-gray-900 font-extrabold text-sm hover:text-brand-teal uppercase transition-colors">
+               ΕΚΠΑΙΔΕΥΣΗ
+             </Link>
+             <div className="absolute -bottom-6 left-0 w-full h-[6px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+          </div>
+          <div className="group relative">
+             <Link href="/books" className="text-gray-900 font-extrabold text-sm hover:text-brand-teal uppercase transition-colors">
+               ΒΙΒΛΙΟΘΗΚΗ
+             </Link>
+             <div className="absolute -bottom-6 left-0 w-full h-[6px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+          </div>
+          <div className="group relative">
+             <Link href="/calculator" className="text-brand-orange font-black text-sm hover:text-brand-teal uppercase transition-colors">
+               ΥΠΟΛΟΓΙΣΜΟΣ ΜΟΡΙΩΝ
+             </Link>
+             <div className="absolute -bottom-6 left-0 w-full h-[6px] bg-brand-teal scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+          </div>
+          <div className="group relative">
+             <Link href="#" className="text-gray-900 font-extrabold text-sm hover:text-brand-teal uppercase transition-colors">
+               ΝΕΑ
+             </Link>
+             <div className="absolute -bottom-6 left-0 w-full h-[6px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+          </div>
         </nav>
 
         <div className="flex items-center gap-6">

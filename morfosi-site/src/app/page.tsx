@@ -87,6 +87,22 @@ export default async function Home() {
         {/* 6th Scroll: Testimonials (ΣΥΝΔΕΘΗΚΕ ΜΕ CMS) */}
         <Testimonials testimonials={data.testimonials} />
 
+        {/* Calculator CTA - The Massive Blockbuster Banner */}
+        <section className="w-full bg-gradient-to-br from-gray-900 to-black py-24 md:py-32 relative overflow-hidden group">
+           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-orange/20 via-transparent to-transparent opacity-50 z-0"></div>
+           <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center relative z-10 flex flex-col items-center">
+              <h2 className="text-4xl md:text-6xl lg:text-[100px] leading-[0.9] font-black text-white tracking-tighter uppercase mb-8 drop-shadow-2xl">
+                 ΠΟΥ ΠΕΡΝΑΣ;<br/><span className="text-brand-orange text-3xl md:text-5xl lg:text-6xl">ΥΠΟΛΟΓΙΣΕ ΤΑ ΜΟΡΙΑ ΣΟΥ</span>
+              </h2>
+              <p className="text-gray-400 font-bold text-lg md:text-2xl max-w-3xl mx-auto mb-12">
+                 Το πιο εξελιγμένο σύστημα υπολογισμού μορίων στην Ελλάδα. Δες τι μόρια συγκεντρώνεις και σύγκρινέ τα με τις περσινές βάσεις, ακαριαία.
+              </p>
+              <Link href="/calculator" className="bg-brand-orange text-white px-12 md:px-16 py-6 border-4 border-transparent hover:border-white rounded-full font-black uppercase tracking-widest text-lg md:text-xl hover:shadow-[0_0_60px_rgba(249,115,22,0.8)] hover:-translate-y-2 transition-all inline-block shadow-2xl">
+                 ΚΑΝΕ ΤΟΝ ΥΠΟΛΟΓΙΣΜΟ
+              </Link>
+           </div>
+        </section>
+
         {/* 7th Scroll: Εκδόσεις (Books) (ΣΥΝΔΕΘΗΚΕ ΜΕ CMS) */}
         <section className="bg-brand-teal-dark py-24 w-full">
           <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row gap-12 items-center">
