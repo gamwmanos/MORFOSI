@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: "Το κορυφαίο φροντιστήριο για την εκπαιδευτική σου επιτυχία.",
 };
 
-import Footer from "@/components/Footer";
+
 
 export default function RootLayout({
   children,
@@ -32,7 +32,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col pt-0">
         {children}
-        <Footer />
+
         <SpeedInsights />
       </body>
     </html>

@@ -435,7 +435,7 @@ export default async function ContactPage() {
               </div>
               <h2 className="text-4xl md:text-5xl font-black text-gray-900 uppercase tracking-tighter leading-tight mb-6">
                 ΕΙΜΑΣΤΕ<br />
-                <span className="text-brand-teal">ΕΔΩΕ</span>
+                <span className="text-brand-teal">ΕΔΩ</span>
               </h2>
               <div className="bg-gray-100 border-[4px] border-black p-6 mb-6">
                 <p className="font-black text-gray-900 text-sm leading-relaxed">{address}</p>
@@ -461,7 +461,7 @@ export default async function ContactPage() {
                 style={{ minHeight: "480px", display: "block" }}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                src={`https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`}
+                src={`https://maps.google.com/maps?q=${encodeURIComponent("Φροντιστήριο Μόρφωση, 25ης Μαρτίου 84, Άγιος Δημήτριος, Αθήνα")}&t=m&z=16&ie=UTF8&iwloc=near&output=embed`}
               />
             </div>
           </div>
@@ -480,8 +480,7 @@ export default async function ContactPage() {
                 <MessageSquare size={16} /> Συχνές Ερωτήσεις
               </div>
               <h2 className="text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter leading-tight mb-8">
-                ΑΠΟΡΙ-<br />
-                <span className="text-brand-orange">ΕΣ;</span>
+                ΑΠΟΡΙ<span className="text-brand-orange">ΕΣ;</span>
               </h2>
               <p className="text-gray-500 font-bold leading-relaxed mb-10">
                 Αν δεν βρείτε απάντηση εδώ, στείλτε μας μήνυμα ή καλέστε μας άμεσα.
