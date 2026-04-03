@@ -1,7 +1,7 @@
 "use client"
 
 import { Quote, Star } from "lucide-react"
-import { motion, useAnimation, useInView, Variants } from "framer-motion"
+import { motion, useAnimation, useInView } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 
 export interface TestimonialType {
@@ -31,7 +31,7 @@ export default function Testimonials({ testimonials = [] }: { testimonials?: Tes
   const autoRotateInterval = 6000;
 
   // Animation variants
-  const containerVariants: Variants = {
+  const containerVariants: any = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -42,7 +42,7 @@ export default function Testimonials({ testimonials = [] }: { testimonials?: Tes
     },
   }
 
-  const itemVariants: Variants = {
+  const itemVariants: any = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
