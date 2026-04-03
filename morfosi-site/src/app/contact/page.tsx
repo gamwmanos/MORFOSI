@@ -116,8 +116,7 @@ export default async function ContactPage() {
               </div>
 
               <h1 className="text-6xl md:text-8xl lg:text-[100px] font-black text-white uppercase tracking-tighter leading-[0.85] mb-10">
-                ΕΠΙΚΟΙ-<br />
-                <span className="text-brand-orange">ΝΩΝΙΑ</span><br />
+                <span className="text-white">ΕΠΙΚΟΙ</span><span className="text-brand-orange">ΝΩΝΙΑ</span><br />
                 <span className="text-brand-teal">&</span><br />
                 <span className="text-white/60">ΕΓΓΡΑΦΕΣ</span>
               </h1>
