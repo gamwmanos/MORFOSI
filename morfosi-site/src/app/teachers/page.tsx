@@ -145,13 +145,9 @@ export default async function TeachersPage() {
               </div>
 
               <h1 className="text-6xl md:text-8xl lg:text-[110px] font-black text-white uppercase tracking-tighter leading-[0.85] mb-8">
-                ΟΙ
+                <span className="text-white">OΙ </span><span className="text-brand-teal">ΚΑΘΗΓΗΤΕΣ</span>
                 <br />
-                <span className="text-brand-teal">ΚΑΘΗ-</span>
-                <br />
-                <span className="text-brand-orange">ΓΗΤΕΣ</span>
-                <br />
-                <span className="text-white">ΜΑΣ.</span>
+                <span className="text-brand-orange">ΜΑΣ.</span>
               </h1>
 
               <p className="text-gray-300 font-bold text-xl md:text-2xl max-w-2xl leading-relaxed border-l-[6px] border-brand-teal pl-6">

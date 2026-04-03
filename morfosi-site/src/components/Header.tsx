@@ -99,25 +99,25 @@ const NAV_ITEMS: NavItem[] = [
     label: "ΜΑΘΗΜΑΤΑ",
     children: [
       {
-        href: "/teachers",
+        href: "/schedule#A_LYKEIOU",
         label: "Θετικές Σπουδές",
         description: "Μαθηματικά, Φυσική, Χημεία, Βιολογία",
         icon: <Sigma size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/teachers",
+        href: "/schedule#A_LYKEIOU",
         label: "Ανθρωπιστικές Σπουδές",
         description: "Έκθεση, Ιστορία, Λογοτεχνία, Λατινικά",
         icon: <Pencil size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/teachers",
+        href: "/schedule#A_LYKEIOU",
         label: "Σπουδές Υγείας",
         description: "Βιολογία, Χημεία, Φυσική",
         icon: <FlaskConical size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/teachers",
+        href: "/schedule#A_LYKEIOU",
         label: "Οικονομίας & Πληροφορικής",
         description: "Μαθηματικά, ΑΟΔΕ, Πληροφορική",
         icon: <Globe size={20} strokeWidth={2.5} />,
