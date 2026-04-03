@@ -22,10 +22,29 @@ export default function ContactForm({ contactEmail }: { contactEmail?: string })
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setState("sending");
-    // Simulate sending (replace with real API call if needed)
-    await new Promise(r => setTimeout(r, 1400));
-    setState("success");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || "Κάτι πήγε στραβά");
+        setState("error");
+        return;
+      }
+
+      setState("success");
+    } catch (err) {
+      alert("Πρόβλημα σύνδεσης με τον διακομιστή");
+      setState("error");
+    }
   }
+
 
   if (state === "success") {
     return (

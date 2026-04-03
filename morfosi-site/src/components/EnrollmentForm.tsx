@@ -12,11 +12,11 @@ const CLASSES = [
 ];
 
 const PROGRAMS = [
-  "Γενική Παιδεία (Όλα τα μαθήματα)",
-  "Θετικές Επιστήμες (Μαθηματικά, Φυσική, Χημεία)",
-  "Ανθρωπιστικές Σπουδές (Γλώσσα, Αρχαία, Ιστορία)",
-  "Εντατική Γ΄ Λυκείου (Πανελλαδικές)",
-  "Γλώσσες (Αγγλικά, Γαλλικά, Γερμανικά)",
+  "Γενική Παιδεία",
+  "Ανθρωπιστικές Σπουδές",
+  "Θετικές Σπουδές",
+  "Σπουδές Υγείας",
+  "Σπουδές Οικονομίας & Πληροφορικής",
   "Ξεχωριστό Μάθημα",
 ];
 
@@ -60,8 +60,27 @@ export default function EnrollmentForm() {
     e.preventDefault();
     if (!canSubmit()) return;
     setFormState("sending");
-    await new Promise(r => setTimeout(r, 1800));
-    setFormState("success");
+    
+    try {
+      const res = await fetch("/api/enroll", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const resData = await res.json();
+
+      if (!res.ok) {
+        alert(resData.error || "Κάτι πήγε στραβά");
+        setFormState("idle");
+        return;
+      }
+
+      setFormState("success");
+    } catch (err) {
+      alert("Πρόβλημα σύνδεσης με τον διακομιστή");
+      setFormState("idle");
+    }
   }
 
   if (formState === "success") {

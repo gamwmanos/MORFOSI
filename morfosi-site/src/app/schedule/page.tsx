@@ -55,10 +55,11 @@ const YEAR_LABELS: Record<string, string> = {
 };
 
 const TRACK_LABELS: Record<string, string> = {
-  THETIKES: "Θετικές Επιστήμες",
+  THETIKES: "Θετικές Σπουδές",
   ANTHROPISTIKES: "Ανθρωπιστικές Σπουδές",
-  OIKONOMIAS: "Οικονομίας & Πληροφορικής",
-  GENIKO: "Γενικό",
+  YGEIAS: "Σπουδές Υγείας",
+  OIKONOMIAS: "Σπουδές Οικονομίας & Πληροφορικής",
+  GENIKO: "Γενική Παιδεία",
 };
 
 type LessonSlot = {
@@ -430,8 +431,25 @@ export default async function SchedulePage() {
 
       {/* Classes grid — grouped by year */}
       <main className="max-w-7xl mx-auto px-6 lg:px-12 py-16 space-y-20">
+        
+        {/* Gymnasio / Lykeio Filters/Jump Links */}
+        <div className="flex flex-wrap justify-center gap-4 mb-4">
+          <a
+            href="#A_GYMNASIOU"
+            className="border-2 border-black bg-white px-8 py-3 font-black text-sm uppercase tracking-widest hover:bg-brand-teal hover:text-white hover:border-brand-teal transition-all shadow-[4px_4px_0px_#000]"
+          >
+            ΓΥΜΝΑΣΙΟ
+          </a>
+          <a
+            href="#A_LYKEIOU"
+            className="border-2 border-black px-8 py-3 font-black text-sm uppercase tracking-widest bg-brand-orange text-white hover:bg-orange-600 transition-all shadow-[4px_4px_0px_#000]"
+          >
+            ΛΥΚΕΙΟ
+          </a>
+        </div>
+
         {sortedYears.map((year) => (
-          <section key={year}>
+          <section key={year} id={year} className="scroll-mt-32">
             <div className="flex items-center gap-4 mb-8">
               <div className="h-px flex-1 bg-gray-200" />
               <h2 className="text-xs font-black uppercase tracking-[0.25em] text-gray-400 px-4 border border-gray-200 py-2 bg-white">

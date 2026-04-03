@@ -132,8 +132,9 @@ export const classScheduleType = defineType({
       description: 'Αφήστε κενό αν δεν εφαρμόζεται',
       options: {
         list: [
-          { title: 'Θετικές Επιστήμες', value: 'THETIKES' },
+          { title: 'Θετικές Σπουδές', value: 'THETIKES' },
           { title: 'Ανθρωπιστικές Σπουδές', value: 'ANTHROPISTIKES' },
+          { title: 'Σπουδές Υγείας', value: 'YGEIAS' },
           { title: 'Σπουδές Οικονομίας & Πληροφορικής', value: 'OIKONOMIAS' },
           { title: 'Γενικό (χωρίς κατεύθυνση)', value: 'GENIKO' },
         ],
