@@ -57,13 +57,13 @@ export default function Header() {
         <div className="flex items-center gap-6">
           <div className="hidden lg:flex flex-col text-right">
             <span className="text-xs font-bold text-brand-orange uppercase tracking-widest">Γραμμή Επικοινωνίας</span>
-            <span className="text-2xl lg:text-3xl font-black text-gray-900 tracking-tighter">
-              210 123 4567
-            </span>
+            <a href="tel:2105063610" className="text-2xl lg:text-3xl font-black text-gray-900 tracking-tighter hover:text-brand-teal transition-colors">
+              21 0506 3610
+            </a>
           </div>
-          <button className="bg-black text-white px-6 py-4 font-black text-sm uppercase flex items-center gap-2 hover:bg-brand-teal transition-colors rounded-none tracking-wider">
+          <Link href="/contact" className="bg-black text-white px-6 py-4 font-black text-sm uppercase flex items-center gap-2 hover:bg-brand-teal transition-colors rounded-none tracking-wider">
             ΕΠΙΚΟΙΝΩΝΙΑ
-          </button>
+          </Link>
         </div>
       </div>
     </header>
