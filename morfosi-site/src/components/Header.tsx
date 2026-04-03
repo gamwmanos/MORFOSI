@@ -100,20 +100,26 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       {
         href: "/teachers",
-        label: "Θετικές Επιστήμες",
+        label: "Θετικές Σπουδές",
         description: "Μαθηματικά, Φυσική, Χημεία, Βιολογία",
         icon: <Sigma size={20} strokeWidth={2.5} />,
       },
       {
         href: "/teachers",
-        label: "Ανθρωπιστικές",
+        label: "Ανθρωπιστικές Σπουδές",
         description: "Έκθεση, Ιστορία, Λογοτεχνία, Λατινικά",
         icon: <Pencil size={20} strokeWidth={2.5} />,
       },
       {
         href: "/teachers",
-        label: "Γλώσσες",
-        description: "Αγγλικά, Γαλλικά, Γερμανικά",
+        label: "Σπουδές Υγείας",
+        description: "Βιολογία, Χημεία, Φυσική",
+        icon: <FlaskConical size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/teachers",
+        label: "Οικονομίας & Πληροφορικής",
+        description: "Μαθηματικά, ΑΟΔΕ, Πληροφορική",
         icon: <Globe size={20} strokeWidth={2.5} />,
       },
       {
