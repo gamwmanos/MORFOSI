@@ -43,3 +43,29 @@ body {
 .animate-billboard {
   animation: scroll-right 25s linear infinite;
 }
+
+/* Announcement ticker marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  animation: marquee 35s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Dropdown panel hover effect */
+.nav-dropdown-link:hover .nav-icon {
+  background-color: var(--color-brand-teal);
+  color: white;
+}

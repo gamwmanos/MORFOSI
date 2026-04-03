@@ -1,71 +1,775 @@
 "use client";
+
 import Link from "next/link";
-import { ChevronDown, Phone } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import {
+  ChevronDown,
+  Menu,
+  X,
+  Calculator,
+  BookOpen,
+  GraduationCap,
+  FileText,
+  Users,
+  Phone,
+  MapPin,
+  Clock,
+  ChevronRight,
+  Newspaper,
+  Award,
+  FlaskConical,
+  Sigma,
+  Globe,
+  Pencil,
+  Star,
+  CalendarDays,
+  Info,
+  Mail,
+} from "lucide-react";
 
-export default function Header() {
+// ─────────────────────────────────────────────
+//  TYPE DEFINITIONS
+// ─────────────────────────────────────────────
+interface SubItem {
+  href: string;
+  label: string;
+  description?: string;
+  icon: React.ReactNode;
+  badge?: string;
+}
+
+interface NavItem {
+  id: string;
+  label: string;
+  href?: string;
+  children?: SubItem[];
+  featured?: {
+    title: string;
+    description: string;
+    cta: string;
+    href: string;
+    color: string;
+  };
+}
+
+// ─────────────────────────────────────────────
+//  NAV DATA  (προσαρμοσμένο για μικρό φροντιστήριο)
+// ─────────────────────────────────────────────
+const NAV_ITEMS: NavItem[] = [
+  {
+    id: "programma",
+    label: "ΠΡΟΓΡΑΜΜΑ ΤΜΗΜΑΤΩΝ",
+    children: [
+      {
+        href: "/schedule",
+        label: "Όλα τα Τμήματα",
+        description: "Πρόγραμμα εβδομάδας για κάθε τμήμα",
+        icon: <CalendarDays size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/schedule#A_GYMNASIOU",
+        label: "Γυμνάσιο",
+        description: "Α΄, Β΄, Γ΄ Γυμνασίου — πρόγραμμα & ώρες",
+        icon: <BookOpen size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/schedule#A_LYKEIOU",
+        label: "Λύκειο",
+        description: "Α΄, Β΄, Γ΄ Λυκείου — πρόγραμμα & ώρες",
+        icon: <GraduationCap size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/contact",
+        label: "Εγγραφή σε Τμήμα",
+        description: "Κράτησε τη θέση σου τώρα",
+        icon: <Users size={20} strokeWidth={2.5} />,
+        badge: "ΑΝΟΙΧΤΕΣ",
+      },
+    ],
+    featured: {
+      title: "Βρες το τμήμα σου",
+      description: "Μικρά τμήματα, εξατομικευμένη προσοχή. Δες αναλυτικά το πρόγραμμα κάθε τμήματος και εγγράψου άμεσα.",
+      cta: "ΔΕΣ ΠΡΟΓΡΑΜΜΑ",
+      href: "/schedule",
+      color: "bg-brand-teal-dark",
+    },
+  },
+  {
+    id: "mathimata",
+    label: "ΜΑΘΗΜΑΤΑ",
+    children: [
+      {
+        href: "/teachers",
+        label: "Θετικές Επιστήμες",
+        description: "Μαθηματικά, Φυσική, Χημεία, Βιολογία",
+        icon: <Sigma size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/teachers",
+        label: "Ανθρωπιστικές",
+        description: "Έκθεση, Ιστορία, Λογοτεχνία, Λατινικά",
+        icon: <Pencil size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/teachers",
+        label: "Γλώσσες",
+        description: "Αγγλικά, Γαλλικά, Γερμανικά",
+        icon: <Globe size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/teachers",
+        label: "Καθηγητές μας",
+        description: "Γνώρισε την ομάδα μας",
+        icon: <Users size={20} strokeWidth={2.5} />,
+        badge: "ΝΕΟ",
+      },
+    ],
+    featured: {
+      title: "Εγγράψου τώρα",
+      description:
+        "Οι εγγραφές για τη νέα σχολική χρονιά είναι ανοιχτές. Μη χάσεις τη θέση σου!",
+      cta: "ΔΩΡΕΑΝ ΑΞΙΟΛΟΓΗΣΗ",
+      href: "/contact",
+      color: "bg-brand-orange",
+    },
+  },
+  {
+    id: "panhellinia",
+    label: "ΠΑΝΕΛΛΗΝΙΕΣ",
+    children: [
+      {
+        href: "/exams",
+        label: "Εξεταζόμενα Μαθήματα",
+        description: "Αναλυτικός οδηγός Πανελληνίων 2025",
+        icon: <FileText size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/exams",
+        label: "Πρόγραμμα Εξετάσεων",
+        description: "Ημερομηνίες & Παρατηρήσεις",
+        icon: <CalendarDays size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/exams",
+        label: "Βάσεις Εισαγωγής",
+        description: "Ιστορικά στοιχεία βάσεων 2020-2024",
+        icon: <Award size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/calculator",
+        label: "Υπολογισμός Μορίων",
+        description: "Δες πού μπαίνεις τώρα!",
+        icon: <Calculator size={20} strokeWidth={2.5} />,
+        badge: "ΔΩΡΕΑΝ",
+      },
+    ],
+    featured: {
+      title: "Υπολογιστής Μορίων",
+      description:
+        "Το πιο εξελιγμένο εργαλείο. Σύγκρινε τα μόριά σου με τις βάσεις εισαγωγής.",
+      cta: "ΧΡΗΣΙΜΟΠΟΙΗΣΕ ΤΟ",
+      href: "/calculator",
+      color: "bg-brand-teal",
+    },
+  },
+  {
+    id: "bibliothiki",
+    label: "ΒΙΒΛΙΟΘΗΚΗ",
+    children: [
+      {
+        href: "/books",
+        label: "Εκδόσεις Μόρφωσης",
+        description: "Τα δικά μας συγγράμματα & σημειώσεις",
+        icon: <BookOpen size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/books",
+        label: "Δωρεάν Υλικό",
+        description: "PDFs, Διαγωνίσματα & Ασκήσεις",
+        icon: <GraduationCap size={20} strokeWidth={2.5} />,
+      },
+    ],
+    featured: {
+      title: "Νέες Εκδόσεις",
+      description:
+        "Κατέβασε δωρεάν δείγματα των συγγραμμάτων μας για όλα τα μαθήματα.",
+      cta: "ΔΕΣ ΤΑ ΒΙΒΛΙΑ",
+      href: "/books",
+      color: "bg-brand-teal-dark",
+    },
+  },
+  {
+    id: "neo",
+    label: "ΝΕΑ",
+    children: [
+      {
+        href: "/news",
+        label: "Ανακοινώσεις",
+        description: "Νέα & ενημερώσεις από το φροντιστήριο",
+        icon: <Newspaper size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/news",
+        label: "Επιτυχίες Μαθητών",
+        description: "Σπουδαστές που μπήκαν στη σχολή τους",
+        icon: <Star size={20} strokeWidth={2.5} />,
+      },
+    ],
+    featured: null as any,
+  },
+  {
+    id: "epikoinonia",
+    label: "ΕΠΙΚΟΙΝΩΝΙΑ",
+    children: [
+      {
+        href: "/contact",
+        label: "Φόρμα Επικοινωνίας",
+        description: "Στείλε μας μήνυμα άμεσα",
+        icon: <Mail size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/contact",
+        label: "Πώς να μας βρεις",
+        description: "Χάρτης & οδηγίες πρόσβασης",
+        icon: <MapPin size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/contact",
+        label: "Ωράριο Λειτουργίας",
+        description: "Δευ-Παρ 09:00-21:00 · Σάβ 09:00-14:00",
+        icon: <Clock size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/contact",
+        label: "Εγγραφές 2025-26",
+        description: "Διαδικασία & απαραίτητα δικαιολογητικά",
+        icon: <Info size={20} strokeWidth={2.5} />,
+        badge: "ΑΝΟΙΧΤΕΣ",
+      },
+    ],
+    featured: {
+      title: "Επικοινωνήστε μαζί μας",
+      description: "Είμαστε εδώ για κάθε απορία γιά εγγραφές, προγράμματα ή οτιδήποτε άλλο.",
+      cta: "ΚΑΛΕΣΕ ΜΑΣ",
+      href: "tel:2105063610",
+      color: "bg-black",
+    },
+  },
+];
+
+// ─────────────────────────────────────────────
+//  DROPDOWN PANEL
+// ─────────────────────────────────────────────
+function DropdownPanel({
+  item,
+  isOpen,
+}: {
+  item: NavItem;
+  isOpen: boolean;
+}) {
+  if (!item.children) return null;
+
   return (
-    <header className="w-full relative z-50">
-      {/* Top Bar - Very Dark Teal */}
-      <div className="bg-brand-teal-dark text-white text-xs md:text-sm font-bold tracking-widest py-2 px-6 lg:px-12 flex justify-between items-center">
-        <div className="hidden md:flex items-center gap-4 uppercase">
-          <span>Οι εγγραφες για τη νεα σχολικη χρονια ξεκινησαν</span>
-          <Link href="#" className="bg-brand-orange hover:bg-orange-600 text-white px-3 py-1 transition-colors">
-            ΕΓΓΡΑΦΕΣ
-          </Link>
+    <div
+      className={`absolute top-full left-1/2 -translate-x-1/2 mt-0 z-[200] transition-all duration-300 ease-out ${
+        isOpen
+          ? "opacity-100 translate-y-0 pointer-events-auto"
+          : "opacity-0 -translate-y-3 pointer-events-none"
+      }`}
+      style={{ minWidth: item.featured ? "700px" : "380px" }}
+    >
+      {/* Arrow */}
+      <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45 border-l border-t border-gray-200 z-10" />
+
+      <div
+        className={`relative bg-white border-2 border-gray-900 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex overflow-hidden rounded-none mt-2 ${
+          item.featured ? "flex-row" : "flex-col"
+        }`}
+      >
+        {/* Links Column */}
+        <div className={`flex flex-col p-3 ${item.featured ? "w-[55%]" : "w-full"}`}>
+          <p className="text-[10px] font-black tracking-[0.2em] text-gray-400 uppercase px-3 pt-2 pb-3 border-b border-gray-100 mb-2">
+            {item.label}
+          </p>
+          {item.children.map((child) => (
+            <Link
+              key={child.href + child.label}
+              href={child.href}
+              className="group flex items-start gap-3 px-3 py-3 hover:bg-gray-50 transition-colors rounded-sm relative"
+            >
+              <div className="flex-shrink-0 w-9 h-9 bg-gray-100 group-hover:bg-brand-teal group-hover:text-white text-gray-600 flex items-center justify-center transition-colors rounded-sm">
+                {child.icon}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="font-black text-sm text-gray-900 group-hover:text-brand-teal transition-colors uppercase tracking-wide">
+                    {child.label}
+                  </span>
+                  {child.badge && (
+                    <span className="text-[9px] font-black bg-brand-orange text-white px-1.5 py-0.5 tracking-wider uppercase leading-none">
+                      {child.badge}
+                    </span>
+                  )}
+                </div>
+                {child.description && (
+                  <p className="text-xs text-gray-500 font-medium mt-0.5 leading-snug line-clamp-1">
+                    {child.description}
+                  </p>
+                )}
+              </div>
+              <ChevronRight
+                size={14}
+                className="flex-shrink-0 text-gray-300 group-hover:text-brand-teal group-hover:translate-x-1 transition-all mt-1"
+              />
+            </Link>
+          ))}
         </div>
-        <div className="flex items-center gap-6 ml-auto font-black text-xs">
-          <Link href="#" className="hover:text-brand-orange transition-colors">e-MORFOSI</Link>
-          <Link href="#" className="hover:text-brand-orange transition-colors">BLOG</Link>
-        </div>
+
+        {/* Featured Panel */}
+        {item.featured && (
+          <div
+            className={`w-[45%] ${item.featured.color} p-6 flex flex-col justify-between`}
+          >
+            <div>
+              <div className="w-10 h-1 bg-white mb-4" />
+              <h3 className="text-white font-black text-lg uppercase tracking-tight leading-tight mb-3">
+                {item.featured.title}
+              </h3>
+              <p className="text-white/80 text-sm font-medium leading-relaxed">
+                {item.featured.description}
+              </p>
+            </div>
+            <Link
+              href={item.featured.href}
+              className="mt-6 bg-white text-gray-900 px-4 py-3 font-black text-xs uppercase tracking-widest hover:bg-gray-100 transition-colors inline-flex items-center gap-2 w-full justify-center"
+            >
+              {item.featured.cta}
+              <ChevronRight size={14} />
+            </Link>
+          </div>
+        )}
       </div>
+    </div>
+  );
+}
 
-      {/* Main NavBar - White, Sharp, Large */}
-      <div className="bg-white px-6 lg:px-12 py-4 flex items-center justify-between border-b-[6px] border-brand-teal">
-        <div className="flex items-center">
-          <Link href="/" className="block">
-            <img src="/morfosi.jpg" alt="Μόρφωση" className="h-16 md:h-24 w-auto object-contain" />
-          </Link>
+// ─────────────────────────────────────────────
+//  MOBILE MENU
+// ─────────────────────────────────────────────
+function MobileMenu({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      setExpandedId(null);
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        className={`fixed inset-0 z-[300] bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={onClose}
+      />
+
+      {/* Drawer */}
+      <div
+        className={`fixed top-0 right-0 h-full w-full max-w-sm z-[400] bg-white shadow-2xl transform transition-transform duration-400 ease-out flex flex-col ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-5 border-b-4 border-gray-900 flex-shrink-0">
+          <img
+            src="/morfosi.jpg"
+            alt="Μόρφωση"
+            className="h-12 w-auto object-contain"
+          />
+          <button
+            onClick={onClose}
+            className="w-10 h-10 flex items-center justify-center bg-gray-900 text-white hover:bg-brand-orange transition-colors"
+            aria-label="Κλείσιμο μενού"
+          >
+            <X size={20} strokeWidth={2.5} />
+          </button>
         </div>
 
-        <nav className="hidden xl:flex items-center gap-8 ml-10 flex-1">
-          <div className="group relative">
-             <Link href="/teachers" className="text-gray-900 font-extrabold text-sm hover:text-brand-teal uppercase transition-colors">
-               ΕΚΠΑΙΔΕΥΣΗ
-             </Link>
-             <div className="absolute -bottom-6 left-0 w-full h-[6px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-          </div>
-          <div className="group relative">
-             <Link href="/books" className="text-gray-900 font-extrabold text-sm hover:text-brand-teal uppercase transition-colors">
-               ΒΙΒΛΙΟΘΗΚΗ
-             </Link>
-             <div className="absolute -bottom-6 left-0 w-full h-[6px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-          </div>
-          <div className="group relative">
-             <Link href="/calculator" className="text-brand-orange font-black text-sm hover:text-brand-teal uppercase transition-colors">
-               ΥΠΟΛΟΓΙΣΜΟΣ ΜΟΡΙΩΝ
-             </Link>
-             <div className="absolute -bottom-6 left-0 w-full h-[6px] bg-brand-teal scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-          </div>
-          <div className="group relative">
-             <Link href="/news" className="text-gray-900 font-extrabold text-sm hover:text-brand-teal uppercase transition-colors">
-               ΝΕΑ
-             </Link>
-             <div className="absolute -bottom-6 left-0 w-full h-[6px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-          </div>
+        {/* Nav Items */}
+        <nav className="flex-1 overflow-y-auto">
+          {NAV_ITEMS.map((item) => (
+            <div key={item.id} className="border-b border-gray-100">
+              {item.children ? (
+                <>
+                  <button
+                    onClick={() =>
+                      setExpandedId(expandedId === item.id ? null : item.id)
+                    }
+                    className="w-full flex items-center justify-between px-6 py-4 text-left group"
+                  >
+                    <span className="font-black text-sm uppercase tracking-widest text-gray-900 group-hover:text-brand-teal transition-colors">
+                      {item.label}
+                    </span>
+                    <ChevronDown
+                      size={16}
+                      strokeWidth={2.5}
+                      className={`text-gray-500 transition-transform duration-200 ${
+                        expandedId === item.id ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ease-out ${
+                      expandedId === item.id ? "max-h-[500px]" : "max-h-0"
+                    }`}
+                  >
+                    <div className="bg-gray-50 px-4 pb-4 pt-1 space-y-1">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href + child.label}
+                          href={child.href}
+                          onClick={onClose}
+                          className="flex items-center gap-3 px-3 py-3 hover:bg-white rounded-sm group transition-colors"
+                        >
+                          <div className="w-8 h-8 bg-white group-hover:bg-brand-teal group-hover:text-white text-brand-teal flex items-center justify-center rounded-sm flex-shrink-0 transition-colors shadow-sm">
+                            {child.icon}
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-sm text-gray-900 group-hover:text-brand-teal transition-colors">
+                                {child.label}
+                              </span>
+                              {child.badge && (
+                                <span className="text-[9px] font-black bg-brand-orange text-white px-1.5 py-0.5 tracking-wider uppercase leading-none">
+                                  {child.badge}
+                                </span>
+                              )}
+                            </div>
+                            {child.description && (
+                              <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">
+                                {child.description}
+                              </p>
+                            )}
+                          </div>
+                        </Link>
+                      ))}
+                      {item.featured && (
+                        <Link
+                          href={item.featured.href}
+                          onClick={onClose}
+                          className={`flex items-center justify-between px-4 py-3 mt-2 ${item.featured.color} text-white group transition-opacity hover:opacity-90`}
+                        >
+                          <span className="font-black text-xs uppercase tracking-widest">
+                            {item.featured.cta}
+                          </span>
+                          <ChevronRight size={14} />
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <Link
+                  href={item.href!}
+                  onClick={onClose}
+                  className="flex items-center justify-between px-6 py-4 font-black text-sm uppercase tracking-widest text-gray-900 hover:text-brand-teal hover:bg-gray-50 transition-colors"
+                >
+                  {item.label}
+                  <ChevronRight size={16} strokeWidth={2.5} className="text-gray-300" />
+                </Link>
+              )}
+            </div>
+          ))}
         </nav>
 
-        <div className="flex items-center gap-6">
-          <div className="hidden lg:flex flex-col text-right">
-            <span className="text-xs font-bold text-brand-orange uppercase tracking-widest">Γραμμή Επικοινωνίας</span>
-            <a href="tel:2105063610" className="text-2xl lg:text-3xl font-black text-gray-900 tracking-tighter hover:text-brand-teal transition-colors">
-              21 0506 3610
-            </a>
-          </div>
-          <Link href="/contact" className="bg-black text-white px-6 py-4 font-black text-sm uppercase flex items-center gap-2 hover:bg-brand-teal transition-colors rounded-none tracking-wider">
-            ΕΠΙΚΟΙΝΩΝΙΑ
+        {/* Bottom CTA */}
+        <div className="flex-shrink-0 p-6 bg-gray-900 space-y-3">
+          <a
+            href="tel:2105063610"
+            className="flex items-center gap-3 text-white hover:text-brand-orange transition-colors group"
+          >
+            <div className="w-9 h-9 bg-brand-orange flex items-center justify-center flex-shrink-0">
+              <Phone size={16} strokeWidth={2.5} />
+            </div>
+            <div>
+              <p className="text-[10px] font-black tracking-widest uppercase text-gray-400">
+                Τηλέφωνο
+              </p>
+              <p className="font-black text-lg tracking-tighter group-hover:text-brand-orange transition-colors">
+                21 0506 3610
+              </p>
+            </div>
+          </a>
+          <Link
+            href="/contact"
+            onClick={onClose}
+            className="w-full bg-brand-orange text-white py-4 font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-orange-600 transition-colors"
+          >
+            <Mail size={16} strokeWidth={2.5} />
+            ΕΓΓΡΑΦΕΣ & ΕΠΙΚΟΙΝΩΝΙΑ
           </Link>
         </div>
       </div>
-    </header>
+    </>
+  );
+}
+
+// ─────────────────────────────────────────────
+//  TOP ANNOUNCEMENTS TICKER
+// ─────────────────────────────────────────────
+function AnnouncementBar() {
+  const [visible, setVisible] = useState(true);
+
+  if (!visible) return null;
+
+  return (
+    <div className="relative bg-brand-teal-dark text-white overflow-hidden h-9 flex items-center">
+      <div className="absolute inset-0 flex items-center">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[
+            "🎓 Εγγραφές 2025-26 σε εξέλιξη — Κάλεσε στο 210 506 3610",
+            "📚 Νέα συγγράμματα Πανελληνίων διαθέσιμα στη βιβλιοθήκη",
+            "🏆 Πάνω από 200 επιτυχίες στις Πανελλήνιες 2024",
+            "⚡ Δωρεάν υπολογιστής μορίων — Υπολόγισε τώρα",
+            "🎓 Εγγραφές 2025-26 σε εξέλιξη — Κάλεσε στο 210 506 3610",
+            "📚 Νέα συγγράμματα Πανελληνίων διαθέσιμα στη βιβλιοθήκη",
+            "🏆 Πάνω από 200 επιτυχίες στις Πανελλήνιες 2024",
+            "⚡ Δωρεάν υπολογιστής μορίων — Υπολόγισε τώρα",
+          ].map((msg, i) => (
+            <span key={i} className="text-xs font-bold tracking-wide mr-16">
+              {msg}
+            </span>
+          ))}
+        </div>
+      </div>
+      <button
+        onClick={() => setVisible(false)}
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors z-10 flex-shrink-0"
+        aria-label="Κλείσιμο ανακοίνωσης"
+      >
+        <X size={14} strokeWidth={2.5} />
+      </button>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────
+//  MAIN HEADER
+// ─────────────────────────────────────────────
+export default function Header() {
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [prevScrollY, setPrevScrollY] = useState(0);
+  const [hidden, setHidden] = useState(false);
+  const hoverTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  // Scroll behavior: compact on scroll, hide on scroll-down, show on scroll-up
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setScrolled(currentY > 80);
+
+      if (currentY > 300) {
+        if (currentY > prevScrollY + 5) {
+          setHidden(true);
+          setOpenMenu(null);
+        } else if (currentY < prevScrollY - 5) {
+          setHidden(false);
+        }
+      } else {
+        setHidden(false);
+      }
+      setPrevScrollY(currentY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollY]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setOpenMenu(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleMouseEnter = (id: string) => {
+    if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
+    setOpenMenu(id);
+  };
+
+  const handleMouseLeave = () => {
+    hoverTimeout.current = setTimeout(() => {
+      setOpenMenu(null);
+    }, 150);
+  };
+
+  return (
+    <>
+      <header
+        ref={headerRef}
+        className={`fixed top-0 left-0 right-0 z-[150] transition-transform duration-300 ${
+          hidden ? "-translate-y-full" : "translate-y-0"
+        }`}
+      >
+        {/* Announcement Ticker */}
+        <AnnouncementBar />
+
+        {/* Main Navigation Bar */}
+        <div
+          className={`relative transition-all duration-300 ${
+            scrolled
+              ? "bg-white/95 backdrop-blur-md shadow-[0_4px_0_0_rgba(12,130,162,1)] py-2"
+              : "bg-white shadow-[0_6px_0_0_rgba(12,130,162,1)] py-0"
+          }`}
+        >
+          <div className="max-w-screen-2xl mx-auto px-4 md:px-8 xl:px-12 flex items-center justify-between">
+
+            {/* Logo */}
+            <Link
+              href="/"
+              className="flex-shrink-0 relative z-10"
+            >
+              <img
+                src="/morfosi.jpg"
+                alt="Μόρφωση Φροντιστήριο"
+                className={`object-contain transition-all duration-300 ${
+                  scrolled ? "h-12 md:h-14" : "h-16 md:h-20"
+                }`}
+              />
+            </Link>
+
+            {/* Desktop Nav */}
+            <nav
+              className="hidden xl:flex items-center gap-1 mx-4 flex-1 justify-center"
+              onMouseLeave={handleMouseLeave}
+            >
+              {NAV_ITEMS.map((item) => (
+                <div
+                  key={item.id}
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(item.id)}
+                >
+                  {item.href && !item.children ? (
+                    <Link
+                      href={item.href}
+                      className="flex items-center gap-1.5 px-4 py-5 font-black text-[13px] uppercase tracking-widest text-gray-800 hover:text-brand-teal transition-colors relative group"
+                    >
+                      {item.label}
+                      <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        setOpenMenu(openMenu === item.id ? null : item.id)
+                      }
+                      className={`flex items-center gap-1.5 px-4 py-5 font-black text-[13px] uppercase tracking-widest transition-colors relative group cursor-pointer ${
+                        openMenu === item.id
+                          ? "text-brand-teal"
+                          : "text-gray-800 hover:text-brand-teal"
+                      }`}
+                      aria-expanded={openMenu === item.id}
+                      aria-haspopup="true"
+                    >
+                      {item.label}
+                      <ChevronDown
+                        size={14}
+                        strokeWidth={2.5}
+                        className={`transition-transform duration-200 ${
+                          openMenu === item.id ? "rotate-180 text-brand-orange" : ""
+                        }`}
+                      />
+                      <span
+                        className={`absolute bottom-0 left-0 right-0 h-[3px] bg-brand-orange transition-transform duration-200 origin-center ${
+                          openMenu === item.id ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                        }`}
+                      />
+                    </button>
+                  )}
+
+                  {/* Dropdown */}
+                  {item.children && (
+                    <DropdownPanel item={item} isOpen={openMenu === item.id} />
+                  )}
+                </div>
+              ))}
+            </nav>
+
+            {/* Right Side */}
+            <div className="flex items-center gap-3 flex-shrink-0">
+              {/* Phone number - desktop */}
+              <a
+                href="tel:2105063610"
+                className={`hidden lg:flex flex-col items-end transition-all duration-300 mr-2 ${
+                  scrolled ? "opacity-100" : "opacity-100"
+                }`}
+              >
+                <span className="text-[10px] font-black tracking-[0.15em] text-brand-orange uppercase">
+                  Επικοινωνία
+                </span>
+                <span className="font-black text-gray-900 tracking-tighter hover:text-brand-teal transition-colors text-xl leading-none">
+                  210 506 3610
+                </span>
+              </a>
+
+              {/* Enrollment CTA Buttons */}
+              <Link
+                href="/schedule"
+                className={`hidden lg:inline-flex items-center gap-2 border-2 border-gray-900 text-gray-900 font-black uppercase tracking-wider hover:bg-gray-900 hover:text-white transition-all duration-200 active:scale-95 ${
+                  scrolled ? "px-3 py-2 text-xs" : "px-4 py-2.5 text-xs"
+                }`}
+              >
+                <CalendarDays size={13} />
+                ΤΜΗΜΑΤΑ
+              </Link>
+              <Link
+                href="/contact"
+                className={`hidden md:inline-flex items-center gap-2 bg-brand-orange text-white font-black uppercase tracking-wider hover:bg-orange-600 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(245,130,32,0.5)] active:scale-95 relative overflow-hidden group/enroll ${
+                  scrolled ? "px-4 py-2.5 text-xs" : "px-5 py-3 text-xs"
+                }`}
+              >
+                <span className="absolute inset-0 bg-white/10 translate-x-[-110%] group-hover/enroll:translate-x-[110%] transition-transform duration-500 skew-x-12 pointer-events-none" />
+                ΕΓΓΡΑΨΟΥ ΤΩΡΑ
+              </Link>
+
+              {/* Mobile Hamburger */}
+              <button
+                onClick={() => setMobileOpen(true)}
+                className="xl:hidden w-11 h-11 flex items-center justify-center bg-gray-900 text-white hover:bg-brand-teal transition-colors"
+                aria-label="Άνοιγμα μενού"
+              >
+                <Menu size={20} strokeWidth={2.5} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Spacer to push content below fixed header */}
+      <div className={`transition-all duration-300 ${scrolled ? "h-[82px]" : "h-[96px]"} md:${scrolled ? "h-[90px]" : "h-[112px]"}`} aria-hidden="true" />
+
+      {/* Mobile Menu */}
+      <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+    </>
   );
 }
