@@ -568,13 +568,13 @@ function AnnouncementBar({ contactPhone }: { contactPhone: string }) {
       <div className="absolute inset-0 flex items-center">
         <div className="flex animate-marquee whitespace-nowrap">
           {[
-            `🎓 Εγγραφές 2025-26 σε εξέλιξη — Κάλεσε στο ${contactPhone}`,
+            `🎓 Ξεκίνησαν οι εγγραφές για το έτος ${academicYear} — Κάλεσε στο ${contactPhone}`,
             "📚 Νέα συγγράμματα Πανελληνίων διαθέσιμα στη βιβλιοθήκη",
-            "🏆 Πάνω από 200 επιτυχίες στις Πανελλήνιες 2024",
+            `🏆 Πάνω από 50 επιτυχίες στις Πανελλήνιες ${prevYear}`,
             "⚡ Δωρεάν υπολογιστής μορίων — Υπολόγισε τώρα",
-            `🎓 Εγγραφές 2025-26 σε εξέλιξη — Κάλεσε στο ${contactPhone}`,
+            `🎓 Ξεκίνησαν οι εγγραφές για το έτος ${academicYear} — Κάλεσε στο ${contactPhone}`,
             "📚 Νέα συγγράμματα Πανελληνίων διαθέσιμα στη βιβλιοθήκη",
-            "🏆 Πάνω από 200 επιτυχίες στις Πανελλήνιες 2024",
+            `🏆 Πάνω από 50 επιτυχίες στις Πανελλήνιες ${prevYear}`,
             "⚡ Δωρεάν υπολογιστής μορίων — Υπολόγισε τώρα",
           ].map((msg, i) => (
             <span key={i} className="text-xs font-bold tracking-wide mr-16">
