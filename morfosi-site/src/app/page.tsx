@@ -12,6 +12,8 @@ import Testimonials from "@/components/Testimonials";
 import BooksCarousel from "@/components/BooksCarousel";
 import Link from "next/link";
 
+export const revalidate = 60; // Refresh data every 60 seconds
+
 // Server Component GROQ Query - Τραβάει τα πάντα από την Βάση
 const PAGE_DATA_QUERY = `{
   "settings": *[_type == "siteSettings"][0] { contactPhone },

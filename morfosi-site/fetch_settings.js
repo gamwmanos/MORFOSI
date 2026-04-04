@@ -9,7 +9,7 @@ const client = createClient({
 });
 
 async function getSettings() {
-    const settings = await client.fetch('*[_type == "siteSettings"][0]');
+    const settings = await client.fetch('*[_type == "studentSuccess"]');
     console.log(JSON.stringify(settings, null, 2));
 }
 
