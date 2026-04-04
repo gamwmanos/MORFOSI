@@ -228,6 +228,12 @@ const NAV_ITEMS: NavItem[] = [
     label: "ΕΠΙΚΟΙΝΩΝΙΑ",
     children: [
       {
+        href: "/about",
+        label: "Σχετικά με Εμάς",
+        description: "Ιστορία, αξίες & ομάδα του φροντιστηρίου",
+        icon: <Info size={20} strokeWidth={2.5} />,
+      },
+      {
         href: "/contact",
         label: "Φόρμα Επικοινωνίας",
         description: "Στείλε μας μήνυμα άμεσα",

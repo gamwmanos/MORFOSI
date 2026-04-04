@@ -18,10 +18,21 @@ export default function System() {
           <h3 className="text-4xl lg:text-5xl xl:text-6xl font-black text-brand-orange leading-[1.1] mb-10 tracking-tighter">
             Ανακάλυψε τη <br/> Φιλοσοφία της <br/> Μόρφωσης!
           </h3>
-          <button className="text-gray-900 font-extrabold uppercase text-xs flex items-center gap-2 hover:text-brand-teal transition-colors group tracking-widest">
-            Γνωριστε την Ομαδα μας
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-2 text-gray-900 font-extrabold uppercase text-xs hover:text-brand-teal transition-colors group tracking-widest"
+          >
+            Γνωρίστε την Ομάδα μας
             <span className="text-brand-orange group-hover:translate-x-1 transition-transform">{">"}</span>
-          </button>
+          </Link>
+          <Link
+            href="/about"
+            id="homepage-about-cta"
+            className="mt-6 inline-flex items-center gap-3 bg-brand-teal text-white px-8 py-4 font-black text-xs uppercase tracking-widest border-4 border-gray-900 shadow-[6px_6px_0px_#111] hover:shadow-[2px_2px_0px_#111] hover:translate-x-[4px] hover:translate-y-[4px] transition-all group"
+          >
+            Σχετικά με Εμάς
+            <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </Link>
         </div>
 
         {/* Right Side Image + Sharp Grid Box */}
@@ -37,18 +48,18 @@ export default function System() {
                <div className="w-16 h-16 bg-gray-200 group-hover:scale-105 transition-transform" />
                <span className="font-extrabold text-sm text-gray-900 leading-tight group-hover:text-brand-orange transition-colors">Οι Καθηγητές<br/> Μας</span>
              </Link>
-             <div className="bg-white p-6 lg:p-10 flex flex-col items-center justify-center text-center gap-4 hover:bg-gray-50 transition-colors h-[200px]">
-               <div className="w-16 h-16 bg-gray-200" />
-               <span className="font-extrabold text-sm text-gray-900 leading-tight">Μάθημα στο<br/> τραπέζι</span>
-             </div>
-             <div className="bg-white p-6 lg:p-10 flex flex-col items-center justify-center text-center gap-4 hover:bg-gray-50 transition-colors h-[200px]">
-               <div className="w-16 h-16 bg-gray-200" />
-               <span className="font-extrabold text-sm text-gray-900 leading-tight">Πραγματική<br/> προσομοίωση εξέτασης</span>
-             </div>
-             <div className="bg-white p-6 lg:p-10 flex flex-col items-center justify-center text-center gap-4 hover:bg-gray-50 transition-colors h-[200px]">
-               <div className="w-16 h-16 bg-gray-200" />
-               <span className="font-extrabold text-sm text-gray-900 leading-tight">Σύμβουλος<br/> Καθηγητής</span>
-             </div>
+             <Link href="/about" className="bg-white p-6 lg:p-10 flex flex-col items-center justify-center text-center gap-4 hover:bg-brand-teal transition-colors h-[200px] group cursor-pointer">
+               <div className="w-16 h-16 bg-gray-200 group-hover:bg-white/30 transition-colors" />
+               <span className="font-extrabold text-sm text-gray-900 group-hover:text-white leading-tight transition-colors">Μάθημα στο<br/> τραπέζι</span>
+             </Link>
+             <Link href="/about" className="bg-white p-6 lg:p-10 flex flex-col items-center justify-center text-center gap-4 hover:bg-brand-orange transition-colors h-[200px] group cursor-pointer">
+               <div className="w-16 h-16 bg-gray-200 group-hover:bg-white/30 transition-colors" />
+               <span className="font-extrabold text-sm text-gray-900 group-hover:text-white leading-tight transition-colors">Πραγματική<br/> προσομοίωση εξέτασης</span>
+             </Link>
+             <Link href="/about" className="bg-white p-6 lg:p-10 flex flex-col items-center justify-center text-center gap-4 hover:bg-brand-teal-dark transition-colors h-[200px] group cursor-pointer">
+               <div className="w-16 h-16 bg-gray-200 group-hover:bg-white/30 transition-colors" />
+               <span className="font-extrabold text-sm text-gray-900 group-hover:text-white leading-tight transition-colors">Σύμβουλος<br/> Καθηγητής</span>
+             </Link>
            </div>
         </div>
 

@@ -1,0 +1,919 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import Link from "next/link";
+import {
+  GraduationCap,
+  Users,
+  Star,
+  Award,
+  BookOpen,
+  ChevronRight,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Heart,
+  Target,
+  Lightbulb,
+  Shield,
+  TrendingUp,
+  CheckCircle,
+  ArrowRight,
+  Building2,
+  Calendar,
+  Sparkles,
+  Quote,
+  Play,
+  Zap,
+} from "lucide-react";
+
+// ─────────────────────────────────────────────
+//  STATIC DATA — Replace with Sanity when ready
+// ─────────────────────────────────────────────
+
+const HISTORY_PLACEHOLDER = {
+  title: "Η Ιστορία μας",
+  subtitle: "Από ένα μικρό γραφείο στην Αθήνα, σε ένα από τα κορυφαία φροντιστήρια της χώρας.",
+  body: [
+    "Το Φροντιστήριο Μόρφωση ιδρύθηκε με ένα και μοναδικό όραμα: να δώσουμε στον κάθε μαθητή τα εφόδια που χρειάζεται για να πετύχει τους στόχους του. Ξεκινήσαμε με λίγα τμήματα και μεγάλο πάθος, και σήμερα αποτελούμε σημείο αναφοράς για εκατοντάδες οικογένειες.",
+    "Από την πρώτη στιγμή, πιστέψαμε ότι η ποιοτική εκπαίδευση δεν είναι προνόμιο λίγων. Σχεδιάσαμε ένα σύστημα που συνδυάζει την ατομική προσοχή με τη δυναμική ομάδας, δημιουργώντας ένα περιβάλλον όπου κάθε μαθητής αισθάνεται ότι ανήκει.",
+    "Σήμερα, με πάνω από 1.200 επιτυχίες στις Πανελλήνιες, συνεχίζουμε να εξελισσόμαστε. Νέα εργαλεία, νέες μέθοδοι, αλλά πάντα με τις ίδιες αξίες: αφοσίωση, αριστεία και ανθρωπιά.",
+  ],
+};
+
+const TIMELINE_ITEMS = [
+  {
+    year: "2005",
+    title: "Η Αρχή",
+    desc: "Ίδρυση του Φροντιστηρίου Μόρφωση με 3 καθηγητές και 45 μαθητές στο πρώτο έτος λειτουργίας.",
+    color: "bg-brand-teal",
+    accent: "border-brand-teal",
+    textAccent: "text-brand-teal",
+  },
+  {
+    year: "2008",
+    title: "Πρώτες Επιτυχίες",
+    desc: "Ο πρώτος μαθητής μας μπήκε στην Ιατρική Αθηνών. Μια στιγμή που επιβεβαίωσε το όραμά μας.",
+    color: "bg-brand-orange",
+    accent: "border-brand-orange",
+    textAccent: "text-brand-orange",
+  },
+  {
+    year: "2012",
+    title: "Επέκταση",
+    desc: "Μετακόμισμα σε νέες, μεγαλύτερες εγκαταστάσεις. Προσθήκη εξειδικευμένων αιθουσών και βιβλιοθήκης.",
+    color: "bg-brand-green",
+    accent: "border-brand-green",
+    textAccent: "text-brand-green",
+  },
+  {
+    year: "2016",
+    title: "Ψηφιακή Εποχή",
+    desc: "Εισαγωγή ψηφιακών εργαλείων διδασκαλίας και online πλατφόρμας για τους μαθητές μας.",
+    color: "bg-brand-purple",
+    accent: "border-brand-purple",
+    textAccent: "text-brand-purple",
+  },
+  {
+    year: "2020",
+    title: "Πανδημία & Ανθεκτικότητα",
+    desc: "Μεταβήκαμε αστραπιαία στο online μοντέλο, διατηρώντας αναλλοίωτη την ποιότητα της διδασκαλίας.",
+    color: "bg-brand-red",
+    accent: "border-brand-red",
+    textAccent: "text-brand-red",
+  },
+  {
+    year: "2024",
+    title: "Νέα Κεφάλαια",
+    desc: "Πάνω από 1.200 συνολικές επιτυχίες. Πλήρης ανακαίνιση εγκαταστάσεων. Νέα ακαδημαϊκή ομάδα.",
+    color: "bg-brand-teal-dark",
+    accent: "border-brand-teal-dark",
+    textAccent: "text-brand-teal-dark",
+  },
+];
+
+const VALUES = [
+  {
+    icon: Heart,
+    num: "01",
+    title: "Ανθρωπιά",
+    desc: "Βλέπουμε τον μαθητή ως άνθρωπο, όχι ως αριθμό. Η ψυχολογική υποστήριξη είναι τόσο σημαντική όσο και η ακαδημαϊκή.",
+    color: "bg-brand-teal",
+  },
+  {
+    icon: Target,
+    num: "02",
+    title: "Αριστεία",
+    desc: "Δεν συμβιβαζόμαστε με το «αρκετό». Στοχεύουμε πάντα στο ανώτερο δυνατό αποτέλεσμα για κάθε μαθητή.",
+    color: "bg-brand-orange",
+  },
+  {
+    icon: Lightbulb,
+    num: "03",
+    title: "Καινοτομία",
+    desc: "Ενσωματώνουμε νέες μεθόδους και τεχνολογίες για να κάνουμε τη μάθηση πιο αποτελεσματική και ελκυστική.",
+    color: "bg-brand-green",
+  },
+  {
+    icon: Shield,
+    num: "04",
+    title: "Αξιοπιστία",
+    desc: "20 χρόνια συνέπειας και αποτελεσμάτων. Οι γονείς μας εμπιστεύονται γιατί τηρούμε πάντα αυτά που υπόσχουμε.",
+    color: "bg-brand-purple",
+  },
+];
+
+const STATS = [
+  { num: "20+", label: "Χρόνια Εμπειρίας", icon: Calendar, color: "text-brand-teal" },
+  { num: "1.200+", label: "Επιτυχίες Πανελληνίων", icon: Award, color: "text-brand-orange" },
+  { num: "15+", label: "Εξειδικευμένοι Καθηγητές", icon: GraduationCap, color: "text-brand-green" },
+  { num: "98%", label: "Ικανοποίηση Μαθητών", icon: Star, color: "text-brand-purple" },
+  { num: "300+", label: "Ενεργοί Μαθητές", icon: Users, color: "text-brand-red" },
+  { num: "40+", label: "Εκδόσεις Βιβλίων", icon: BookOpen, color: "text-brand-teal-dark" },
+];
+
+const FACILITIES = [
+  {
+    title: "Αίθουσες Διδασκαλίας",
+    desc: "8 σύγχρονες αίθουσες εξοπλισμένες με smart boards, κλιματισμό και άρτιο ακουστικό περιβάλλον.",
+    icon: Building2,
+    color: "bg-brand-teal",
+  },
+  {
+    title: "Βιβλιοθήκη & Μελετητήριο",
+    desc: "Πλούσια βιβλιοθήκη με εκπαιδευτικό υλικό, ήσυχο μελετητήριο ανοιχτό καθημερινά από τις 9:00.",
+    icon: BookOpen,
+    color: "bg-brand-orange",
+  },
+  {
+    title: "Χώρος Χαλάρωσης",
+    desc: "Άνετος χώρος ανάπαυσης για μαθητές μεταξύ μαθημάτων. Καφέ, νερό και σνακ διαθέσιμα.",
+    icon: Heart,
+    color: "bg-brand-green",
+  },
+  {
+    title: "Ψηφιακή Υποδομή",
+    desc: "Γρήγορο Wi-Fi πανταχού, tablets για διαδραστική μάθηση, και online πρόσβαση στο εκπαιδευτικό υλικό.",
+    icon: Zap,
+    color: "bg-brand-purple",
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    name: "Ελένη Παπαδοπούλου",
+    year: "2024",
+    school: "Ιατρική Αθηνών",
+    text: "Το Φροντιστήριο Μόρφωση με βοήθησε να μπω στην Ιατρική με 19.540 μόρια. Οι καθηγητές είναι εξαιρετικοί και το κλίμα είναι μοναδικό!",
+    grade: "19.540",
+    color: "border-brand-teal",
+    accent: "text-brand-teal",
+  },
+  {
+    name: "Νίκος Κωνσταντίνου",
+    year: "2023",
+    school: "Πολυτεχνείο ΕΜΠ",
+    text: "Φοβερή προετοιμασία στα Μαθηματικά και τη Φυσική. Χωρίς το Μόρφωση δεν θα είχα πετύχει τον στόχο μου για το Πολυτεχνείο.",
+    grade: "18.870",
+    color: "border-brand-orange",
+    accent: "text-brand-orange",
+  },
+  {
+    name: "Μαρία Αντωνίου",
+    year: "2024",
+    school: "Νομική ΕΚΠΑ",
+    text: "Η ατμόσφαιρα στο φροντιστήριο είναι ανταγωνιστική αλλά και συνεργατική. Μάθαμε μαζί και πετύχαμε μαζί!",
+    grade: "18.340",
+    color: "border-brand-green",
+    accent: "text-brand-green",
+  },
+];
+
+const TEAM_ROLES = [
+  { role: "Διευθυντής", name: "Γιώργος Μόρφης", desc: "Ιδρυτής & Ακαδημαϊκός Διευθυντής, 20 χρόνια στην εκπαίδευση", color: "bg-brand-teal" },
+  { role: "Γραμματεία", name: "Άννα Κυριακίδου", desc: "Υπεύθυνη Εγγραφών & Εξυπηρέτησης. Πάντα εδώ για κάθε ερώτηση.", color: "bg-brand-orange" },
+  { role: "Ακαδημαϊκός Σύμβουλος", name: "Δρ. Κώστας Νικολάου", desc: "Καθοδηγεί μαθητές στην επιλογή κατεύθυνσης και σχολής.", color: "bg-brand-green" },
+];
+
+// ─────────────────────────────────────────────
+//  ANIMATED COUNTER HOOK
+// ─────────────────────────────────────────────
+function useCountUp(target: string, duration = 2000, inView = false) {
+  const [count, setCount] = useState("0");
+
+  useEffect(() => {
+    if (!inView) return;
+    const numericTarget = parseFloat(target.replace(/[^0-9.]/g, ""));
+    if (isNaN(numericTarget)) {
+      setCount(target);
+      return;
+    }
+    const suffix = target.replace(/[0-9.]/g, "");
+    let start = 0;
+    const increment = numericTarget / (duration / 16);
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= numericTarget) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start).toLocaleString("el-GR") + suffix);
+      }
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, target, duration]);
+
+  return count;
+}
+
+// ─────────────────────────────────────────────
+//  STAT CARD WITH COUNTER ANIMATION
+// ─────────────────────────────────────────────
+function StatCard({ stat, index }: { stat: (typeof STATS)[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+  const count = useCountUp(stat.num, 2000, inView);
+  const Icon = stat.icon;
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold: 0.3 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className="group relative bg-white border-4 border-gray-900 shadow-[8px_8px_0px_#111] hover:shadow-[4px_4px_0px_#111] hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-200 p-8 overflow-hidden"
+      style={{ animationDelay: `${index * 100}ms` }}
+    >
+      {/* Background number */}
+      <div className="absolute -bottom-4 -right-2 text-[5rem] font-black text-gray-100 leading-none select-none group-hover:text-gray-50 transition-colors">
+        {String(index + 1).padStart(2, "0")}
+      </div>
+
+      <div className={`w-14 h-14 border-4 border-gray-900 flex items-center justify-center mb-6 ${stat.color} bg-opacity-10`}>
+        <Icon size={24} className={stat.color} strokeWidth={2.5} />
+      </div>
+
+      <div className={`text-4xl xl:text-5xl font-black tracking-tighter leading-none mb-3 ${stat.color}`}>
+        {count}
+      </div>
+      <div className="text-xs font-black uppercase tracking-widest text-gray-500">
+        {stat.label}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────
+//  MAIN PAGE
+// ─────────────────────────────────────────────
+export default function AboutPage() {
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [historyExpanded, setHistoryExpanded] = useState(false);
+
+  // Auto-rotate testimonials
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % TESTIMONIALS.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-teal selection:text-white overflow-x-hidden">
+      <Header />
+
+      {/* ═══════════════════════════════════════════════════════════
+          1. HERO SECTION
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="relative w-full bg-[#031516] overflow-hidden pt-40 pb-32 md:pt-52 md:pb-40">
+        {/* Dot grid */}
+        <div
+          className="absolute inset-0 opacity-[0.05]"
+          style={{ backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)", backgroundSize: "40px 40px" }}
+          aria-hidden="true"
+        />
+
+        {/* Color bar top */}
+        <div className="absolute top-0 left-0 w-full h-[8px] bg-gradient-to-r from-brand-teal via-brand-orange to-brand-green" />
+
+        {/* Ghost text */}
+        <span
+          className="absolute -bottom-10 left-1/2 -translate-x-1/2 text-[20vw] font-black text-white/[0.02] whitespace-nowrap select-none pointer-events-none tracking-widest uppercase leading-none"
+          aria-hidden="true"
+        >
+          ΜΟΡΦΩΣΗ
+        </span>
+
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+          <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-16">
+            {/* Left */}
+            <div className="flex-1 max-w-3xl">
+              <div className="inline-flex items-center gap-3 bg-brand-orange px-6 py-3 border-4 border-white/20 mb-10">
+                <Building2 className="text-white" size={18} strokeWidth={3} />
+                <span className="text-white font-black text-xs uppercase tracking-[0.3em]">Ποιοι Είμαστε</span>
+              </div>
+
+              <h1 className="text-5xl md:text-7xl lg:text-[90px] font-black text-white uppercase tracking-tighter leading-[0.9] mb-10">
+                <span className="text-white">ΤΟ </span>
+                <span className="text-brand-teal">ΦΡΟΝΤΙ</span>
+                <span className="text-brand-orange">ΣΤΗΡΙΟ</span>
+                <br />
+                <span className="text-white">ΠΟΥ </span>
+                <span className="relative inline-block">
+                  <span className="text-white">ΑΛΛΑΖΕΙ</span>
+                  <span className="absolute -bottom-2 left-0 w-full h-[6px] bg-brand-orange" />
+                </span>
+                <br />
+                <span className="text-brand-green">ΖΩΕΣ.</span>
+              </h1>
+
+              <p className="text-gray-300 font-bold text-xl md:text-2xl max-w-2xl leading-relaxed border-l-[6px] border-brand-teal pl-6">
+                Από το 2005, εκατοντάδες μαθητές μπήκαν στη σχολή που ονειρεύονταν.
+                Αυτό δεν είναι τύχη — είναι αποτέλεσμα δουλειάς, εμπιστοσύνης και πάθους.
+              </p>
+            </div>
+
+            {/* Right: Quick info cards */}
+            <div className="flex flex-col gap-4 flex-shrink-0">
+              {[
+                { label: "Ιδρύθηκε", val: "2005", icon: Calendar, color: "bg-brand-teal" },
+                { label: "Τοποθεσία", val: "Αθήνα", icon: MapPin, color: "bg-brand-orange" },
+                { label: "Καθηγητές", val: "15+", icon: GraduationCap, color: "bg-brand-green" },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div key={item.label} className={`${item.color} border-4 border-white/20 p-5 min-w-[200px] flex items-center gap-4 shadow-[6px_6px_0px_rgba(255,255,255,0.08)]`}>
+                    <Icon size={24} className="text-white flex-shrink-0" />
+                    <div>
+                      <div className="text-white/70 font-black text-[10px] uppercase tracking-widest">{item.label}</div>
+                      <div className="text-white font-black text-2xl tracking-tighter">{item.val}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Orange marquee strip */}
+      <div className="bg-brand-orange border-y-[6px] border-black overflow-hidden py-4">
+        <div className="flex gap-16 animate-billboard whitespace-nowrap">
+          {[
+            "20 ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ", "1200+ ΕΠΙΤΥΧΙΕΣ", "ΜΙΚΡΑ ΤΜΗΜΑΤΑ",
+            "ΕΞΑΤΟΜΙΚΕΥΜΕΝΗ ΠΡΟΣΟΧΗ", "ΚΟΡΥΦΑΙΟΙ ΚΑΘΗΓΗΤΕΣ", "ΑΘΗΝΑ",
+            "20 ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ", "1200+ ΕΠΙΤΥΧΙΕΣ", "ΜΙΚΡΑ ΤΜΗΜΑΤΑ",
+          ].map((s, i) => (
+            <span key={i} className="font-black text-white uppercase tracking-widest text-sm flex items-center gap-6">
+              {s} <span className="text-black/30">◆</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          2. MISSION STATEMENT
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="bg-white py-28 border-b-[8px] border-gray-900">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            <div className="lg:col-span-7">
+              <div className="text-brand-teal font-black text-xs uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
+                <Sparkles size={16} />
+                <span>Η Αποστολή μας</span>
+              </div>
+              <h2 className="text-4xl md:text-6xl font-black text-gray-900 leading-snug tracking-tight mb-8">
+                Δεν πουλάμε{" "}
+                <span className="relative inline-block">
+                  <span className="relative z-10">μαθήματα.</span>
+                  <span className="absolute bottom-1 left-0 w-full h-4 bg-brand-teal/20 -z-10" />
+                </span>
+                <br />
+                Επενδύουμε σε{" "}
+                <span className="text-brand-orange underline decoration-wavy decoration-brand-orange/40">
+                  ανθρώπους.
+                </span>
+              </h2>
+              <div className="space-y-4 text-gray-600 font-medium text-lg leading-relaxed max-w-2xl">
+                {HISTORY_PLACEHOLDER.body.slice(0, historyExpanded ? undefined : 1).map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
+              </div>
+              <button
+                onClick={() => setHistoryExpanded(!historyExpanded)}
+                className="mt-8 inline-flex items-center gap-2 border-4 border-gray-900 px-8 py-4 font-black text-sm uppercase tracking-widest hover:bg-gray-900 hover:text-white transition-all group"
+              >
+                {historyExpanded ? "Λιγότερα" : "Διάβασε την Ιστορία μας"}
+                <ChevronRight size={16} className={`transition-transform ${historyExpanded ? "rotate-90" : "group-hover:translate-x-1"}`} />
+              </button>
+            </div>
+
+            {/* Right side — 2 highlight boxes */}
+            <div className="lg:col-span-5 flex flex-col gap-6">
+              <div className="bg-[#031516] text-white p-10 border-[4px] border-gray-900 shadow-[12px_12px_0px_#000]">
+                <Quote size={40} className="text-brand-teal mb-6 opacity-60" />
+                <p className="font-black text-2xl leading-snug tracking-tight text-white">
+                  "Κάθε παιδί έχει τα μέσα να πετύχει. Εμείς τα βοηθάμε να τα ανακαλύψουν."
+                </p>
+                <div className="mt-8 border-t border-white/10 pt-6">
+                  <div className="font-black text-brand-teal text-sm uppercase tracking-widest">Γιώργος Μόρφης</div>
+                  <div className="text-gray-400 text-xs font-bold uppercase tracking-wide mt-1">Ιδρυτής & Διευθυντής</div>
+                </div>
+              </div>
+
+              <div className="bg-brand-teal p-8 border-[4px] border-gray-900 shadow-[8px_8px_0px_#000] flex items-center gap-6">
+                <div className="w-16 h-16 bg-white flex items-center justify-center flex-shrink-0 border-4 border-gray-900">
+                  <TrendingUp size={28} className="text-brand-teal" />
+                </div>
+                <div>
+                  <div className="text-white/80 font-black text-xs uppercase tracking-widest mb-1">Ποσοστό Επιτυχίας</div>
+                  <div className="text-white font-black text-4xl tracking-tighter">98%</div>
+                  <div className="text-white/70 text-sm font-bold">μαθητών επιτυγχάνουν τον στόχο τους</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          3. STATS GRID
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="bg-gray-50 py-28 border-b-[8px] border-brand-orange">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
+            <div>
+              <div className="text-brand-orange font-black text-xs uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
+                <Award size={16} />
+                <span>Αριθμοί που Μιλούν</span>
+              </div>
+              <h2 className="text-5xl lg:text-7xl font-black text-gray-900 uppercase tracking-tighter leading-none">
+                ΤΑ<br />
+                <span className="text-brand-orange relative">
+                  ΑΠΟΤΕΛΕΣ
+                  <span className="absolute -bottom-2 left-0 w-full h-[6px] bg-brand-orange" />
+                </span>
+                ΜΑΤΑ
+              </h2>
+            </div>
+            <p className="text-gray-500 font-bold max-w-sm text-lg leading-relaxed">
+              20 χρόνια επίμονης δουλειάς αποτυπωμένα σε αριθμούς που δεν λένε ψέματα.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-0 border-[4px] border-gray-900">
+            {STATS.map((stat, i) => (
+              <div key={i} className={`border-r-[4px] border-gray-900 last:border-r-0 ${i >= 3 ? "border-t-[4px] border-gray-900" : ""}`}>
+                <StatCard stat={stat} index={i} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          4. TIMELINE
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="bg-white py-28 border-b-[8px] border-brand-teal">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="text-center mb-20">
+            <div className="text-brand-teal font-black text-xs uppercase tracking-[0.3em] mb-6 flex items-center justify-center gap-2">
+              <Clock size={16} />
+              <span>Το Χρονικό μας</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter">
+              20 ΧΡΟΝΙΑ<br />
+              <span className="text-brand-teal">ΙΣΤΟΡΙΑΣ</span>
+            </h2>
+          </div>
+
+          {/* Timeline */}
+          <div className="relative">
+            {/* Center line (desktop) */}
+            <div className="hidden lg:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[4px] bg-gray-900" />
+
+            <div className="flex flex-col gap-0">
+              {TIMELINE_ITEMS.map((item, i) => (
+                <div
+                  key={item.year}
+                  className={`relative flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-0 pb-16 last:pb-0 ${i % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"}`}
+                >
+                  {/* Content card */}
+                  <div className={`flex-1 ${i % 2 === 0 ? "lg:pr-20" : "lg:pl-20"}`}>
+                    <div className={`bg-white border-[4px] border-gray-900 shadow-[8px_8px_0px_#111] p-8 hover:shadow-[4px_4px_0px_#111] hover:translate-x-[4px] hover:translate-y-[4px] transition-all group relative overflow-hidden`}>
+                      <div className={`absolute top-0 left-0 w-full h-[6px] ${item.color}`} />
+                      <div className={`font-black text-5xl ${item.textAccent} tracking-tighter leading-none mb-4`}>{item.year}</div>
+                      <h3 className="font-black text-2xl text-gray-900 uppercase tracking-tight mb-3">{item.title}</h3>
+                      <p className="text-gray-600 font-medium leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+
+                  {/* Center dot (desktop) */}
+                  <div className={`hidden lg:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 ${item.color} border-4 border-white shadow-[0_0_0_4px_#111] items-center justify-center z-10 flex-shrink-0`}>
+                    <CheckCircle size={18} className="text-white" strokeWidth={3} />
+                  </div>
+
+                  {/* Empty side */}
+                  <div className="hidden lg:block flex-1" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          5. VALUES
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="bg-[#031516] py-28 border-b-[8px] border-brand-orange">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="text-center mb-20">
+            <div className="text-brand-orange font-black text-xs uppercase tracking-[0.3em] mb-6">Οι Αξίες μας</div>
+            <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">
+              ΤΙ ΜΑΣ<br />
+              <span className="text-brand-orange">ΚΙΝΕΙ.</span>
+            </h2>
+            <p className="text-gray-400 font-bold text-lg max-w-xl mx-auto mt-6 leading-relaxed">
+              Πίσω από κάθε επιτυχία κρύβονται οι αξίες που καθοδηγούν κάθε μας απόφαση.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border-[4px] border-white/10 shadow-[16px_16px_0px_#000]">
+            {VALUES.map((v, i) => {
+              const Icon = v.icon;
+              return (
+                <div
+                  key={v.num}
+                  className={`${v.color} p-10 border-r-[4px] last:border-r-0 border-white/10 group hover:scale-105 transition-transform duration-300 relative overflow-hidden cursor-default`}
+                >
+                  <div className="absolute -top-6 -right-4 text-[7rem] font-black text-black/10 leading-none select-none">
+                    {v.num}
+                  </div>
+                  <div className="w-14 h-14 bg-white/20 border-2 border-white/30 flex items-center justify-center mb-6 relative z-10">
+                    <Icon size={28} className="text-white" strokeWidth={2} />
+                  </div>
+                  <div className="text-white font-black text-5xl tracking-tighter leading-none mb-4 relative z-10">{v.num}</div>
+                  <div className="text-white font-black text-2xl uppercase tracking-tight mb-4 relative z-10">{v.title}</div>
+                  <div className="text-white/80 font-medium text-sm leading-relaxed relative z-10">{v.desc}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          6. FACILITIES
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="bg-gray-50 py-28 border-b-[8px] border-gray-900">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
+            <div>
+              <div className="text-brand-green font-black text-xs uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
+                <Building2 size={16} />
+                <span>Οι Εγκαταστάσεις μας</span>
+              </div>
+              <h2 className="text-5xl lg:text-6xl font-black text-gray-900 uppercase tracking-tighter leading-none">
+                Ο ΧΩΡΟΣ<br />
+                <span className="text-brand-green">ΠΟΥ ΜΑΘΑΙΝΕΙΣ</span>
+              </h2>
+            </div>
+            <div className="max-w-sm">
+              <p className="text-gray-500 font-bold text-lg leading-relaxed">
+                Σύγχρονες αίθουσες, πλήρης εξοπλισμός και ένα περιβάλλον που εμπνέει.
+                Τα παιδιά αγαπούν να έρχονται εδώ.
+              </p>
+              <Link
+                href="/contact"
+                className="mt-6 inline-flex items-center gap-2 bg-gray-900 text-white px-8 py-4 font-black text-sm uppercase tracking-widest hover:bg-brand-teal transition-colors group"
+              >
+                Κλείσε Επίσκεψη
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-[4px] border-gray-900 shadow-[12px_12px_0px_#000]">
+            {FACILITIES.map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <div
+                  key={i}
+                  className={`p-10 bg-white border-b-[4px] border-r-[4px] border-gray-900 group hover:bg-gray-900 transition-colors duration-300 relative overflow-hidden ${i === 1 || i === 3 ? "border-r-0" : ""} ${i === 2 || i === 3 ? "border-b-0" : ""}`}
+                >
+                  <div className="absolute top-0 left-0 w-[6px] h-full opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "currentColor" }} />
+                  <div className={`w-16 h-16 ${f.color} border-4 border-gray-900 flex items-center justify-center mb-6 shadow-[4px_4px_0px_#111] group-hover:shadow-[2px_2px_0px_#fff]`}>
+                    <Icon size={28} className="text-white" strokeWidth={2} />
+                  </div>
+                  <div className="absolute top-0 left-0 w-full h-[4px] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <h3 className="font-black text-xl uppercase tracking-tight text-gray-900 group-hover:text-white transition-colors mb-4">
+                    {f.title}
+                  </h3>
+                  <p className="text-gray-500 group-hover:text-gray-300 font-medium leading-relaxed transition-colors">
+                    {f.desc}
+                  </p>
+                  <div className={`mt-8 h-[3px] ${f.color} w-12 group-hover:w-full transition-all duration-500`} />
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Photo placeholder banner */}
+          <div className="mt-8 h-64 md:h-96 bg-gray-900 border-[4px] border-gray-900 shadow-[12px_12px_0px_#000] flex items-center justify-center relative overflow-hidden group cursor-pointer">
+            <div
+              className="absolute inset-0 opacity-10"
+              style={{ backgroundImage: "radial-gradient(circle, #0c82a2 1px, transparent 1px)", backgroundSize: "30px 30px" }}
+            />
+            <div className="text-center relative z-10">
+              <div className="w-20 h-20 border-4 border-white/20 flex items-center justify-center mx-auto mb-4 group-hover:border-brand-teal transition-colors">
+                <Play size={32} className="text-white/60 group-hover:text-brand-teal transition-colors" />
+              </div>
+              <div className="text-white font-black text-xl uppercase tracking-widest mb-2">Φωτογραφίες Χώρου</div>
+              <div className="text-gray-400 font-bold text-sm">
+                [Προσθέστε φωτογραφίες από το Sanity CMS → Τύπος: "facilityPhoto"]
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          7. TESTIMONIALS
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="bg-white py-28 border-b-[8px] border-brand-purple">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="text-center mb-16">
+            <div className="text-brand-purple font-black text-xs uppercase tracking-[0.3em] mb-6 flex items-center justify-center gap-2">
+              <Star size={16} />
+              <span>Επιτυχίες Μαθητών</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter">
+              ΑΥΤΟΙ ΠΟΥ<br />
+              <span className="text-brand-purple">ΠΕΤΥΧΑΝ.</span>
+            </h2>
+          </div>
+
+          {/* Active testimonial */}
+          <div className="max-w-4xl mx-auto mb-12">
+            {TESTIMONIALS.map((t, i) => (
+              <div
+                key={i}
+                className={`transition-all duration-500 ${i === activeTestimonial ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 absolute pointer-events-none"}`}
+                style={{ position: i === activeTestimonial ? "relative" : "absolute" }}
+              >
+                <div className={`bg-white border-[6px] ${t.color} shadow-[16px_16px_0px_#111] p-10 md:p-14 relative`}>
+                  <Quote size={60} className={`${t.accent} opacity-20 absolute top-8 right-8`} />
+                  <p className="text-gray-800 font-bold text-2xl md:text-3xl leading-relaxed mb-10">
+                    &ldquo;{t.text}&rdquo;
+                  </p>
+                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div className="flex items-center gap-5">
+                      <div className={`w-16 h-16 ${t.color.replace("border-", "bg-").replace("brand-", "brand-")} bg-gray-100 border-4 border-gray-900 flex items-center justify-center flex-shrink-0`}>
+                        <GraduationCap size={28} className={t.accent} />
+                      </div>
+                      <div>
+                        <div className="font-black text-gray-900 text-lg">{t.name}</div>
+                        <div className={`font-black text-sm uppercase tracking-widest ${t.accent}`}>{t.school}</div>
+                        <div className="text-gray-400 text-xs font-bold uppercase tracking-widest mt-0.5">Εισαγωγή {t.year}</div>
+                      </div>
+                    </div>
+                    <div className="flex-shrink-0 text-right">
+                      <div className="text-gray-400 font-black text-xs uppercase tracking-widest mb-1">Μόρια</div>
+                      <div className={`font-black text-5xl tracking-tighter ${t.accent}`}>{t.grade}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Navigation dots */}
+          <div className="flex items-center justify-center gap-3">
+            {TESTIMONIALS.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveTestimonial(i)}
+                className={`transition-all duration-300 border-2 border-gray-900 ${i === activeTestimonial ? "w-8 h-4 bg-brand-orange" : "w-4 h-4 bg-white hover:bg-gray-100"}`}
+                aria-label={`Μαρτυρία ${i + 1}`}
+              />
+            ))}
+          </div>
+
+          {/* All successes banner */}
+          <div className="mt-16 bg-brand-orange border-[4px] border-gray-900 shadow-[12px_12px_0px_#000] p-10 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div>
+              <div className="text-white/80 font-black text-xs uppercase tracking-widest mb-2">Συνολικές Επιτυχίες</div>
+              <div className="text-white font-black text-7xl tracking-tighter leading-none">1.200+</div>
+              <div className="text-white/80 font-bold text-lg mt-2">μαθητές έχουν πετύχει τον στόχο τους μαζί μας</div>
+            </div>
+            <Link
+              href="/teachers"
+              className="flex-shrink-0 bg-white text-gray-900 px-10 py-5 font-black text-sm uppercase tracking-widest border-4 border-gray-900 hover:bg-gray-900 hover:text-white transition-all hover:-translate-y-1 hover:shadow-[6px_6px_0px_rgba(0,0,0,0.3)] flex items-center gap-3"
+            >
+              Γνώρισε την Ομάδα μας
+              <ChevronRight size={18} strokeWidth={3} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          8. TEAM OVERVIEW (non-teachers)
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="bg-gray-50 py-28 border-b-[8px] border-brand-teal">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="text-center mb-16">
+            <div className="text-brand-teal font-black text-xs uppercase tracking-[0.3em] mb-6 flex items-center justify-center gap-2">
+              <Users size={16} />
+              <span>Η Ομάδα</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter">
+              ΟΙ ΑΝΘΡΩΠΟΙ<br />
+              <span className="text-brand-teal">ΠΙΣω ΑΠΟ</span><br />
+              ΤΟ ΜΟΡΦΩΣΗ
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-[4px] border-gray-900 shadow-[12px_12px_0px_#000]">
+            {TEAM_ROLES.map((member, i) => (
+              <div
+                key={i}
+                className={`group relative bg-white border-r-[4px] last:border-r-0 border-gray-900 p-10 overflow-hidden hover:bg-gray-900 transition-colors duration-300 cursor-default`}
+              >
+                <div className={`absolute top-0 left-0 w-full h-[6px] ${member.color}`} />
+                <div className={`w-20 h-20 ${member.color} border-4 border-gray-900 flex items-center justify-center mb-6 shadow-[4px_4px_0px_#000] group-hover:shadow-[2px_2px_0px_#fff] transition-shadow`}>
+                  <Users size={32} className="text-white" strokeWidth={2} />
+                </div>
+                <div className="text-gray-400 group-hover:text-gray-500 font-black text-xs uppercase tracking-widest mb-3 transition-colors">
+                  {member.role}
+                </div>
+                <h3 className="font-black text-2xl text-gray-900 group-hover:text-white uppercase tracking-tight mb-4 transition-colors">
+                  {member.name}
+                </h3>
+                <p className="text-gray-500 group-hover:text-gray-300 font-medium leading-relaxed transition-colors">
+                  {member.desc}
+                </p>
+                {/* Sanity note */}
+                <div className="mt-6 text-[10px] font-black uppercase tracking-widest text-gray-300 group-hover:text-gray-600 transition-colors">
+                  [Ενημερώσιμο από Sanity → τύπος: "teamMember"]
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 text-center">
+            <Link
+              href="/teachers"
+              className="inline-flex items-center gap-3 border-4 border-gray-900 px-12 py-5 font-black text-sm uppercase tracking-widest hover:bg-gray-900 hover:text-white transition-all group shadow-[6px_6px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[4px] hover:translate-y-[4px]"
+            >
+              Δες Όλους τους Καθηγητές
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          9. CONTACT INFO STRIP
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="bg-white py-20 border-b-[8px] border-gray-900">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-[4px] border-gray-900 shadow-[12px_12px_0px_#000]">
+            {[
+              {
+                icon: MapPin,
+                label: "Βρείτε μας",
+                val: "Λεωφόρος Αθηνών 00, Αθήνα",
+                sub: "[Ενημερώσιμο από Sanity → siteSettings.address]",
+                color: "bg-brand-teal",
+                href: "https://maps.google.com",
+              },
+              {
+                icon: Phone,
+                label: "Καλέστε μας",
+                val: "210 506 3610",
+                sub: "Δευ-Παρ 09:00-21:00 · Σάβ 09:00-14:00",
+                color: "bg-brand-orange",
+                href: "tel:2105063610",
+              },
+              {
+                icon: Mail,
+                label: "Email",
+                val: "info@morfosi.edu.gr",
+                sub: "[Ενημερώσιμο από Sanity → siteSettings.contactEmail]",
+                color: "bg-brand-green",
+                href: "mailto:info@morfosi.edu.gr",
+              },
+            ].map((c, i) => {
+              const Icon = c.icon;
+              return (
+                <a
+                  key={i}
+                  href={c.href}
+                  className="group flex flex-col p-10 bg-white border-r-[4px] last:border-r-0 border-gray-900 hover:bg-gray-900 transition-colors duration-300 relative overflow-hidden"
+                >
+                  <div className={`absolute top-0 left-0 w-full h-[6px] ${c.color}`} />
+                  <div className={`w-14 h-14 ${c.color} border-4 border-gray-900 flex items-center justify-center mb-6 shadow-[4px_4px_0px_#000] group-hover:shadow-[1px_1px_0px_#fff] transition-shadow`}>
+                    <Icon size={24} className="text-white" />
+                  </div>
+                  <div className="text-gray-400 font-black text-xs uppercase tracking-widest mb-3 group-hover:text-gray-500 transition-colors">
+                    {c.label}
+                  </div>
+                  <div className="font-black text-xl text-gray-900 group-hover:text-white transition-colors mb-2">
+                    {c.val}
+                  </div>
+                  <div className="text-gray-400 text-xs font-bold group-hover:text-gray-500 transition-colors">
+                    {c.sub}
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          10. FINAL CTA
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="bg-[#031516] py-40 border-t-[8px] border-brand-orange relative overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{ backgroundImage: "radial-gradient(circle, #f58220 1px, transparent 1px)", backgroundSize: "60px 60px" }}
+          aria-hidden="true"
+        />
+        {/* Huge ghost text */}
+        <span
+          className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 text-[25vw] font-black text-white/[0.015] whitespace-nowrap select-none pointer-events-none tracking-widest uppercase"
+          aria-hidden="true"
+        >
+          ΕΓΓΡΑΦΗ
+        </span>
+
+        <div className="max-w-5xl mx-auto px-6 lg:px-12 text-center relative z-10">
+          <div className="text-brand-orange font-black text-xs uppercase tracking-[0.3em] mb-10">
+            Η Επόμενη Επιτυχία — Η Δική σου
+          </div>
+
+          <h2 className="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter leading-[0.85] mb-10">
+            ΕΛΑΣΤΕ<br />
+            <span className="text-brand-teal">ΝΑ ΣΑΣ</span><br />
+            ΓΝΩΡΙΣΟΥΜΕ.
+          </h2>
+
+          <p className="text-gray-300 font-bold text-xl max-w-2xl mx-auto mb-14 leading-relaxed">
+            Οι εγγραφές για το 2025-26 είναι ανοιχτές. Κλείστε τη θέση σας σήμερα και κάντε το πρώτο βήμα
+            προς τη σχολή που ονειρεύεστε.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/contact"
+              id="about-cta-enroll"
+              className="inline-flex items-center justify-center gap-3 bg-brand-orange text-white px-14 py-6 font-black uppercase tracking-widest text-base border-4 border-transparent hover:border-white transition-all hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(245,130,32,0.6)] shadow-[0_0_0_rgba(245,130,32,0)]"
+            >
+              ΕΓΓΡΑΦΗ ΤΩΡΑ
+              <ArrowRight size={20} strokeWidth={3} />
+            </Link>
+            <a
+              href="tel:2105063610"
+              id="about-cta-call"
+              className="inline-flex items-center justify-center gap-3 bg-transparent text-white px-14 py-6 font-black uppercase tracking-widest text-base border-4 border-white/30 hover:border-white hover:bg-white/10 transition-all hover:-translate-y-2"
+            >
+              <Phone size={18} strokeWidth={3} />
+              210 506 3610
+            </a>
+          </div>
+
+          {/* Trust badges */}
+          <div className="mt-20 flex flex-wrap justify-center gap-8">
+            {[
+              { icon: Shield, label: "Εγγύηση Αριστείας" },
+              { icon: Award, label: "20+ Χρόνια Εμπειρίας" },
+              { icon: Users, label: "Μικρά Τμήματα" },
+              { icon: CheckCircle, label: "Αποδεδειγμένα Αποτελέσματα" },
+            ].map((b, i) => {
+              const Icon = b.icon;
+              return (
+                <div key={i} className="flex items-center gap-3 text-gray-400">
+                  <Icon size={18} className="text-brand-teal" />
+                  <span className="font-black text-xs uppercase tracking-widest">{b.label}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
