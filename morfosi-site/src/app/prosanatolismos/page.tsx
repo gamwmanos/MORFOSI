@@ -182,8 +182,6 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
 
 // ─── PAGE COMPONENT ─────────────────────────────────────────────────────────
 
-export const metadata = undefined; // client component
-
 export default function ProsanatolismosPage() {
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 overflow-x-hidden selection:bg-brand-teal selection:text-white">
