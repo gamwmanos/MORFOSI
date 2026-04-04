@@ -69,11 +69,11 @@ export default async function System() {
           </Link>
         </div>
 
-        {/* Right Side — Big photo + overlapping 4-tile grid */}
-        <div className="lg:w-2/3 relative min-h-[500px] lg:min-h-[700px] w-full border-l-[12px] border-brand-teal overflow-hidden">
+        {/* Right Side — Big photo + 4-tile grid floating in front */}
+        <div className="lg:w-2/3 relative min-h-[500px] lg:min-h-[700px] w-full border-l-[12px] border-brand-teal">
 
           {/* Background image */}
-          <div className="absolute inset-0">
+          <div className="absolute inset-0 overflow-hidden">
             <Image
               src="/bigfront.jpg"
               alt="Φροντιστήριο Μόρφωση"
@@ -81,71 +81,71 @@ export default async function System() {
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gray-900/30" />
+            <div className="absolute inset-0 bg-gray-900/40" />
           </div>
 
-          {/* Overlapping 4-tile grid */}
-          <div className="absolute -left-8 lg:-left-24 xl:-left-40 top-1/2 -translate-y-1/2 shadow-2xl w-[95%] max-w-[450px] grid grid-cols-2 gap-px bg-gray-300 border-l-[12px] border-brand-orange">
+          {/* 4-tile grid — protrudes LEFT out of the photo edge */}
+          <div className="absolute -left-28 lg:-left-36 top-1/2 -translate-y-1/2 z-10 shadow-[12px_12px_0px_rgba(0,0,0,0.35)] w-[52%] max-w-[300px] grid grid-cols-2 border-l-[6px] border-brand-orange">
 
             {/* Tile 1 — Random teacher from Sanity */}
-            <Link href="/teachers" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-colors h-[200px] group cursor-pointer relative overflow-hidden">
+            <Link href="/teachers" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-colors h-[150px] group cursor-pointer relative overflow-hidden">
               {teacherImg ? (
                 <>
                   <Image src={teacherImg} alt={teacherName} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-3 text-left">
-                    <span className="font-black text-xs text-white leading-tight block">{teacherName}</span>
-                    {teacherSpecialty && <span className="font-bold text-[10px] text-brand-orange block">{teacherSpecialty}</span>}
+                  <div className="absolute bottom-0 left-0 right-0 p-2 text-left">
+                    <span className="font-black text-[10px] text-white leading-tight block">{teacherName}</span>
+                    {teacherSpecialty && <span className="font-bold text-[9px] text-brand-orange block">{teacherSpecialty}</span>}
                   </div>
-                  <div className="absolute top-3 right-3 bg-brand-teal text-white text-[9px] font-black uppercase tracking-widest px-2 py-1">
+                  <div className="absolute top-2 right-2 bg-brand-teal text-white text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5">
                     Η ΟΜΆΔΑ ΜΑΣ
                   </div>
                 </>
               ) : (
-                <div className="flex flex-col items-center gap-3 p-6">
-                  <div className="w-16 h-16 bg-gray-200 group-hover:scale-105 transition-transform rounded-full" />
-                  <span className="font-extrabold text-sm text-gray-900 leading-tight group-hover:text-brand-orange transition-colors">Οι Καθηγητές<br/>Μας</span>
+                <div className="flex flex-col items-center gap-2 p-4">
+                  <div className="w-12 h-12 bg-gray-200 group-hover:scale-105 transition-transform rounded-full" />
+                  <span className="font-extrabold text-xs text-gray-900 leading-tight group-hover:text-brand-orange transition-colors">Οι Καθηγητές<br/>Μας</span>
                 </div>
               )}
             </Link>
 
             {/* Tile 2 — Facility photo from Sanity */}
-            <Link href="/about" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-brand-teal transition-colors h-[200px] group cursor-pointer relative overflow-hidden">
+            <Link href="/about" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-brand-teal transition-colors h-[150px] group cursor-pointer relative overflow-hidden">
               {facilityImg ? (
                 <>
                   <Image src={facilityImg} alt="Χώρος Μόρφωσης" fill className="object-cover group-hover:scale-105 transition-transform duration-500 group-hover:opacity-70" />
                   <div className="absolute inset-0 bg-brand-teal/0 group-hover:bg-brand-teal/60 transition-colors" />
-                  <span className="relative z-10 font-extrabold text-xs text-transparent group-hover:text-white leading-tight transition-colors px-3">
+                  <span className="relative z-10 font-extrabold text-xs text-transparent group-hover:text-white leading-tight transition-colors px-2">
                     Οι Εγκαταστάσεις<br/>μας
                   </span>
                 </>
               ) : (
-                <div className="flex flex-col items-center gap-3 p-6">
-                  <div className="w-16 h-16 bg-gray-200 group-hover:bg-white/30 transition-colors" />
-                  <span className="font-extrabold text-sm text-gray-900 group-hover:text-white leading-tight transition-colors">Οι Εγκαταστάσεις<br/>μας</span>
+                <div className="flex flex-col items-center gap-2 p-4">
+                  <div className="w-12 h-12 bg-gray-200 group-hover:bg-white/30 transition-colors" />
+                  <span className="font-extrabold text-xs text-gray-900 group-hover:text-white leading-tight transition-colors">Οι Εγκαταστάσεις<br/>μας</span>
                 </div>
               )}
             </Link>
 
             {/* Tile 3 — Exetasi foto (static) */}
-            <Link href="/exams" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-brand-orange transition-colors h-[200px] group cursor-pointer relative overflow-hidden">
+            <Link href="/exams" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-brand-orange transition-colors h-[150px] group cursor-pointer relative overflow-hidden">
               <Image src="/exetasi.jpg" alt="Προσομοίωση Εξέτασης" fill className="object-cover group-hover:scale-105 transition-transform duration-500 group-hover:opacity-60" />
               <div className="absolute inset-0 bg-brand-orange/0 group-hover:bg-brand-orange/50 transition-colors" />
-              <span className="relative z-10 font-extrabold text-xs text-white bg-gray-900/60 group-hover:bg-transparent px-2 py-1 leading-tight text-center transition-all">
+              <span className="relative z-10 font-extrabold text-[10px] text-white bg-gray-900/60 group-hover:bg-transparent px-2 py-0.5 leading-tight text-center transition-all">
                 Προσομοιώσεις<br/>Εξετάσεων
               </span>
             </Link>
 
             {/* Tile 4 — Academic guidance */}
-            <Link href="/contact" className="bg-white p-6 lg:p-10 flex flex-col items-center justify-center text-center gap-4 hover:bg-brand-teal-dark transition-colors h-[200px] group cursor-pointer">
-              <div className="w-16 h-16 bg-brand-teal/20 border-2 border-brand-teal flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-teal group-hover:text-white transition-colors">
+            <Link href="/contact" className="bg-white p-4 flex flex-col items-center justify-center text-center gap-3 hover:bg-brand-teal-dark transition-colors h-[150px] group cursor-pointer">
+              <div className="w-12 h-12 bg-brand-teal/20 border-2 border-brand-teal flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-teal group-hover:text-white transition-colors">
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
                 </svg>
               </div>
               <div>
-                <span className="font-extrabold text-sm text-gray-900 group-hover:text-white leading-tight transition-colors block">Ακαδημαϊκός<br/>Προσανατολισμός</span>
-                <span className="text-[10px] text-gray-400 group-hover:text-white/70 font-bold uppercase tracking-wider mt-1 block transition-colors">Βρες τον σωστό δρόμο</span>
+                <span className="font-extrabold text-xs text-gray-900 group-hover:text-white leading-tight transition-colors block">Ακαδημαϊκός<br/>Προσανατολισμός</span>
+                <span className="text-[9px] text-gray-400 group-hover:text-white/70 font-bold uppercase tracking-wider mt-1 block transition-colors">Βρες τον σωστό δρόμο</span>
               </div>
             </Link>
 
