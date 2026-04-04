@@ -243,7 +243,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
 
   const passCount = processed.filter((f) => f.passed && f.ebeOk).length;
   const bestPass = processed.filter((f) => f.passed && f.ebeOk).sort((a, b) => b.base2025 - a.base2025)[0];
-  const closestFail = processed.filter((f) => !f.passed).sort((a, b) => b.diff - a.diff)[0];
+  const closestSuccess = processed.filter((f) => f.passed && f.ebeOk).sort((a, b) => a.diff - b.diff)[0];
 
   const filtered = useMemo(() => {
     let list = [...processed];
@@ -266,216 +266,177 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
     setSearchQuery(""); setShowOnlyPass(false); setCityFilter("all");
   };
 
-  const generatePDF = async () => {
-    const { jsPDF } = await import("jspdf");
-    const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+  const generatePDF = () => {
+    const fieldName = currentField?.name || "";
+    const subjectRows = (currentField?.subjects || []).map(sub =>
+      `<tr><td>${sub.name}</td><td class="bold">${(grades[sub.id] || 0).toFixed(1)}</td></tr>`
+    ).join("");
 
-    const W = 210; // page width mm
-    const orange = [249, 115, 22] as [number, number, number];
-    const teal = [12, 130, 162] as [number, number, number];
-    const black = [0, 0, 0] as [number, number, number];
-    const white = [255, 255, 255] as [number, number, number];
-    const gray = [100, 100, 100] as [number, number, number];
+    const passingSchools = filtered.filter(f => f.passed && f.ebeOk);
 
-    // ── HEADER BLOCK ──
-    doc.setFillColor(...orange);
-    doc.rect(0, 0, W, 36, "F");
-    doc.setFillColor(...black);
-    doc.rect(0, 36, W, 4, "F");
+    const schoolRows = passingSchools.map(fac => {
+      const status = fac.passed && fac.ebeOk
+        ? `<span class="badge pass">✓ ΠΕΡΝΑΩ</span>`
+        : `<span class="badge fail">✗ ΔΕΝ ΠΕΡΝΩ</span>`;
+      const diffStr = fac.diff >= 0 ? `+${fac.diff.toLocaleString("el-GR")}` : fac.diff.toLocaleString("el-GR");
+      return `
+        <tr class="${fac.passed && fac.ebeOk ? "row-pass" : "row-fail"}">
+          <td>${fac.name}</td>
+          <td>${fac.institution}</td>
+          <td class="num">${fac.base2025.toLocaleString("el-GR")}</td>
+          <td class="num bold ${fac.passed ? "green" : "red"}">${fac.personalPoints.toLocaleString("el-GR")}</td>
+          <td class="num diff">${diffStr}</td>
+          <td>${status}</td>
+        </tr>`;
+    }).join("");
 
-    doc.setTextColor(...white);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(28);
-    doc.text("ΜΟΡΦΩΣΗ", 14, 20);
+    const html = `<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <title>ΜΟΡΦΩΣΗ – Αποτελέσματα Μορίων</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', Arial, sans-serif; font-size: 11px; color: #111; background: #fff; position: relative; }
 
-    doc.setFontSize(9);
-    doc.setFont("helvetica", "normal");
-    doc.text("ΦΡΟΝΤΙΣΤΗΡΙΟ  |  210 506 3610  |  morfosi.edu.gr", 14, 28);
+    /* WATERMARK */
+    body::before {
+      content: 'ΜΟΡΦΩΣΗ';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-35deg);
+      font-size: 120px;
+      font-weight: 900;
+      color: rgba(249,115,22,0.07);
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 0;
+      letter-spacing: -4px;
+    }
 
-    doc.setFillColor(...white);
-    doc.roundedRect(W - 70, 6, 56, 22, 2, 2, "F");
-    doc.setTextColor(...black);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(8);
-    doc.text("ΑΠΟΤΕΛΕΣΜΑΤΑ", W - 62, 14);
-    doc.setFontSize(10);
-    doc.text("ΥΠΟΛΟΓΙΣΤΗ ΜΟΡΙΩΝ", W - 66, 21);
+    /* HEADER */
+    .header { background: #f97316; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+    .header-left h1 { font-size: 32px; font-weight: 900; color: #fff; letter-spacing: -1px; }
+    .header-left p { font-size: 10px; color: rgba(255,255,255,0.85); margin-top: 4px; font-weight: 600; }
+    .header-badge { background: #fff; padding: 10px 16px; text-align: center; border-left: 4px solid #000; }
+    .header-badge .badge-title { font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #666; }
+    .header-badge .badge-sub { font-size: 12px; font-weight: 900; color: #111; }
+    .black-bar { background: #000; height: 4px; }
 
-    // ── STUDENT INFO BLOCK ──
-    let y = 50;
-    doc.setFillColor(240, 240, 240);
-    doc.rect(10, y, W - 20, 38, "F");
-    doc.setDrawColor(...black);
-    doc.setLineWidth(0.7);
-    doc.rect(10, y, W - 20, 38);
+    /* INFO BLOCK */
+    .info-block { display: flex; gap: 0; margin: 16px 20px; border: 2px solid #111; position: relative; z-index: 1; }
+    .info-left { flex: 1; padding: 14px 18px; border-right: 2px solid #111; }
+    .info-label { font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 4px; }
+    .info-value { font-size: 12px; font-weight: 700; color: #111; margin-bottom: 10px; }
+    .grades-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; }
+    .grade-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 3px 0; }
+    .grade-name { font-size: 9px; color: #555; }
+    .grade-val { font-size: 13px; font-weight: 900; color: #111; }
+    .info-right { background: #f97316; padding: 14px 20px; min-width: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+    .total-label { font-size: 8px; font-weight: 900; color: rgba(255,255,255,0.85); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .total-value { font-size: 36px; font-weight: 900; color: #fff; line-height: 1; }
+    .total-pass { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.9); margin-top: 6px; }
 
-    // Left stripe
-    doc.setFillColor(...teal);
-    doc.rect(10, y, 4, 38, "F");
+    /* SECTION TITLE */
+    .section-title { margin: 16px 20px 8px; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #888; border-bottom: 2px solid #f97316; padding-bottom: 4px; position: relative; z-index: 1; }
 
-    doc.setTextColor(...black);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(11);
-    doc.text("ΕΠΙΣΤΗΜΟΝΙΚΟ ΠΕΔΙΟ:", 20, y + 10);
-    doc.setFont("helvetica", "normal");
-    doc.text(currentField?.name || "", 80, y + 10);
+    /* TABLE */
+    table { width: calc(100% - 40px); margin: 0 20px; border-collapse: collapse; font-size: 9.5px; position: relative; z-index: 1; }
+    thead tr { background: #111; color: #fff; }
+    thead th { padding: 6px 8px; text-align: left; font-weight: 900; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    tbody tr { border-bottom: 1px solid #e5e7eb; background: #f0fdf4; }
+    tbody tr:nth-child(even) { background: #dcfce7; }
+    td { padding: 5px 8px; vertical-align: middle; word-break: break-word; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .bold { font-weight: 900; }
+    .green { color: #166534; }
+    .diff { font-weight: 700; color: #166534; }
+    .badge { display: inline-block; padding: 2px 6px; font-size: 8px; font-weight: 900; border-radius: 2px; background: #15803d; color: #fff; }
 
-    // Grades in two columns
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(9);
-    doc.text("ΒΑΘΜΟΛΟΓΙΕΣ:", 20, y + 20);
+    /* FOOTER */
+    .footer { margin-top: 20px; background: #111; color: #fff; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+    .footer-left h2 { font-size: 18px; font-weight: 900; color: #f97316; }
+    .footer-left p { font-size: 9px; color: #aaa; margin-top: 2px; }
+    .footer-right { font-size: 9px; color: #aaa; text-align: right; }
 
-    const subjects = currentField?.subjects || [];
-    subjects.forEach((sub, i) => {
-      const col = i < 2 ? 0 : 1;
-      const row = i % 2;
-      const bx = 20 + col * 90;
-      const by = y + 27 + row * 7;
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(8);
-      doc.setTextColor(...gray);
-      doc.text(sub.name.slice(0, 20) + ":", bx, by);
-      doc.setTextColor(...black);
-      doc.setFont("helvetica", "bold");
-      doc.text((grades[sub.id] || 0).toFixed(1), bx + 52, by);
-    });
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      @page { margin: 8mm; size: A4; }
+    }
+  </style>
+</head>
+<body>
 
-    // Total points
-    doc.setFillColor(...orange);
-    doc.rect(W - 58, y + 2, 46, 34, "F");
-    doc.setTextColor(...white);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(8);
-    doc.text("ΣΥΝΟΛΟ ΜΟΡΙΩΝ", W - 55, y + 12);
-    doc.setFontSize(20);
-    doc.text(avgPoints.toLocaleString("el-GR"), W - 55, y + 26);
-    doc.setFontSize(8);
-    doc.text(`${passCount} σχολές ΕΠΙΤΥΧΙΑ`, W - 55, y + 34);
+  <div class="header">
+    <div class="header-left">
+      <h1>ΜΟΡΦΩΣΗ</h1>
+      <p>ΦΡΟΝΤΙΣΤΗΡΙΟ &nbsp;|&nbsp; 210 506 3610 &nbsp;|&nbsp; morfosi.edu.gr</p>
+    </div>
+    <div class="header-badge">
+      <div class="badge-title">Αποτελέσματα — Επιτυχόντες</div>
+      <div class="badge-sub">Υπολογιστής Μορίων 2025</div>
+    </div>
+  </div>
+  <div class="black-bar"></div>
 
-    y += 48;
+  <div class="info-block">
+    <div class="info-left">
+      <div class="info-label">Επιστημονικό Πεδίο</div>
+      <div class="info-value">${fieldName}</div>
+      <div class="info-label">Βαθμολογίες</div>
+      <div class="grades-grid">
+        ${(currentField?.subjects || []).map(sub => `
+          <div class="grade-row">
+            <span class="grade-name">${sub.name}</span>
+            <span class="grade-val">${(grades[sub.id] || 0).toFixed(1)}</span>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+    <div class="info-right">
+      <div class="total-label">Μόρια (μέσος)</div>
+      <div class="total-value">${avgPoints.toLocaleString("el-GR")}</div>
+      <div class="total-pass">${passCount} σχολές — ΕΠΙΤΥΧΙΑ ✓</div>
+    </div>
+  </div>
 
-    // ── TABLE HEADER ──
-    doc.setFillColor(...black);
-    doc.rect(10, y, W - 20, 8, "F");
-    doc.setTextColor(...white);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(7);
-    doc.text("ΣΧΟΛΗ", 14, y + 5.5);
-    doc.text("ΙΔΡΥΜΑ", 95, y + 5.5);
-    doc.text("ΒΑΣΗ 2025", 132, y + 5.5);
-    doc.text("ΤΑ ΜΟΡΙΑ ΣΟΥ", 158, y + 5.5);
-    doc.text("ΑΠΟΤΕΛΕΣΜΑ", 183, y + 5.5);
-    y += 8;
+  <div class="section-title">Σχολές που ΠΕΡΝΑΩ — Βάσεις 2025 (${passingSchools.length} σχολές)</div>
 
-    // ── TABLE ROWS ──
-    const rowH = 7;
-    let pageNum = 1;
-    const maxY = 280;
+  <table>
+    <thead>
+      <tr>
+        <th style="width:36%">Σχολή</th>
+        <th style="width:20%">Ίδρυμα</th>
+        <th style="width:8%;text-align:right">Βάση 2025</th>
+        <th style="width:10%;text-align:right">Τα Μόριά σου</th>
+        <th style="width:8%;text-align:right">+Διαφορά</th>
+        <th style="width:10%">Αποτέλεσμα</th>
+      </tr>
+    </thead>
+    <tbody>${schoolRows}</tbody>
+  </table>
 
-    filtered.forEach((fac, idx) => {
-      if (y + rowH > maxY) {
-        // Footer on current page
-        doc.setFontSize(7);
-        doc.setTextColor(...gray);
-        doc.text(`Σελίδα ${pageNum} | morfosi.edu.gr | 210 506 3610`, W / 2, 290, { align: "center" });
-        doc.addPage();
-        pageNum++;
-        y = 15;
-        // Repeat header
-        doc.setFillColor(...black);
-        doc.rect(10, y, W - 20, 8, "F");
-        doc.setTextColor(...white);
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(7);
-        doc.text("ΣΧΟΛΗ", 14, y + 5.5);
-        doc.text("ΙΔΡΥΜΑ", 95, y + 5.5);
-        doc.text("ΒΑΣΗ 2025", 132, y + 5.5);
-        doc.text("ΤΑ ΜΟΡΙΑ ΣΟΥ", 158, y + 5.5);
-        doc.text("ΑΠΟΤΕΛΕΣΜΑ", 183, y + 5.5);
-        y += 8;
-      }
+  <div class="footer">
+    <div class="footer-left">
+      <h2>ΜΟΡΦΩΣΗ</h2>
+      <p>Θέλεις να βελτιώσεις τα μόριά σου; Κάλεσέ μας!</p>
+    </div>
+    <div class="footer-right">
+      210 506 3610<br>morfosi.edu.gr<br>Δωρεάν δοκιμαστικό μάθημα
+    </div>
+  </div>
 
-      // Row BG
-      if (fac.passed && fac.ebeOk) {
-        doc.setFillColor(220, 252, 231); // light green
-      } else if (idx % 2 === 0) {
-        doc.setFillColor(250, 250, 250);
-      } else {
-        doc.setFillColor(255, 255, 255);
-      }
-      doc.rect(10, y, W - 20, rowH, "F");
-      doc.setDrawColor(220, 220, 220);
-      doc.setLineWidth(0.2);
-      doc.line(10, y + rowH, W - 10, y + rowH);
+  <script>window.onload = () => { window.print(); }<\/script>
+</body>
+</html>`;
 
-      // Text
-      doc.setTextColor(...black);
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(6.5);
-      const nameStr = fac.name.length > 32 ? fac.name.slice(0, 32) + "…" : fac.name;
-      doc.text(nameStr, 14, y + 4.8);
-      doc.text(fac.institution, 95, y + 4.8);
-      doc.text(fac.base2025.toLocaleString("el-GR"), 135, y + 4.8);
-      doc.setFont("helvetica", "bold");
-      doc.setTextColor(fac.passed ? 21 : 185, fac.passed ? 128 : 28, fac.passed ? 61 : 26);
-      doc.text(fac.personalPoints.toLocaleString("el-GR"), 162, y + 4.8);
-
-      // Status badge
-      if (fac.passed && fac.ebeOk) {
-        doc.setFillColor(21, 128, 61);
-        doc.roundedRect(181, y + 1, 20, 5, 1, 1, "F");
-        doc.setTextColor(...white);
-        doc.setFontSize(5.5);
-        doc.text("ΠΕΡΝΑΩ ✓", 184, y + 4.5);
-      } else {
-        doc.setFillColor(185, 28, 28);
-        doc.roundedRect(181, y + 1, 20, 5, 1, 1, "F");
-        doc.setTextColor(...white);
-        doc.setFontSize(5.5);
-        doc.text("ΔΕΝ ΠΕΡΝΩ", 183, y + 4.5);
-      }
-
-      y += rowH;
-    });
-
-    // ── FOOTER ──
-    doc.setFontSize(7);
-    doc.setTextColor(...gray);
-    doc.text(`Σελίδα ${pageNum} | morfosi.edu.gr | 210 506 3610`, W / 2, 290, { align: "center" });
-
-    // ── LAST PAGE CTA ──
-    doc.addPage();
-    doc.setFillColor(...orange);
-    doc.rect(0, 0, W, 297, "F");
-    doc.setFillColor(...black);
-    doc.rect(0, 0, W, 6, "F");
-    doc.rect(0, 291, W, 6, "F");
-
-    doc.setTextColor(...black);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(42);
-    doc.text("ΜΟΡΦΩΣΗ", W / 2, 80, { align: "center" });
-
-    doc.setFontSize(14);
-    doc.text("ΘΕΛΕΙΣ ΝΑ ΒΕΛΤΙΩΣΕΙΣ ΤΑ ΜΟΡΙΑ ΣΟΥ;", W / 2, 105, { align: "center" });
-
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(11);
-    doc.text("Μίλα με τον σύμβουλο σπουδών μας.", W / 2, 120, { align: "center" });
-    doc.text("Σχεδιάζουμε μαζί σου στρατηγική βελτίωσης.", W / 2, 130, { align: "center" });
-
-    doc.setFillColor(...black);
-    doc.roundedRect(55, 150, 100, 20, 3, 3, "F");
-    doc.setTextColor(...orange);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(14);
-    doc.text("210 506 3610", W / 2, 163, { align: "center" });
-
-    doc.setTextColor(...black);
-    doc.setFontSize(10);
-    doc.text("morfosi.edu.gr | Δωρεάν δοκιμαστικό μάθημα", W / 2, 195, { align: "center" });
-
-    doc.save(`ΜΟΡΦΩΣΗ_Μόρια_${currentField?.name.replace(/[^α-ωΑ-Ωa-z0-9]/gi, "_")}.pdf`);
+    const win = window.open("", "_blank");
+    if (win) {
+      win.document.write(html);
+      win.document.close();
+    }
   };
 
   return (
@@ -645,17 +606,23 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
                 <>
                   {/* Quick Stats Row */}
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                    {[
-                      { label: "ΜΕΣΟΣ ΥΠΟΛΟΓΙΣΜΟΣ", value: avgPoints.toLocaleString("el-GR"), bg: "bg-white", accent: "text-gray-900" },
-                      { label: "ΣΧΟΛΕΣ ΠΟΥ ΠΕΡΝΑΣ", value: passCount.toString(), bg: "bg-emerald-400", accent: "text-gray-900" },
-                      { label: "ΚΑΛΥΤΕΡΗ ΣΧΟΛΗ", value: bestPass ? bestPass.name.slice(0, 20) + "…" : "—", bg: "bg-brand-orange", accent: "text-gray-900", small: true },
-                      { label: "ΚΟΝΤΙΝOΤΕΡΗ ΑΠΟΤΥΧΙΑ", value: closestFail ? `${Math.abs(closestFail.diff).toLocaleString("el-GR")} μόρια` : "—", bg: "bg-black", accent: "text-white" },
-                    ].map((stat, i) => (
-                      <div key={i} className={`${stat.bg} border-[4px] border-gray-900 p-6 shadow-[6px_6px_0px_rgba(0,0,0,1)]`}>
-                        <p className={`text-xs font-black uppercase tracking-widest mb-2 ${stat.accent} opacity-70`}>{stat.label}</p>
-                        <p className={`font-black leading-none ${stat.small ? "text-xl" : "text-4xl"} ${stat.accent}`}>{stat.value}</p>
-                      </div>
-                    ))}
+                    <div className="bg-white border-[4px] border-gray-900 p-6 shadow-[6px_6px_0px_rgba(0,0,0,1)]">
+                      <p className="text-xs font-black uppercase tracking-widest mb-2 text-gray-900 opacity-70">ΜΕΣΟΣ ΥΠΟΛΟΓΙΣΜΟΣ</p>
+                      <p className="font-black text-4xl leading-none text-gray-900">{avgPoints.toLocaleString("el-GR")}</p>
+                    </div>
+                    <div className="bg-emerald-400 border-[4px] border-gray-900 p-6 shadow-[6px_6px_0px_rgba(0,0,0,1)]">
+                      <p className="text-xs font-black uppercase tracking-widest mb-2 text-gray-900 opacity-70">ΣΧΟΛΕΣ ΠΟΥ ΠΕΡΝΑΣ</p>
+                      <p className="font-black text-4xl leading-none text-gray-900">{passCount}</p>
+                    </div>
+                    <div className="bg-brand-orange border-[4px] border-gray-900 p-6 shadow-[6px_6px_0px_rgba(0,0,0,1)] col-span-2 lg:col-span-1">
+                      <p className="text-xs font-black uppercase tracking-widest mb-2 text-gray-900 opacity-70">ΚΑΛΥΤΕΡΗ ΣΧΟΛΗ</p>
+                      <p className="font-black text-sm leading-tight text-gray-900 break-words">{bestPass ? bestPass.name : "—"}</p>
+                    </div>
+                    <div className="bg-black border-[4px] border-gray-900 p-6 shadow-[6px_6px_0px_rgba(0,0,0,1)]">
+                      <p className="text-xs font-black uppercase tracking-widest mb-2 text-white opacity-70">ΚΟΝΤΙΝOΤΕΡΗ ΕΠΙΤΥΧΙΑ</p>
+                      <p className="font-black text-4xl leading-none text-white">{closestSuccess ? `+${closestSuccess.diff.toLocaleString("el-GR")}` : "—"}</p>
+                      {closestSuccess && <p className="text-xs text-gray-400 font-bold mt-1 uppercase">μόρια πάνω από τη βάση</p>}
+                    </div>
                   </div>
 
                   {/* Grades summary + CTA */}
@@ -687,7 +654,14 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
                           <RotateCcw size={20} strokeWidth={3} /> ΑΛΛΑΓΗ
                         </button>
                       </div>
+                      <button
+                        onClick={generatePDF}
+                        className="mt-4 w-full bg-emerald-500 border-[3px] border-gray-900 text-white py-4 font-black text-sm tracking-widest uppercase shadow-[6px_6px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-3 hover:bg-emerald-400 hover:-translate-y-1 hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] transition-all"
+                      >
+                        <Download size={22} strokeWidth={3} /> ΚΑΤΕΒΑΣΕ PDF
+                      </button>
                     </div>
+
 
                     {/* Big CTA */}
                     <div className="flex-1 flex flex-col gap-6">
@@ -746,18 +720,11 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
                     {filtered.length} από {processed.length} σχολές • {currentField?.name}
                   </p>
                 </div>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={generatePDF}
-                    className="bg-emerald-400 text-gray-900 border-[3px] border-gray-900 px-5 py-3 font-black uppercase text-sm shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:bg-emerald-300 flex items-center gap-2 transition-all hover:-translate-y-1"
-                  >
-                    <Download size={20} strokeWidth={4} /> ΚΑΤΕΒΑΣΕ PDF
-                  </button>
-                  <button onClick={() => setStep(4)} className="bg-brand-orange text-gray-900 border-[3px] border-gray-900 px-4 py-3 font-black uppercase text-sm shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:bg-yellow-400 flex items-center gap-2">
-                    <X size={20} strokeWidth={4} /> ΠΙΣΩ
-                  </button>
-                </div>
+                <button onClick={() => setStep(4)} className="bg-brand-orange text-gray-900 border-[3px] border-gray-900 px-4 py-3 font-black uppercase text-sm shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:bg-yellow-400 flex items-center gap-2">
+                  <X size={20} strokeWidth={4} /> ΠΙΣΩ
+                </button>
               </div>
+
 
 
               {/* Filters */}
