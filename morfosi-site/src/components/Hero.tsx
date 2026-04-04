@@ -118,7 +118,7 @@ export default function Hero() {
                </div>
                <div className="flex flex-col">
                  <span className="font-black text-black leading-none uppercase text-sm">95% Επιτυχια</span>
-                 <span className="font-extrabold text-brand-orange text-xs uppercase tracking-widest">6.000+ Απόφοιτοι</span>
+                 <span className="font-extrabold text-brand-orange text-xs uppercase tracking-widest">1.200+ Απόφοιτοι</span>
                </div>
             </div>
          </div>

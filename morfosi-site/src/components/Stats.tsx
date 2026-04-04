@@ -40,7 +40,7 @@ export default function Stats() {
 
           <div className="border-t-4 border-brand-orange hover:border-white pt-6 relative top-0 hover:-top-[24px] transition-all duration-700 ease-out cursor-default group w-full">
             <span className="font-sans font-black leading-none block mb-4 tracking-tighter shadow-sm text-5xl lg:text-7xl group-hover:text-6xl group-hover:lg:text-[8rem] transition-all duration-700 ease-out">
-              6k+
+              1.200+
             </span>
             <span className="font-black uppercase tracking-widest text-xs text-gray-300 group-hover:text-sm group-hover:text-white transition-all duration-700 ease-out">
               ΕΠΙΤΥΧΟΝΤΕΣ<br/>ΜΑΘΗΤΕΣ

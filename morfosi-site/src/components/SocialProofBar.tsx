@@ -52,7 +52,7 @@ const STATS = [
   },
   {
     icon: <GraduationCap size={20} strokeWidth={3} />,
-    value: 6000,
+    value: 1200,
     suffix: "+",
     label: "ΑΠΟΦΟΙΤΟΙ",
   },
