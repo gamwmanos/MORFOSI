@@ -137,7 +137,7 @@ export default async function System() {
             </Link>
 
             {/* Tile 4 — Academic guidance */}
-            <Link href="/contact" className="bg-white p-4 flex flex-col items-center justify-center text-center gap-3 hover:bg-brand-teal-dark transition-colors h-[150px] group cursor-pointer">
+            <Link href="/prosanatolismos" className="bg-white p-4 flex flex-col items-center justify-center text-center gap-3 hover:bg-brand-teal-dark transition-colors h-[150px] group cursor-pointer">
               <div className="w-12 h-12 bg-brand-teal/20 border-2 border-brand-teal flex items-center justify-center group-hover:bg-white/20 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-teal group-hover:text-white transition-colors">
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>

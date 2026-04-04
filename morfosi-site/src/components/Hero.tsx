@@ -1,8 +1,21 @@
+"use client";
 import { ChevronRight, Calculator, FileText, GraduationCap, ArrowDown } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
+  const router = useRouter();
+
+  const handleLevelSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    if (val) {
+      // Store selected level so plano page can auto-activate it
+      sessionStorage.setItem('planoLevel', val);
+      router.push('/plano');
+    }
+  };
+
   return (
     <section className="relative w-full min-h-[85vh] bg-brand-teal-dark overflow-hidden flex flex-col xl:flex-row pb-12 xl:pb-0">
       {/* Background Decor */}
@@ -70,13 +83,22 @@ export default function Hero() {
             <div className="flex flex-col gap-4">
                {/* Search / Select component inside a card */}
                <div className="flex border-4 border-black bg-white shadow-[4px_4px_0px_#000] h-[5.5rem]">
-                  <select aria-label="Επιλογή Εκπαιδευτικής Βαθμίδας" className="flex-1 bg-transparent text-gray-900 font-extrabold px-4 appearance-none focus:outline-none text-sm uppercase tracking-wider">
-                    <option>Επιλογη Βαθμιδας</option>
-                    <option>Γενικό Λύκειο</option>
-                    <option>ΕΠΑΛ</option>
-                    <option>Γυμνάσιο</option>
+                  <select
+                    aria-label="Επιλογή Εκπαιδευτικής Βαθμίδας"
+                    className="flex-1 bg-transparent text-gray-900 font-extrabold px-4 appearance-none focus:outline-none text-sm uppercase tracking-wider"
+                    defaultValue=""
+                    onChange={handleLevelSelect}
+                  >
+                    <option value="">Επιλογη Βαθμιδας</option>
+                    <option value="lykeio">Γενικό Λύκειο</option>
+                    <option value="epal">ΕΠΑΛ</option>
+                    <option value="gymnasio">Γυμνάσιο</option>
                   </select>
-                  <button aria-label="Μετάβαση στη Βαθμίδα" className="bg-black text-white w-16 flex items-center justify-center hover:bg-brand-teal transition-colors border-l-4 border-black">
+                  <button
+                    aria-label="Μετάβαση στη Βαθμίδα"
+                    className="bg-black text-white w-16 flex items-center justify-center hover:bg-brand-teal transition-colors border-l-4 border-black"
+                    onClick={() => router.push('/plano')}
+                  >
                     <ChevronRight size={24} strokeWidth={4} />
                   </button>
                </div>

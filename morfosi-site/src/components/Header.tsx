@@ -70,6 +70,44 @@ interface NavItem {
 // ─────────────────────────────────────────────
 const NAV_ITEMS: NavItem[] = [
   {
+    id: "plano",
+    label: "ΠΛΑΝΟ ΣΠΟΥΔΩΝ",
+    children: [
+      {
+        href: "/plano",
+        label: "Το Πλάνο μας",
+        description: "Μεθοδολογία & πρόγραμμα σπουδών ανά βαθμίδα",
+        icon: <GraduationCap size={20} strokeWidth={2.5} />,
+        badge: "ΝΕΟ",
+      },
+      {
+        href: "/plano#gymnasio",
+        label: "Γυμνάσιο",
+        description: "Α΄, Β΄, Γ΄ Γυμνασίου — πλάνο & μαθήματα",
+        icon: <BookOpen size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/plano#lykeio",
+        label: "Λύκειο",
+        description: "Α΄, Β΄, Γ΄ Λυκείου — πανελλήνιες & μόρια",
+        icon: <GraduationCap size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/plano#epal",
+        label: "ΕΠΑΛ",
+        description: "Επαγγελματικό Λύκειο — ειδικότητες & σπουδές",
+        icon: <Award size={20} strokeWidth={2.5} />,
+      },
+    ],
+    featured: {
+      title: "Το Πλάνο μας",
+      description: "Δες αναλυτικά πώς δουλεύουμε σε κάθε εκπαιδευτική βαθμίδα και γιατί έχουμε 95% επιτυχία.",
+      cta: "ΔΕΣ ΤΟ ΠΛΑΝΟ",
+      href: "/plano",
+      color: "bg-brand-teal-dark",
+    },
+  },
+  {
     id: "programma",
     label: "ΠΡΟΓΡΑΜΜΑ ΤΜΗΜΑΤΩΝ",
     children: [

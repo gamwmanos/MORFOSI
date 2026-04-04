@@ -10,6 +10,7 @@ import { siteSettingsType } from './siteSettings'
 import { classScheduleType } from './classSchedule'
 import { facilityPhotoType } from './facilityPhoto'
 import { examMaterialType } from './examMaterial'
+import { planPageType } from './planPage'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -22,5 +23,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     classScheduleType,
     facilityPhotoType,
     examMaterialType,
+    planPageType,
   ],
 }
