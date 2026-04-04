@@ -58,7 +58,7 @@ const STATS = [
   },
   {
     icon: <Clock size={20} strokeWidth={3} />,
-    value: 35,
+    value: new Date().getFullYear() - 2005,
     suffix: "",
     label: "ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ",
   },

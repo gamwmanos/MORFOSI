@@ -29,6 +29,18 @@ import {
 } from "lucide-react";
 
 // ─────────────────────────────────────────────
+//  DYNAMIC YEAR LOGIC
+// ─────────────────────────────────────────────
+const now = new Date();
+const currentYear = now.getFullYear(); // 2026
+const nextYear = currentYear + 1; // 2027
+const academicYear = `${currentYear}-${nextYear}`; // 2026-2027
+const academicYearShort = `${currentYear}-${nextYear.toString().slice(-2)}`; // 2026-27
+const prevYear = currentYear - 1; // 2025
+const successYear = prevYear; // 2025
+const successCount = 50;
+
+// ─────────────────────────────────────────────
 //  TYPE DEFINITIONS
 // ─────────────────────────────────────────────
 interface SubItem {
@@ -147,7 +159,7 @@ const NAV_ITEMS: NavItem[] = [
       {
         href: "/exams",
         label: "Εξεταζόμενα Μαθήματα",
-        description: "Αναλυτικός οδηγός Πανελληνίων 2025",
+        description: `Αναλυτικός οδηγός Πανελληνίων ${currentYear}`,
         icon: <FileText size={20} strokeWidth={2.5} />,
       },
       {
@@ -159,7 +171,7 @@ const NAV_ITEMS: NavItem[] = [
       {
         href: "/exams",
         label: "Βάσεις Εισαγωγής",
-        description: "Ιστορικά στοιχεία βάσεων 2020-2024",
+        description: `Ιστορικά στοιχεία βάσεων 2020-${prevYear}`,
         icon: <Award size={20} strokeWidth={2.5} />,
       },
       {
@@ -255,7 +267,7 @@ const NAV_ITEMS: NavItem[] = [
       },
       {
         href: "/contact",
-        label: "Εγγραφές 2025-26",
+        label: `Εγγραφές ${academicYearShort}`,
         description: "Διαδικασία & απαραίτητα δικαιολογητικά",
         icon: <Info size={20} strokeWidth={2.5} />,
         badge: "ΑΝΟΙΧΤΕΣ",

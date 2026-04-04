@@ -8,6 +8,13 @@ import {
   X, Info, HelpCircle, AlertTriangle, Loader2, Download
 } from "lucide-react";
 
+// ─────────────────────────────────────────────
+//  DYNAMIC YEAR LOGIC
+// ─────────────────────────────────────────────
+const now = new Date();
+const currentYear = now.getFullYear(); // 2026
+const prevYear = currentYear - 1; // 2025
+
 // --- Types ---
 export interface Faculty {
   id: string;
@@ -15,7 +22,7 @@ export interface Faculty {
   institution: string;
   city: string;
   fieldId: number;
-  base2025: number;
+  basePrev: number;
   ebe: number;
   coeffs: { s1: number; s2: number; s3: number; s4: number };
   specialRequirements: string[];
@@ -169,10 +176,14 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
       setLoadError(false);
       setFaculties([]);
       try {
-        const r = await fetch(`/data/bases-2025-field-${field}.json`);
+        const r = await fetch(`/data/bases-${prevYear}-field-${field}.json`);
         if (!r.ok) throw new Error();
         const data = await r.json();
-        setFaculties(data);
+        const mapped = data.map((d: any) => ({
+          ...d,
+          basePrev: d[`base${prevYear}`] || d.base2025 || 0
+        }));
+        setFaculties(mapped);
       } catch {
         setLoadError(true);
       } finally {
@@ -236,8 +247,8 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
     if (!field || faculties.length === 0) return [];
     return faculties.map((f) => {
       const personalPoints = calcPointsForFaculty(grades, specials, f);
-      const passed = personalPoints >= f.base2025;
-      const diff = personalPoints - f.base2025;
+      const passed = personalPoints >= f.basePrev;
+      const diff = personalPoints - f.basePrev;
       // EBE check: average of grades must meet EBE
       const avgGrade = ((grades.s1 || 0) + (grades.s2 || 0) + (grades.s3 || 0) + (grades.s4 || 0)) / 4;
       const ebeOk = f.ebe ? avgGrade >= f.ebe : true;
@@ -251,7 +262,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
   }, [processed]);
 
   const passCount = processed.filter((f) => f.passed && f.ebeOk).length;
-  const bestPass = processed.filter((f) => f.passed && f.ebeOk).sort((a, b) => b.base2025 - a.base2025)[0];
+  const bestPass = processed.filter((f) => f.passed && f.ebeOk).sort((a, b) => b.basePrev - a.basePrev)[0];
   const closestSuccess = processed.filter((f) => f.passed && f.ebeOk).sort((a, b) => a.diff - b.diff)[0];
 
   const filtered = useMemo(() => {
@@ -266,7 +277,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
     }
     if (showOnlyPass) list = list.filter((f) => f.passed && f.ebeOk);
     if (cityFilter !== "all") list = list.filter((f) => f.city === cityFilter);
-    return list.sort((a, b) => b.base2025 - a.base2025);
+    return list.sort((a, b) => b.basePrev - a.basePrev);
   }, [processed, searchQuery, showOnlyPass, cityFilter]);
 
   const resetAll = () => {
@@ -292,7 +303,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
         <tr class="${fac.passed && fac.ebeOk ? "row-pass" : "row-fail"}">
           <td>${fac.name}</td>
           <td>${fac.institution}</td>
-          <td class="num">${fac.base2025.toLocaleString("el-GR")}</td>
+          <td class="num">${fac.basePrev.toLocaleString("el-GR")}</td>
           <td class="num bold ${fac.passed ? "green" : "red"}">${fac.personalPoints.toLocaleString("el-GR")}</td>
           <td class="num diff">${diffStr}</td>
           <td>${status}</td>
@@ -385,7 +396,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
     </div>
     <div class="header-badge">
       <div class="badge-title">Αποτελέσματα — Επιτυχόντες</div>
-      <div class="badge-sub">Υπολογιστής Μορίων 2025</div>
+      <div class="badge-sub">Υπολογιστής Μορίων ${prevYear}</div>
     </div>
   </div>
   <div class="black-bar"></div>
@@ -487,7 +498,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
                 <p className="font-extrabold text-gray-600 mb-6 text-lg border-l-[4px] border-brand-orange pl-4">2. Καταχώρησε τους βαθμούς σου.</p>
                 <p className="font-extrabold text-gray-600 text-lg border-l-[4px] border-brand-orange pl-4">3. Σύγκρινε με τις βάσεις εισαγωγής με τους σωστούς συντελεστές ανά σχολή!</p>
                 <div className="mt-8 bg-emerald-500 text-white p-4 border-[3px] border-gray-900 font-black uppercase text-sm flex items-center justify-center gap-3 w-fit mx-auto lg:w-full">
-                  <CheckCircle2 size={20} /> Βάσεις 2025 — 669 Σχολές
+                  <CheckCircle2 size={20} /> Βάσεις {prevYear} — 669 Σχολές
                 </div>
               </div>
               <div className="w-full lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -681,7 +692,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
                             <span className="bg-black text-white px-4 py-2 mt-2 inline-block border-[4px] border-gray-900">ΠΕΡΝΑΩ;</span>
                           </h2>
                           <p className="text-gray-900 font-bold text-lg bg-white border-[4px] border-gray-900 p-4 shadow-[6px_6px_0px_rgba(0,0,0,1)] max-w-xl">
-                            Υπολογισμός με <strong>πραγματικούς συντελεστές βαρύτητας</strong> ανά σχολή. Βάσεις εισαγωγής <strong>2025</strong> — 669 σχολές.
+                            Υπολογισμός με <strong>πραγματικούς συντελεστές βαρύτητας</strong> ανά σχολή. Βάσεις εισαγωγής <strong>{prevYear}</strong> — 669 σχολές.
                           </p>
                         </div>
                         <div className="flex-shrink-0">
@@ -723,7 +734,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
               <div className="bg-gray-900 border-b-[6px] border-gray-900 p-6 md:p-8 flex flex-col lg:flex-row justify-between items-center gap-4 shrink-0">
                 <div>
                   <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase mb-2">
-                    ΒΑΣΗ ΣΧΟΛΩΝ <span className="text-black bg-brand-orange px-2 inline-block border-[3px] border-black">2025</span>
+                    ΒΑΣΗ ΣΧΟΛΩΝ <span className="text-black bg-brand-orange px-2 inline-block border-[3px] border-black">{prevYear}</span>
                   </h2>
                   <p className="text-white font-black text-xs uppercase tracking-widest bg-brand-teal inline-block px-3 py-1.5 border-[3px] border-black">
                     {filtered.length} από {processed.length} σχολές • {currentField?.name}
@@ -848,10 +859,10 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
                                 </span>
                               </div>
 
-                              {/* Base 2025 */}
+                              {/* Base Prev */}
                               <div className="flex-1 flex flex-col justify-center p-4 lg:p-5 bg-white relative group/info">
-                                <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-1 font-black uppercase tracking-widest mb-2 w-fit border-[2px] border-gray-200">ΒΑΣΗ 2025</span>
-                                <span className="text-2xl lg:text-3xl font-black text-gray-900">{faculty.base2025.toLocaleString("el-GR")}</span>
+                                <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-1 font-black uppercase tracking-widest mb-2 w-fit border-[2px] border-gray-200">ΒΑΣΗ {prevYear}</span>
+                                <span className="text-2xl lg:text-3xl font-black text-gray-900">{faculty.basePrev.toLocaleString("el-GR")}</span>
 
                                 {/* Coefficients tooltip */}
                                 <button className="mt-2 bg-white border-[2px] border-gray-900 text-[10px] font-black uppercase py-1 px-2 hover:bg-brand-orange text-gray-900 transition-colors flex items-center gap-1 shadow-[2px_2px_0px_rgba(0,0,0,1)] w-fit">

@@ -21,25 +21,34 @@ const ALL_POSTS_QUERY = `*[_type == "post"] | order(publishedAt desc) {
   "excerpt": array::join(string::split(pt::text(body), "")[0..200], "")
 }`;
 
+// ─────────────────────────────────────────────
+//  DYNAMIC YEAR LOGIC
+// ─────────────────────────────────────────────
+const now = new Date();
+const currentYear = now.getFullYear(); // 2026
+const nextYear = currentYear + 1; // 2027
+const academicYear = `${currentYear}-${nextYear}`; // 2026-2027
+const prevYear = currentYear - 1; // 2025
+
 // Fallback posts for empty CMS
 const FALLBACK_POSTS = [
   {
     _id: 'p1',
-    title: 'Εγγραφές 2025-2026: Ξεκίνησε η Νέα Σχολική Χρονιά',
-    slug: { current: 'egrafes-2025-2026' },
-    publishedAt: '2026-09-01T08:00:00Z',
+    title: `Εγγραφές ${academicYear}: Ξεκίνησε η Νέα Σχολική Χρονιά`,
+    slug: { current: `egrafes-${academicYear}` },
+    publishedAt: `${currentYear}-09-01T08:00:00Z`,
     category: 'general',
     imageUrl: null,
-    excerpt: 'Με μεγάλη χαρά ανακοινώνουμε ότι ξεκίνησαν οι εγγραφές για τη νέα σχολική χρονιά 2025-2026. Επισκεφτείτε μας στο φροντιστήριο ή επικοινωνήστε μαζί μας για να εξασφαλίσετε θέση στα τμήματά μας.'
+    excerpt: `Με μεγάλη χαρά ανακοινώνουμε ότι ξεκίνησαν οι εγγραφές για τη νέα σχολική χρονιά ${academicYear}. Επισκεφτείτε μας στο φροντιστήριο ή επικοινωνήστε μαζί μας για να εξασφαλίσετε θέση στα τμήματά μας.`
   },
   {
     _id: 'p2',
-    title: 'Αποτελέσματα Πανελληνίων 2025: Ρεκόρ Εισαγωγών Μαθητών μας',
-    slug: { current: 'apotelesmata-panellinion-2025' },
-    publishedAt: '2026-07-15T10:00:00Z',
+    title: `Αποτελέσματα Πανελληνίων ${prevYear}: Ρεκόρ Εισαγωγών Μαθητών μας`,
+    slug: { current: `apotelesmata-panellinion-${prevYear}` },
+    publishedAt: `${currentYear}-07-15T10:00:00Z`,
     category: 'students',
     imageUrl: null,
-    excerpt: 'Με υπερηφάνεια ανακοινώνουμε ότι οι μαθητές μας σημείωσαν εξαιρετικές επιδόσεις στις Πανελλαδικές Εξετάσεις 2025. Σχεδόν το 94% εισήχθη στην πρώτη επιλογή του!'
+    excerpt: `Με υπερηφάνεια ανακοινώνουμε ότι οι μαθητές μας σημείωσαν εξαιρετικές επιδόσεις στις Πανελλαδικές Εξετάσεις ${prevYear}. Σχεδόν το 94% εισήχθη στην πρώτη επιλογή του!`
   },
   {
     _id: 'p3',
@@ -570,7 +579,7 @@ export default async function NewsPage() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-10">
             <div>
-              <div className="text-white/80 font-black text-xs uppercase tracking-[0.3em] mb-3">Σχολική Χρονιά 2025-2026</div>
+              <div className="text-white/80 font-black text-xs uppercase tracking-[0.3em] mb-3">Σχολική Χρονιά {academicYear}</div>
               <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-tight">
                 ΞΕΚΙΝΑ ΤΗΝ<br />
                 ΠΡΟΕΤΟΙΜΑΣΙΑ ΣΟΥ

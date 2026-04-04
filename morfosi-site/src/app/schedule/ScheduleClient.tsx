@@ -4,6 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { CalendarDays, Clock, User2, DoorOpen, Users2, ChevronRight, BookOpen } from "lucide-react";
 
+// ─────────────────────────────────────────────
+//  DYNAMIC YEAR LOGIC
+// ─────────────────────────────────────────────
+const now = new Date();
+const currentYear = now.getFullYear(); // 2026
+const nextYear = currentYear + 1; // 2027
+const academicYearShort = `${currentYear}–${nextYear.toString().slice(-2)}`; // 2026–27
+
 // ─── Types ─────────────────────────────────────────────────────────────────────
 type LessonSlot = {
   day: string;
@@ -296,7 +304,7 @@ export default function ScheduleClient({
             <div>
               <div className="inline-flex items-center gap-2 bg-brand-orange text-white text-xs font-black uppercase tracking-widest px-3 py-1.5 mb-4">
                 <CalendarDays size={12} />
-                ΣΧΟΛΙΚΗ ΧΡΟΝΙΑ 2025–26
+                ΣΧΟΛΙΚΗ ΧΡΟΝΙΑ {academicYearShort}
               </div>
               <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter uppercase leading-none">
                 ΠΡΟΓΡΑΜΜΑ<br />

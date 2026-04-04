@@ -30,6 +30,15 @@ import {
 } from "lucide-react";
 
 // ─────────────────────────────────────────────
+//  DYNAMIC YEAR LOGIC
+// ─────────────────────────────────────────────
+const now = new Date();
+const currentYear = now.getFullYear(); // 2026
+const prevYear = currentYear - 1; // 2025
+const foundingYear = 2005;
+const yearsOfExp = currentYear - foundingYear;
+
+// ─────────────────────────────────────────────
 //  STATIC DATA — Replace with Sanity when ready
 // ─────────────────────────────────────────────
 
@@ -86,11 +95,19 @@ const TIMELINE_ITEMS = [
   },
   {
     year: "2024",
-    title: "Νέα Κεφάλαια",
-    desc: "Πάνω από 1.200 συνολικές επιτυχίες. Πλήρης ανακαίνιση εγκαταστάσεων. Νέα ακαδημαϊκή ομάδα.",
+    title: "Ανακαίνιση & Εξέλιξη",
+    desc: "Πλήρης ανακαίνιση εγκαταστάσεων και προσθήκη νέων διαδραστικών μέσων διδασκαλίας.",
     color: "bg-brand-teal-dark",
     accent: "border-brand-teal-dark",
     textAccent: "text-brand-teal-dark",
+  },
+  {
+    year: "2025",
+    title: "Ρεκόρ Επιτυχιών",
+    desc: "Μια από τις πιο επιτυχημένες χρονιές μας με πάνω από 50 μαθητές στις πρώτες τους επιλογές.",
+    color: "bg-brand-orange",
+    accent: "border-brand-orange",
+    textAccent: "text-brand-orange",
   },
 ];
 
@@ -120,13 +137,13 @@ const VALUES = [
     icon: Shield,
     num: "04",
     title: "Αξιοπιστία",
-    desc: "20 χρόνια συνέπειας και αποτελεσμάτων. Οι γονείς μας εμπιστεύονται γιατί τηρούμε πάντα αυτά που υπόσχουμε.",
+    desc: `${yearsOfExp} χρόνια συνέπειας και αποτελεσμάτων. Οι γονείς μας εμπιστεύονται γιατί τηρούμε πάντα αυτά που υπόσχουμε.`,
     color: "bg-brand-purple",
   },
 ];
 
 const STATS = [
-  { num: "20+", label: "Χρόνια Εμπειρίας", icon: Calendar, color: "text-brand-teal" },
+  { num: `${yearsOfExp}+`, label: "Χρόνια Εμπειρίας", icon: Calendar, color: "text-brand-teal" },
   { num: "1.200+", label: "Επιτυχίες Πανελληνίων", icon: Award, color: "text-brand-orange" },
   { num: "15+", label: "Εξειδικευμένοι Καθηγητές", icon: GraduationCap, color: "text-brand-green" },
   { num: "98%", label: "Ικανοποίηση Μαθητών", icon: Star, color: "text-brand-purple" },
@@ -164,7 +181,7 @@ const FACILITIES = [
 const TESTIMONIALS = [
   {
     name: "Ελένη Παπαδοπούλου",
-    year: "2024",
+    year: `${prevYear}`,
     school: "Ιατρική Αθηνών",
     text: "Το Φροντιστήριο Μόρφωση με βοήθησε να μπω στην Ιατρική με 19.540 μόρια. Οι καθηγητές είναι εξαιρετικοί και το κλίμα είναι μοναδικό!",
     grade: "19.540",
@@ -173,7 +190,7 @@ const TESTIMONIALS = [
   },
   {
     name: "Νίκος Κωνσταντίνου",
-    year: "2023",
+    year: `${prevYear - 1}`,
     school: "Πολυτεχνείο ΕΜΠ",
     text: "Φοβερή προετοιμασία στα Μαθηματικά και τη Φυσική. Χωρίς το Μόρφωση δεν θα είχα πετύχει τον στόχο μου για το Πολυτεχνείο.",
     grade: "18.870",
@@ -182,7 +199,7 @@ const TESTIMONIALS = [
   },
   {
     name: "Μαρία Αντωνίου",
-    year: "2024",
+    year: `${prevYear}`,
     school: "Νομική ΕΚΠΑ",
     text: "Η ατμόσφαιρα στο φροντιστήριο είναι ανταγωνιστική αλλά και συνεργατική. Μάθαμε μαζί και πετύχαμε μαζί!",
     grade: "18.340",
@@ -342,7 +359,7 @@ export default function AboutPage() {
               </h1>
 
               <p className="text-gray-300 font-bold text-xl md:text-2xl max-w-2xl leading-relaxed border-l-[6px] border-brand-teal pl-6">
-                Από το 2005, εκατοντάδες μαθητές μπήκαν στη σχολή που ονειρεύονταν.
+                Από το {foundingYear}, εκατοντάδες μαθητές μπήκαν στη σχολή που ονειρεύονταν.
                 Αυτό δεν είναι τύχη — είναι αποτέλεσμα δουλειάς, εμπιστοσύνης και πάθους.
               </p>
             </div>
@@ -374,9 +391,9 @@ export default function AboutPage() {
       <div className="bg-brand-orange border-y-[6px] border-black overflow-hidden py-4">
         <div className="flex gap-16 animate-billboard whitespace-nowrap">
           {[
-            "20 ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ", "1200+ ΕΠΙΤΥΧΙΕΣ", "ΜΙΚΡΑ ΤΜΗΜΑΤΑ",
+            `${yearsOfExp} ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ`, "1200+ ΕΠΙΤΥΧΙΕΣ", "ΜΙΚΡΑ ΤΜΗΜΑΤΑ",
             "ΕΞΑΤΟΜΙΚΕΥΜΕΝΗ ΠΡΟΣΟΧΗ", "ΚΟΡΥΦΑΙΟΙ ΚΑΘΗΓΗΤΕΣ", "ΑΘΗΝΑ",
-            "20 ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ", "1200+ ΕΠΙΤΥΧΙΕΣ", "ΜΙΚΡΑ ΤΜΗΜΑΤΑ",
+            `${yearsOfExp} ΧΡΟΝΙΑ ΕΜΠΕΙΡΙΑΣ`, "1200+ ΕΠΙΤΥΧΙΕΣ", "ΜΙΚΡΑ ΤΜΗΜΑΤΑ",
           ].map((s, i) => (
             <span key={i} className="font-black text-white uppercase tracking-widest text-sm flex items-center gap-6">
               {s} <span className="text-black/30">◆</span>
@@ -496,7 +513,7 @@ export default function AboutPage() {
               <span>Το Χρονικό μας</span>
             </div>
             <h2 className="text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter">
-              20 ΧΡΟΝΙΑ<br />
+              {yearsOfExp} ΧΡΟΝΙΑ<br />
               <span className="text-brand-teal">ΙΣΤΟΡΙΑΣ</span>
             </h2>
           </div>
