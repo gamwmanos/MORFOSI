@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight, Award, BookOpen, Calculator, BarChart3, TrendingUp,
   TrendingDown, CheckCircle2, RotateCcw, Search, MapPin, Building2,
-  X, Info, HelpCircle, AlertTriangle, Loader2, Minus
+  X, Info, HelpCircle, AlertTriangle, Loader2, Download
 } from "lucide-react";
 
 // --- Types ---
@@ -257,13 +257,225 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
     }
     if (showOnlyPass) list = list.filter((f) => f.passed && f.ebeOk);
     if (cityFilter !== "all") list = list.filter((f) => f.city === cityFilter);
-    return list.sort((a, b) => b.diff - a.diff);
+    return list.sort((a, b) => b.base2025 - a.base2025);
   }, [processed, searchQuery, showOnlyPass, cityFilter]);
 
   const resetAll = () => {
     setStep(1); setField(null); setGrades({}); setGradeInputs({});
     setSpecials({}); setSpecialInputs({}); setActiveSpecials({});
     setSearchQuery(""); setShowOnlyPass(false); setCityFilter("all");
+  };
+
+  const generatePDF = async () => {
+    const { jsPDF } = await import("jspdf");
+    const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+
+    const W = 210; // page width mm
+    const orange = [249, 115, 22] as [number, number, number];
+    const teal = [12, 130, 162] as [number, number, number];
+    const black = [0, 0, 0] as [number, number, number];
+    const white = [255, 255, 255] as [number, number, number];
+    const gray = [100, 100, 100] as [number, number, number];
+
+    // ── HEADER BLOCK ──
+    doc.setFillColor(...orange);
+    doc.rect(0, 0, W, 36, "F");
+    doc.setFillColor(...black);
+    doc.rect(0, 36, W, 4, "F");
+
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(28);
+    doc.text("ΜΟΡΦΩΣΗ", 14, 20);
+
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    doc.text("ΦΡΟΝΤΙΣΤΗΡΙΟ  |  210 506 3610  |  morfosi.edu.gr", 14, 28);
+
+    doc.setFillColor(...white);
+    doc.roundedRect(W - 70, 6, 56, 22, 2, 2, "F");
+    doc.setTextColor(...black);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(8);
+    doc.text("ΑΠΟΤΕΛΕΣΜΑΤΑ", W - 62, 14);
+    doc.setFontSize(10);
+    doc.text("ΥΠΟΛΟΓΙΣΤΗ ΜΟΡΙΩΝ", W - 66, 21);
+
+    // ── STUDENT INFO BLOCK ──
+    let y = 50;
+    doc.setFillColor(240, 240, 240);
+    doc.rect(10, y, W - 20, 38, "F");
+    doc.setDrawColor(...black);
+    doc.setLineWidth(0.7);
+    doc.rect(10, y, W - 20, 38);
+
+    // Left stripe
+    doc.setFillColor(...teal);
+    doc.rect(10, y, 4, 38, "F");
+
+    doc.setTextColor(...black);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.text("ΕΠΙΣΤΗΜΟΝΙΚΟ ΠΕΔΙΟ:", 20, y + 10);
+    doc.setFont("helvetica", "normal");
+    doc.text(currentField?.name || "", 80, y + 10);
+
+    // Grades in two columns
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.text("ΒΑΘΜΟΛΟΓΙΕΣ:", 20, y + 20);
+
+    const subjects = currentField?.subjects || [];
+    subjects.forEach((sub, i) => {
+      const col = i < 2 ? 0 : 1;
+      const row = i % 2;
+      const bx = 20 + col * 90;
+      const by = y + 27 + row * 7;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(...gray);
+      doc.text(sub.name.slice(0, 20) + ":", bx, by);
+      doc.setTextColor(...black);
+      doc.setFont("helvetica", "bold");
+      doc.text((grades[sub.id] || 0).toFixed(1), bx + 52, by);
+    });
+
+    // Total points
+    doc.setFillColor(...orange);
+    doc.rect(W - 58, y + 2, 46, 34, "F");
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(8);
+    doc.text("ΣΥΝΟΛΟ ΜΟΡΙΩΝ", W - 55, y + 12);
+    doc.setFontSize(20);
+    doc.text(avgPoints.toLocaleString("el-GR"), W - 55, y + 26);
+    doc.setFontSize(8);
+    doc.text(`${passCount} σχολές ΕΠΙΤΥΧΙΑ`, W - 55, y + 34);
+
+    y += 48;
+
+    // ── TABLE HEADER ──
+    doc.setFillColor(...black);
+    doc.rect(10, y, W - 20, 8, "F");
+    doc.setTextColor(...white);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(7);
+    doc.text("ΣΧΟΛΗ", 14, y + 5.5);
+    doc.text("ΙΔΡΥΜΑ", 95, y + 5.5);
+    doc.text("ΒΑΣΗ 2025", 132, y + 5.5);
+    doc.text("ΤΑ ΜΟΡΙΑ ΣΟΥ", 158, y + 5.5);
+    doc.text("ΑΠΟΤΕΛΕΣΜΑ", 183, y + 5.5);
+    y += 8;
+
+    // ── TABLE ROWS ──
+    const rowH = 7;
+    let pageNum = 1;
+    const maxY = 280;
+
+    filtered.forEach((fac, idx) => {
+      if (y + rowH > maxY) {
+        // Footer on current page
+        doc.setFontSize(7);
+        doc.setTextColor(...gray);
+        doc.text(`Σελίδα ${pageNum} | morfosi.edu.gr | 210 506 3610`, W / 2, 290, { align: "center" });
+        doc.addPage();
+        pageNum++;
+        y = 15;
+        // Repeat header
+        doc.setFillColor(...black);
+        doc.rect(10, y, W - 20, 8, "F");
+        doc.setTextColor(...white);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(7);
+        doc.text("ΣΧΟΛΗ", 14, y + 5.5);
+        doc.text("ΙΔΡΥΜΑ", 95, y + 5.5);
+        doc.text("ΒΑΣΗ 2025", 132, y + 5.5);
+        doc.text("ΤΑ ΜΟΡΙΑ ΣΟΥ", 158, y + 5.5);
+        doc.text("ΑΠΟΤΕΛΕΣΜΑ", 183, y + 5.5);
+        y += 8;
+      }
+
+      // Row BG
+      if (fac.passed && fac.ebeOk) {
+        doc.setFillColor(220, 252, 231); // light green
+      } else if (idx % 2 === 0) {
+        doc.setFillColor(250, 250, 250);
+      } else {
+        doc.setFillColor(255, 255, 255);
+      }
+      doc.rect(10, y, W - 20, rowH, "F");
+      doc.setDrawColor(220, 220, 220);
+      doc.setLineWidth(0.2);
+      doc.line(10, y + rowH, W - 10, y + rowH);
+
+      // Text
+      doc.setTextColor(...black);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(6.5);
+      const nameStr = fac.name.length > 32 ? fac.name.slice(0, 32) + "…" : fac.name;
+      doc.text(nameStr, 14, y + 4.8);
+      doc.text(fac.institution, 95, y + 4.8);
+      doc.text(fac.base2025.toLocaleString("el-GR"), 135, y + 4.8);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(fac.passed ? 21 : 185, fac.passed ? 128 : 28, fac.passed ? 61 : 26);
+      doc.text(fac.personalPoints.toLocaleString("el-GR"), 162, y + 4.8);
+
+      // Status badge
+      if (fac.passed && fac.ebeOk) {
+        doc.setFillColor(21, 128, 61);
+        doc.roundedRect(181, y + 1, 20, 5, 1, 1, "F");
+        doc.setTextColor(...white);
+        doc.setFontSize(5.5);
+        doc.text("ΠΕΡΝΑΩ ✓", 184, y + 4.5);
+      } else {
+        doc.setFillColor(185, 28, 28);
+        doc.roundedRect(181, y + 1, 20, 5, 1, 1, "F");
+        doc.setTextColor(...white);
+        doc.setFontSize(5.5);
+        doc.text("ΔΕΝ ΠΕΡΝΩ", 183, y + 4.5);
+      }
+
+      y += rowH;
+    });
+
+    // ── FOOTER ──
+    doc.setFontSize(7);
+    doc.setTextColor(...gray);
+    doc.text(`Σελίδα ${pageNum} | morfosi.edu.gr | 210 506 3610`, W / 2, 290, { align: "center" });
+
+    // ── LAST PAGE CTA ──
+    doc.addPage();
+    doc.setFillColor(...orange);
+    doc.rect(0, 0, W, 297, "F");
+    doc.setFillColor(...black);
+    doc.rect(0, 0, W, 6, "F");
+    doc.rect(0, 291, W, 6, "F");
+
+    doc.setTextColor(...black);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(42);
+    doc.text("ΜΟΡΦΩΣΗ", W / 2, 80, { align: "center" });
+
+    doc.setFontSize(14);
+    doc.text("ΘΕΛΕΙΣ ΝΑ ΒΕΛΤΙΩΣΕΙΣ ΤΑ ΜΟΡΙΑ ΣΟΥ;", W / 2, 105, { align: "center" });
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.text("Μίλα με τον σύμβουλο σπουδών μας.", W / 2, 120, { align: "center" });
+    doc.text("Σχεδιάζουμε μαζί σου στρατηγική βελτίωσης.", W / 2, 130, { align: "center" });
+
+    doc.setFillColor(...black);
+    doc.roundedRect(55, 150, 100, 20, 3, 3, "F");
+    doc.setTextColor(...orange);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text("210 506 3610", W / 2, 163, { align: "center" });
+
+    doc.setTextColor(...black);
+    doc.setFontSize(10);
+    doc.text("morfosi.edu.gr | Δωρεάν δοκιμαστικό μάθημα", W / 2, 195, { align: "center" });
+
+    doc.save(`ΜΟΡΦΩΣΗ_Μόρια_${currentField?.name.replace(/[^α-ωΑ-Ωa-z0-9]/gi, "_")}.pdf`);
   };
 
   return (
@@ -534,10 +746,19 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
                     {filtered.length} από {processed.length} σχολές • {currentField?.name}
                   </p>
                 </div>
-                <button onClick={() => setStep(4)} className="bg-brand-orange text-gray-900 border-[3px] border-gray-900 px-4 py-3 font-black uppercase text-sm shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:bg-yellow-400 flex items-center gap-2">
-                  <X size={20} strokeWidth={4} /> ΠΙΣΩ
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={generatePDF}
+                    className="bg-emerald-400 text-gray-900 border-[3px] border-gray-900 px-5 py-3 font-black uppercase text-sm shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:bg-emerald-300 flex items-center gap-2 transition-all hover:-translate-y-1"
+                  >
+                    <Download size={20} strokeWidth={4} /> ΚΑΤΕΒΑΣΕ PDF
+                  </button>
+                  <button onClick={() => setStep(4)} className="bg-brand-orange text-gray-900 border-[3px] border-gray-900 px-4 py-3 font-black uppercase text-sm shadow-[4px_4px_0px_rgba(255,255,255,1)] hover:bg-yellow-400 flex items-center gap-2">
+                    <X size={20} strokeWidth={4} /> ΠΙΣΩ
+                  </button>
+                </div>
               </div>
+
 
               {/* Filters */}
               <div className="p-4 md:p-6 border-b-[4px] border-gray-900 bg-brand-teal flex flex-col xl:flex-row gap-4 shrink-0">
