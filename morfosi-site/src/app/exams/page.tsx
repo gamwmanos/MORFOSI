@@ -1,6 +1,4 @@
 import { client } from "@/sanity/client";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import ExamsHub from "@/components/exams/ExamsHub";
 
 // Server Component GROQ Query
@@ -26,14 +24,10 @@ export default async function ExamsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans text-gray-900 selection:bg-brand-teal selection:text-white">
-      <Header />
-      
       <main className="flex-1 flex flex-col">
         {/* The Client Component where all the heavy lifting and UI interaction happens */}
         <ExamsHub initialExams={exams} />
       </main>
-
-      <Footer />
     </div>
   );
 }

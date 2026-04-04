@@ -1,6 +1,4 @@
 import { client } from "@/sanity/client";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import EnrollmentForm from "@/components/EnrollmentForm";
 import {
@@ -81,7 +79,6 @@ export default async function ContactPage() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-teal selection:text-white overflow-x-hidden">
-      <Header />
 
       {/* ═══════════════════════════════════════════════════════════
           HERO — Dark brutalist header
@@ -618,7 +615,6 @@ export default async function ContactPage() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }

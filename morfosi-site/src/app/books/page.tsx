@@ -1,6 +1,4 @@
 import { client } from "@/sanity/client";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Link from "next/link";
 import { BookOpen, Download, ExternalLink, Search, Filter, ArrowRight, Star, Layers, BookMarked, Sparkles } from "lucide-react";
 
@@ -79,7 +77,6 @@ export default async function BooksPage() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-orange selection:text-white overflow-x-hidden">
-      <Header />
 
       {/* ═══════════════════════════════════════════════════════════
           HERO SECTION
@@ -437,7 +434,6 @@ export default async function BooksPage() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }

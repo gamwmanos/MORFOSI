@@ -1,5 +1,4 @@
 import { client } from "@/sanity/client";
-import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import System from "@/components/System";
 import Stats from "@/components/Stats";
@@ -63,8 +62,6 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-teal selection:text-white">
-      <Header />
-      
       <main>
         {/* 1st Scroll: Split-Screen White Hero */}
         <Hero />

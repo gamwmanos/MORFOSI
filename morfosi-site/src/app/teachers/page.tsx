@@ -1,6 +1,4 @@
 import { client } from "@/sanity/client";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { GraduationCap, Users, Star, Award, BookOpen, ChevronRight, Sparkles } from "lucide-react";
 
 export const metadata = {
@@ -109,7 +107,6 @@ export default async function TeachersPage() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-teal selection:text-white overflow-x-hidden">
-      <Header />
 
       {/* ═══════════════════════════════════════════════════════════
           HERO SECTION — Full-bleed brutalist dark hero
@@ -486,7 +483,6 @@ export default async function TeachersPage() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }

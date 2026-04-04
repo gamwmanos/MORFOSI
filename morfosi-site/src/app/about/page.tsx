@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Link from "next/link";
 import {
   GraduationCap,
@@ -289,7 +287,6 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-teal selection:text-white overflow-x-hidden">
-      <Header />
 
       {/* ═══════════════════════════════════════════════════════════
           1. HERO SECTION
@@ -913,7 +910,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }

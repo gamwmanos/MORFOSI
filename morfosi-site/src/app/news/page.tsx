@@ -1,6 +1,4 @@
 import { client } from "@/sanity/client";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Link from "next/link";
 import NewsletterForm from "@/components/NewsletterForm";
 import {
@@ -155,7 +153,6 @@ export default async function NewsPage() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-teal selection:text-white overflow-x-hidden">
-      <Header />
 
       {/* ═══════════════════════════════════════════════════════════
           HERO SECTION
@@ -598,7 +595,6 @@ export default async function NewsPage() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }
