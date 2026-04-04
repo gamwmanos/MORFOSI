@@ -37,6 +37,7 @@ const currentYear = now.getFullYear(); // 2026
 const prevYear = currentYear - 1; // 2025
 const foundingYear = 2005;
 const yearsOfExp = currentYear - foundingYear;
+const academicYearShort = `${currentYear}-${(currentYear + 1).toString().slice(-2)}`;
 
 // ─────────────────────────────────────────────
 //  STATIC DATA — Replace with Sanity when ready
@@ -104,7 +105,7 @@ const TIMELINE_ITEMS = [
   {
     year: "2025",
     title: "Ρεκόρ Επιτυχιών",
-    desc: "Μια από τις πιο επιτυχημένες χρονιές μας με πάνω από 50 μαθητές στις πρώτες τους επιλογές.",
+    desc: "Μια από τις πιο επιτυχημένες χρονιές μας με πάνω από 30 μαθητές στις πρώτες τους επιλογές.",
     color: "bg-brand-orange",
     accent: "border-brand-orange",
     textAccent: "text-brand-orange",
@@ -145,22 +146,22 @@ const VALUES = [
 const STATS = [
   { num: `${yearsOfExp}+`, label: "Χρόνια Εμπειρίας", icon: Calendar, color: "text-brand-teal" },
   { num: "1.200+", label: "Επιτυχίες Πανελληνίων", icon: Award, color: "text-brand-orange" },
-  { num: "15+", label: "Εξειδικευμένοι Καθηγητές", icon: GraduationCap, color: "text-brand-green" },
+  { num: "10+", label: "Εξειδικευμένοι Καθηγητές", icon: GraduationCap, color: "text-brand-green" },
   { num: "98%", label: "Ικανοποίηση Μαθητών", icon: Star, color: "text-brand-purple" },
-  { num: "300+", label: "Ενεργοί Μαθητές", icon: Users, color: "text-brand-red" },
-  { num: "40+", label: "Εκδόσεις Βιβλίων", icon: BookOpen, color: "text-brand-teal-dark" },
+  { num: "200+", label: "Ενεργοί Μαθητές", icon: Users, color: "text-brand-red" },
+  { num: "15+", label: "Εκδόσεις Βιβλίων", icon: BookOpen, color: "text-brand-teal-dark" },
 ];
 
 const FACILITIES = [
   {
     title: "Αίθουσες Διδασκαλίας",
-    desc: "8 σύγχρονες αίθουσες εξοπλισμένες με smart boards, κλιματισμό και άρτιο ακουστικό περιβάλλον.",
+    desc: "6 σύγχρονες αίθουσες εξοπλισμένες με smart boards, κλιματισμό και άρτιο ακουστικό περιβάλλον.",
     icon: Building2,
     color: "bg-brand-teal",
   },
   {
     title: "Βιβλιοθήκη & Μελετητήριο",
-    desc: "Πλούσια βιβλιοθήκη με εκπαιδευτικό υλικό, ήσυχο μελετητήριο ανοιχτό καθημερινά από τις 9:00.",
+    desc: "Πλούσια βιβλιοθήκη με εκπαιδευτικό υλικό, ήσυχο μελετητήριο ανοιχτό καθημερινά τις ώρες λειτουργίας του φροντιστηρίου.",
     icon: BookOpen,
     color: "bg-brand-orange",
   },
@@ -209,7 +210,7 @@ const TESTIMONIALS = [
 ];
 
 const TEAM_ROLES = [
-  { role: "Διευθυντής", name: "Γιώργος Μόρφης", desc: "Ιδρυτής & Ακαδημαϊκός Διευθυντής, 20 χρόνια στην εκπαίδευση", color: "bg-brand-teal" },
+  { role: "Διευθυντής", name: "Βασίλης Βέλμαχος", desc: "Ιδρυτής & Ακαδημαϊκός Διευθυντής, 20 χρόνια στην εκπαίδευση", color: "bg-brand-teal" },
   { role: "Γραμματεία", name: "Άννα Κυριακίδου", desc: "Υπεύθυνη Εγγραφών & Εξυπηρέτησης. Πάντα εδώ για κάθε ερώτηση.", color: "bg-brand-orange" },
   { role: "Ακαδημαϊκός Σύμβουλος", name: "Δρ. Κώστας Νικολάου", desc: "Καθοδηγεί μαθητές στην επιλογή κατεύθυνσης και σχολής.", color: "bg-brand-green" },
 ];
@@ -447,7 +448,7 @@ export default function AboutPage() {
                   &quot;Κάθε παιδί έχει τα μέσα να πετύχει. Εμείς τα βοηθάμε να τα ανακαλύψουν.&quot;
                 </p>
                 <div className="mt-8 border-t border-white/10 pt-6">
-                  <div className="font-black text-brand-teal text-sm uppercase tracking-widest">Γιώργος Μόρφης</div>
+                  <div className="font-black text-brand-teal text-sm uppercase tracking-widest">Βασίλης Βέλμαχος</div>
                   <div className="text-gray-400 text-xs font-bold uppercase tracking-wide mt-1">Ιδρυτής & Διευθυντής</div>
                 </div>
               </div>
@@ -760,8 +761,8 @@ export default function AboutPage() {
             </div>
             <h2 className="text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter">
               ΟΙ ΑΝΘΡΩΠΟΙ<br />
-              <span className="text-brand-teal">ΠΙΣω ΑΠΟ</span><br />
-              ΤΟ ΜΟΡΦΩΣΗ
+              <span className="text-brand-teal">ΠΙΣΩ ΑΠΟ</span><br />
+              ΤΗ ΜΟΡΦΩΣΗ
             </h2>
           </div>
 
@@ -830,10 +831,10 @@ export default function AboutPage() {
               {
                 icon: Mail,
                 label: "Email",
-                val: "info@morfosi.edu.gr",
+                val: "morfosifront@gmail.com",
                 sub: "[Ενημερώσιμο από Sanity → siteSettings.contactEmail]",
                 color: "bg-brand-green",
-                href: "mailto:info@morfosi.edu.gr",
+                href: "mailto:morfosifront@gmail.com",
               },
             ].map((c, i) => {
               const Icon = c.icon;
@@ -892,7 +893,7 @@ export default function AboutPage() {
           </h2>
 
           <p className="text-gray-300 font-bold text-xl max-w-2xl mx-auto mb-14 leading-relaxed">
-            Οι εγγραφές για το 2025-26 είναι ανοιχτές. Κλείστε τη θέση σας σήμερα και κάντε το πρώτο βήμα
+            Οι εγγραφές για το {academicYearShort} είναι ανοιχτές. Κλείστε τη θέση σας σήμερα και κάντε το πρώτο βήμα
             προς τη σχολή που ονειρεύεστε.
           </p>
 
