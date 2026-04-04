@@ -58,15 +58,15 @@ export default async function Footer() {
                <Link href="/teachers" className="hover:text-brand-orange transition-colors w-fit flex items-center gap-2 group">
                  <div className="w-1 h-1 bg-brand-orange opacity-0 group-hover:opacity-100 transition-opacity" /> Οι Καθηγητές μας
                </Link>
-               <a href="#" className="hover:text-brand-orange transition-colors w-fit flex items-center gap-2 group">
+               <Link href="/schedule" className="hover:text-brand-orange transition-colors w-fit flex items-center gap-2 group">
                  <div className="w-1 h-1 bg-brand-orange opacity-0 group-hover:opacity-100 transition-opacity" /> Προγράμματα Σπουδών
-               </a>
-               <a href="#" className="hover:text-brand-orange transition-colors w-fit flex items-center gap-2 group">
+               </Link>
+               <Link href="/#testimonials" className="hover:text-brand-orange transition-colors w-fit flex items-center gap-2 group">
                  <div className="w-1 h-1 bg-brand-orange opacity-0 group-hover:opacity-100 transition-opacity" /> Ιστορίες Επιτυχίας
-               </a>
-               <a href="#" className="hover:text-brand-orange transition-colors w-fit flex items-center gap-2 group">
+               </Link>
+               <Link href="/news" className="hover:text-brand-orange transition-colors w-fit flex items-center gap-2 group">
                  <div className="w-1 h-1 bg-brand-orange opacity-0 group-hover:opacity-100 transition-opacity" /> Νέα & Ανακοινώσεις
-               </a>
+               </Link>
             </div>
           </div>
 
@@ -105,9 +105,9 @@ export default async function Footer() {
             </div>
             
             <div className="mt-auto pt-8">
-               <div className="bg-brand-red text-white py-2 px-4 inline-block font-black text-xs tracking-widest uppercase hover:bg-white hover:text-brand-red transition-colors cursor-pointer">
+               <Link href="/contact" className="bg-brand-red text-white py-2 px-4 inline-block font-black text-xs tracking-widest uppercase hover:bg-white hover:text-brand-red transition-colors cursor-pointer">
                   Online Εγγραφες
-               </div>
+               </Link>
             </div>
           </div>
 
@@ -117,8 +117,8 @@ export default async function Footer() {
         <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-gray-600 uppercase tracking-widest">
            <p>© {new Date().getFullYear()} Εκπαιδευτικός Οργανισμός Μόρφωση.</p>
            <div className="flex gap-6">
-              <a href="#" className="hover:text-brand-teal transition-colors">Οροι Χρησης</a>
-              <a href="#" className="hover:text-brand-teal transition-colors">Πολιτικη Απορρητου</a>
+              <Link href="/terms" className="hover:text-brand-teal transition-colors">Οροι Χρησης</Link>
+              <Link href="/privacy" className="hover:text-brand-teal transition-colors">Πολιτικη Απορρητου</Link>
            </div>
         </div>
       </div>

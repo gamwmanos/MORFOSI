@@ -145,7 +145,7 @@ export default function Testimonials({ testimonials = [] }: { testimonials?: Tes
 
                   <div className="relative mb-8 flex-1">
                     <Quote className="absolute -top-6 -left-6 h-12 w-12 text-brand-teal opacity-20 rotate-180" />
-                    <p className="relative z-10 text-xl md:text-2xl font-bold leading-relaxed text-gray-900 tracking-tight">"{testimonial.quote}"</p>
+                    <p className="relative z-10 text-xl md:text-2xl font-bold leading-relaxed text-gray-900 tracking-tight">&quot;{testimonial.quote}&quot;</p>
                   </div>
 
                   {/* Hard Separator */}

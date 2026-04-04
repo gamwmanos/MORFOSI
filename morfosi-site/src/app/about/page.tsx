@@ -207,7 +207,7 @@ function useCountUp(target: string, duration = 2000, inView = false) {
     if (!inView) return;
     const numericTarget = parseFloat(target.replace(/[^0-9.]/g, ""));
     if (isNaN(numericTarget)) {
-      setCount(target);
+      setTimeout(() => setCount(target), 0);
       return;
     }
     const suffix = target.replace(/[0-9.]/g, "");
@@ -427,7 +427,7 @@ export default function AboutPage() {
               <div className="bg-[#031516] text-white p-10 border-[4px] border-gray-900 shadow-[12px_12px_0px_#000]">
                 <Quote size={40} className="text-brand-teal mb-6 opacity-60" />
                 <p className="font-black text-2xl leading-snug tracking-tight text-white">
-                  "Κάθε παιδί έχει τα μέσα να πετύχει. Εμείς τα βοηθάμε να τα ανακαλύψουν."
+                  &quot;Κάθε παιδί έχει τα μέσα να πετύχει. Εμείς τα βοηθάμε να τα ανακαλύψουν.&quot;
                 </p>
                 <div className="mt-8 border-t border-white/10 pt-6">
                   <div className="font-black text-brand-teal text-sm uppercase tracking-widest">Γιώργος Μόρφης</div>
@@ -644,7 +644,7 @@ export default function AboutPage() {
               </div>
               <div className="text-white font-black text-xl uppercase tracking-widest mb-2">Φωτογραφίες Χώρου</div>
               <div className="text-gray-400 font-bold text-sm">
-                [Προσθέστε φωτογραφίες από το Sanity CMS → Τύπος: "facilityPhoto"]
+                [Προσθέστε φωτογραφίες από το Sanity CMS → Τύπος: &quot;facilityPhoto&quot;]
               </div>
             </div>
           </div>
@@ -769,7 +769,7 @@ export default function AboutPage() {
                 </p>
                 {/* Sanity note */}
                 <div className="mt-6 text-[10px] font-black uppercase tracking-widest text-gray-300 group-hover:text-gray-600 transition-colors">
-                  [Ενημερώσιμο από Sanity → τύπος: "teamMember"]
+                  [Ενημερώσιμο από Sanity → τύπος: &quot;teamMember&quot;]
                 </div>
               </div>
             ))}

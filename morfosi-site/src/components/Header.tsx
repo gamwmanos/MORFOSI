@@ -222,6 +222,7 @@ const NAV_ITEMS: NavItem[] = [
         icon: <Star size={20} strokeWidth={2.5} />,
       },
     ],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     featured: null as any,
   },
   {
@@ -385,7 +386,7 @@ function MobileMenu({
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
-      setExpandedId(null);
+      setTimeout(() => setExpandedId(null), 0);
     }
     return () => {
       document.body.style.overflow = "";
@@ -668,84 +669,86 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
               : "bg-white shadow-[0_6px_0_0_rgba(12,130,162,1)] py-0"
             }`}
         >
-          <div className="max-w-screen-2xl mx-auto px-4 md:px-8 xl:px-12 flex items-center justify-between">
+          <div className="w-full px-4 md:px-6 xl:px-8 flex items-center justify-between">
 
-            {/* Logo */}
-            <Link
-              href="/"
-              className="flex-shrink-0 relative z-10"
-            >
-              <Image
-                src="/morfosi.jpg"
-                alt="Μόρφωση Φροντιστήριο"
-                width={300}
-                height={80}
-                priority
-                className={`object-contain w-auto transition-all duration-300 ${scrolled ? "h-12 md:h-14" : "h-16 md:h-20"
-                  }`}
-              />
-            </Link>
+            {/* LEFT GROUP: Logo + Nav */}
+            <div className="flex items-center">
+              {/* Logo */}
+              <Link
+                href="/"
+                className="flex-shrink-0 relative z-10 mr-4"
+              >
+                <Image
+                  src="/morfosi.jpg"
+                  alt="Μόρφωση Φροντιστήριο"
+                  width={300}
+                  height={80}
+                  priority
+                  className={`object-contain w-auto transition-all duration-300 ${scrolled ? "h-12 md:h-14" : "h-16 md:h-20"
+                    }`}
+                />
+              </Link>
 
-            {/* Desktop Nav */}
-            <nav
-              className="hidden xl:flex items-center gap-1 mx-4 flex-1 justify-center"
-              onMouseLeave={handleMouseLeave}
-            >
-              {dynamicNavItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="relative"
-                  onMouseEnter={() => handleMouseEnter(item.id)}
-                >
-                  {item.href && !item.children ? (
-                    <Link
-                      href={item.href}
-                      className="flex items-center gap-1.5 px-4 py-5 font-black text-[13px] uppercase tracking-widest text-gray-800 hover:text-brand-teal transition-colors relative group"
-                    >
-                      {item.label}
-                      <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
-                    </Link>
-                  ) : (
-                    <button
-                      onClick={() =>
-                        setOpenMenu(openMenu === item.id ? null : item.id)
-                      }
-                      className={`flex items-center gap-1.5 px-4 py-5 font-black text-[13px] uppercase tracking-widest transition-colors relative group cursor-pointer ${openMenu === item.id
-                          ? "text-brand-teal"
-                          : "text-gray-800 hover:text-brand-teal"
-                        }`}
-                      aria-expanded={openMenu === item.id}
-                      aria-haspopup="true"
-                    >
-                      {item.label}
-                      <ChevronDown
-                        size={14}
-                        strokeWidth={2.5}
-                        className={`transition-transform duration-200 ${openMenu === item.id ? "rotate-180 text-brand-orange" : ""
+              {/* Desktop Nav */}
+              <nav
+                className="hidden xl:flex items-center gap-4"
+                onMouseLeave={handleMouseLeave}
+              >
+                {dynamicNavItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="relative"
+                    onMouseEnter={() => handleMouseEnter(item.id)}
+                  >
+                    {item.href && !item.children ? (
+                      <Link
+                        href={item.href}
+                        className="flex items-center gap-1.5 px-3 py-5 font-black text-[13px] uppercase tracking-widest text-gray-800 hover:text-brand-teal transition-colors relative group"
+                      >
+                        {item.label}
+                        <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
+                      </Link>
+                    ) : (
+                      <button
+                        onClick={() =>
+                          setOpenMenu(openMenu === item.id ? null : item.id)
+                        }
+                        className={`flex items-center gap-1.5 px-3 py-5 font-black text-[13px] uppercase tracking-widest transition-colors relative group cursor-pointer ${openMenu === item.id
+                            ? "text-brand-teal"
+                            : "text-gray-800 hover:text-brand-teal"
                           }`}
-                      />
-                      <span
-                        className={`absolute bottom-0 left-0 right-0 h-[3px] bg-brand-orange transition-transform duration-200 origin-center ${openMenu === item.id ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                          }`}
-                      />
-                    </button>
-                  )}
+                        aria-expanded={openMenu === item.id}
+                        aria-haspopup="true"
+                      >
+                        {item.label}
+                        <ChevronDown
+                          size={14}
+                          strokeWidth={2.5}
+                          className={`transition-transform duration-200 ${openMenu === item.id ? "rotate-180 text-brand-orange" : ""
+                            }`}
+                        />
+                        <span
+                          className={`absolute bottom-0 left-0 right-0 h-[3px] bg-brand-orange transition-transform duration-200 origin-center ${openMenu === item.id ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                            }`}
+                        />
+                      </button>
+                    )}
 
-                  {/* Dropdown */}
-                  {item.children && (
-                    <DropdownPanel item={item} isOpen={openMenu === item.id} contactPhone={contactPhone} />
-                  )}
-                </div>
-              ))}
-            </nav>
+                    {/* Dropdown */}
+                    {item.children && (
+                      <DropdownPanel item={item} isOpen={openMenu === item.id} contactPhone={contactPhone} />
+                    )}
+                  </div>
+                ))}
+              </nav>
+            </div>
 
-            {/* Right Side */}
-            <div className="flex items-center gap-3 flex-shrink-0">
+            {/* RIGHT GROUP: Phone + Buttons */}
+            <div className="flex items-center gap-8 flex-shrink-0">
               {/* Phone number - desktop */}
               <a
                 href={`tel:${contactPhone.replace(/\s+/g, "")}`}
-                className={`hidden lg:flex flex-col items-end transition-all duration-300 mr-2 ${scrolled ? "opacity-100" : "opacity-100"
-                  }`}
+                className="hidden lg:flex flex-col items-end"
               >
                 <span className="text-[10px] font-black tracking-[0.15em] text-brand-orange uppercase">
                   Επικοινωνία

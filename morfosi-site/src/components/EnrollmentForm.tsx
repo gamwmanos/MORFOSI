@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { UserPlus, CheckCircle, Loader2, ChevronDown, ChevronUp } from "lucide-react";
+import Link from "next/link";
 
 type EnrollStep = 1 | 2 | 3;
 type FormState = "idle" | "sending" | "success";
@@ -409,9 +410,9 @@ export default function EnrollmentForm() {
             </div>
             <span className="font-bold text-sm text-gray-700 leading-relaxed">
               Συμφωνώ με τους{" "}
-              <a href="#" className="text-brand-teal underline font-black">Όρους Χρήσης</a>{" "}
+              <Link href="/terms" target="_blank" rel="noopener noreferrer" className="text-brand-teal underline font-black">Όρους Χρήσης</Link>{" "}
               και την{" "}
-              <a href="#" className="text-brand-teal underline font-black">Πολιτική Απορρήτου</a>{" "}
+              <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="text-brand-teal underline font-black">Πολιτική Απορρήτου</Link>{" "}
               του Φροντιστηρίου Μόρφωση. <span className="text-brand-red">*</span>
             </span>
           </label>

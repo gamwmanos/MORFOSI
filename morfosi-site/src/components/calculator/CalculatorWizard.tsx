@@ -164,13 +164,22 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
 
   useEffect(() => {
     if (!field) return;
-    setLoading(true);
-    setLoadError(false);
-    setFaculties([]);
-    fetch(`/data/bases-2025-field-${field}.json`)
-      .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
-      .then((data: Faculty[]) => { setFaculties(data); setLoading(false); })
-      .catch(() => { setLoadError(true); setLoading(false); });
+    const load = async () => {
+      setLoading(true);
+      setLoadError(false);
+      setFaculties([]);
+      try {
+        const r = await fetch(`/data/bases-2025-field-${field}.json`);
+        if (!r.ok) throw new Error();
+        const data = await r.json();
+        setFaculties(data);
+      } catch {
+        setLoadError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, [field]);
 
   const handleFieldSelect = (id: FieldId) => {
@@ -550,7 +559,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
                   ΕΙΔΙΚΑ <span className="text-brand-orange bg-black px-3 mt-2 inline-block">ΜΑΘΗΜΑΤΑ</span>
                 </h2>
                 <p className="text-gray-600 font-extrabold mb-12 text-xl max-w-2xl border-[4px] border-gray-900 p-6 bg-yellow-100 shadow-[4px_4px_0px_rgba(0,0,0,1)] transform rotate-1">
-                  Αν διαγωνίζεσαι σε κάποιο ειδικό μάθημα, πάτησε για να εισάγεις τον βαθμό σου. Αλλιώς, πάτα κατευθείαν "Υπολογισμός".
+                  Αν διαγωνίζεσαι σε κάποιο ειδικό μάθημα, πάτησε για να εισάγεις τον βαθμό σου. Αλλιώς, πάτα κατευθείαν &quot;Υπολογισμός&quot;.
                 </p>
                 <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 text-left">
                   {SPECIAL_SUBJECTS.map((sp) => {
