@@ -37,7 +37,7 @@ export default function Programs({ programs = [] }: { programs?: ProgramType[] }
              <p className="text-gray-600 font-medium mb-10 leading-relaxed text-lg">
                Σχεδιασμένα αυστηρά για να καλύπτουν κάθε εκπαιδευτική ανάγκη. Από θεμέλια γνώσης στο Γυμνάσιο, μέχρι την απόλυτη κορύφωση των Πανελλαδικών Εξετάσεων.
              </p>
-             <Link href="/contact" className="bg-brand-teal text-white w-fit px-10 py-5 font-black uppercase tracking-widest text-sm hover:bg-brand-teal-dark transition-colors shadow-lg inline-block">
+             <Link href="/plano" className="bg-brand-teal text-white w-fit px-10 py-5 font-black uppercase tracking-widest text-sm hover:bg-brand-teal-dark transition-colors shadow-lg inline-block">
                ΔΕΣ ΤΟ ΠΛΑΝΟ ΜΑΘΗΜΑΤΩΝ →
              </Link>
           </div>
