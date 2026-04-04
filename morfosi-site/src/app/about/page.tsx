@@ -370,7 +370,7 @@ export default function AboutPage() {
               {[
                 { label: "Ιδρύθηκε", val: "2005", icon: Calendar, color: "bg-brand-teal" },
                 { label: "Τοποθεσία", val: "Αθήνα", icon: MapPin, color: "bg-brand-orange" },
-                { label: "Καθηγητές", val: "15+", icon: GraduationCap, color: "bg-brand-green" },
+                { label: "Καθηγητές", val: "10+", icon: GraduationCap, color: "bg-brand-green" },
               ].map((item) => {
                 const Icon = item.icon;
                 return (

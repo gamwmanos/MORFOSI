@@ -81,11 +81,17 @@ export default function Hero() {
                   </button>
                </div>
 
-               {/* Standard Link */}
+               {/* Standard Link - Exams */}
                <Link href="/exams" className="flex items-center justify-between bg-white border-4 border-black px-4 shadow-[4px_4px_0px_#000] h-[5.5rem] group hover:bg-brand-teal hover:text-white transition-colors">
-                  <span className="font-black text-gray-900 uppercase tracking-wider text-sm flex items-center gap-3">
-                     <FileText className="text-brand-orange" size={20} /> Θεματα 
-                  </span>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-brand-teal text-white flex items-center justify-center border-2 border-black group-hover:bg-white group-hover:text-brand-teal transition-colors flex-shrink-0">
+                      <FileText size={24} strokeWidth={3} />
+                    </div>
+                    <div className="flex flex-col text-left">
+                      <span className="font-black text-gray-900 uppercase tracking-wider text-sm group-hover:text-white transition-colors">ΘΕΜΑΤΑ ΕΞΕΤΑΣΕΩΝ</span>
+                      <span className="text-[10px] font-bold text-gray-400 group-hover:text-white/80 transition-colors uppercase tracking-widest leading-none mt-1">Πανελλήνιες & Διαγωνισματα ΟΕΦΕ</span>
+                    </div>
+                  </div>
                   <ChevronRight size={20} strokeWidth={3} className="text-black group-hover:translate-x-1 group-hover:text-white transition-transform" />
                </Link>
             </div>

@@ -64,8 +64,8 @@ const STATS = [
   },
   {
     icon: <Users size={20} strokeWidth={3} />,
-    value: 45,
-    suffix: "",
+    value: 10,
+    suffix: "+",
     label: "ΕΚΠΑΙΔΕΥΤΙΚΟΙ",
   },
 ];
