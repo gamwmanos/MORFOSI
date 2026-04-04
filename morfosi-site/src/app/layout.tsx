@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileStickyBar from "@/components/MobileStickyBar";
+import { client } from "@/sanity/client";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,23 +24,28 @@ export const metadata: Metadata = {
 
 
 
-export default function RootLayout({
+import LayoutWrapper from "@/components/LayoutWrapper";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await client.fetch(`*[_type == "siteSettings"][0]{ contactPhone }`);
+  const phone = settings?.contactPhone || "210 506 3610";
   return (
     <html
       lang="el"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col pt-0">
-        <Header />
-        <main className="flex-1">
+        <LayoutWrapper
+          header={<Header contactPhone={phone} />}
+          footer={<Footer />}
+          mobileBar={<MobileStickyBar contactPhone={phone} />}
+        >
           {children}
-        </main>
-        <Footer />
-        <MobileStickyBar />
+        </LayoutWrapper>
         <SpeedInsights />
       </body>
     </html>

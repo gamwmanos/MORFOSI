@@ -1,5 +1,6 @@
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export interface ProgramType {
   _id: string;
@@ -52,7 +53,7 @@ export default function Programs({ programs = [] }: { programs?: ProgramType[] }
                    <div className="mb-8">
                      {/* Αν υπάρχει εικόνα/εικονίδιο από το Sanity τη δείχνουμε, αλλιώς fallback lucide icon */}
                      {prog.iconUrl ? (
-                         <img src={prog.iconUrl} alt={prog.title} className="w-12 h-12 mb-6 object-contain" />
+                         <Image src={prog.iconUrl} alt={prog.title} width={48} height={48} className="w-12 h-12 mb-6 object-contain" />
                      ) : (
                          <BookOpen size={48} className={`${style.colorClass} mb-6`} strokeWidth={2} />
                      )}

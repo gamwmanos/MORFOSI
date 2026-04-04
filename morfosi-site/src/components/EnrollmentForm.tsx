@@ -149,10 +149,11 @@ export default function EnrollmentForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2 md:col-span-2">
-              <label className="font-black text-xs uppercase tracking-widest text-gray-600">
+              <label htmlFor="studentName" className="font-black text-xs uppercase tracking-widest text-gray-600">
                 Ονοματεπώνυμο Μαθητή/τριας <span className="text-brand-red">*</span>
               </label>
               <input
+                id="studentName"
                 type="text" required
                 value={data.studentName}
                 onChange={e => set("studentName", e.target.value)}
@@ -162,10 +163,11 @@ export default function EnrollmentForm() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="font-black text-xs uppercase tracking-widest text-gray-600">
+              <label htmlFor="studentClass" className="font-black text-xs uppercase tracking-widest text-gray-600">
                 Τάξη <span className="text-brand-red">*</span>
               </label>
               <select
+                id="studentClass"
                 required
                 value={data.studentClass}
                 onChange={e => set("studentClass", e.target.value)}
@@ -177,10 +179,11 @@ export default function EnrollmentForm() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="font-black text-xs uppercase tracking-widest text-gray-600">
+              <label htmlFor="dateOfBirth" className="font-black text-xs uppercase tracking-widest text-gray-600">
                 Ημερομηνία Γέννησης
               </label>
               <input
+                id="dateOfBirth"
                 type="date"
                 value={data.dateOfBirth}
                 onChange={e => set("dateOfBirth", e.target.value)}
@@ -189,10 +192,11 @@ export default function EnrollmentForm() {
             </div>
 
             <div className="flex flex-col gap-2 md:col-span-2">
-              <label className="font-black text-xs uppercase tracking-widest text-gray-600">
+              <label htmlFor="school" className="font-black text-xs uppercase tracking-widest text-gray-600">
                 Σχολείο που φοιτά
               </label>
               <input
+                id="school"
                 type="text"
                 value={data.school}
                 onChange={e => set("school", e.target.value)}
@@ -226,10 +230,11 @@ export default function EnrollmentForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2 md:col-span-2">
-              <label className="font-black text-xs uppercase tracking-widest text-gray-600">
+              <label htmlFor="parentName" className="font-black text-xs uppercase tracking-widest text-gray-600">
                 Ονοματεπώνυμο Κηδεμόνα <span className="text-brand-red">*</span>
               </label>
               <input
+                id="parentName"
                 type="text" required
                 value={data.parentName}
                 onChange={e => set("parentName", e.target.value)}
@@ -239,10 +244,11 @@ export default function EnrollmentForm() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="font-black text-xs uppercase tracking-widest text-gray-600">
+              <label htmlFor="parentPhone" className="font-black text-xs uppercase tracking-widest text-gray-600">
                 Τηλέφωνο <span className="text-brand-red">*</span>
               </label>
               <input
+                id="parentPhone"
                 type="tel" required
                 value={data.parentPhone}
                 onChange={e => set("parentPhone", e.target.value)}
@@ -252,10 +258,11 @@ export default function EnrollmentForm() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="font-black text-xs uppercase tracking-widest text-gray-600">
+              <label htmlFor="parentRelation" className="font-black text-xs uppercase tracking-widest text-gray-600">
                 Σχέση με μαθητή
               </label>
               <select
+                id="parentRelation"
                 value={data.parentRelation}
                 onChange={e => set("parentRelation", e.target.value)}
                 className="border-[3px] border-black px-4 py-3 font-bold text-sm focus:outline-none focus:border-brand-orange bg-white appearance-none cursor-pointer"
@@ -267,10 +274,11 @@ export default function EnrollmentForm() {
             </div>
 
             <div className="flex flex-col gap-2 md:col-span-2">
-              <label className="font-black text-xs uppercase tracking-widest text-gray-600">
+              <label htmlFor="parentEmail" className="font-black text-xs uppercase tracking-widest text-gray-600">
                 Email Κηδεμόνα <span className="text-brand-red">*</span>
               </label>
               <input
+                id="parentEmail"
                 type="email" required
                 value={data.parentEmail}
                 onChange={e => set("parentEmail", e.target.value)}
@@ -342,10 +350,11 @@ export default function EnrollmentForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
-              <label className="font-black text-xs uppercase tracking-widest text-gray-600">
+              <label htmlFor="previousGrade" className="font-black text-xs uppercase tracking-widest text-gray-600">
                 Μέσος Όρος Περσινών Βαθμών
               </label>
               <input
+                id="previousGrade"
                 type="number" min="1" max="20" step="0.5"
                 value={data.previousGrade}
                 onChange={e => set("previousGrade", e.target.value)}
@@ -354,10 +363,11 @@ export default function EnrollmentForm() {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label className="font-black text-xs uppercase tracking-widest text-gray-600">
+              <label htmlFor="howFound" className="font-black text-xs uppercase tracking-widest text-gray-600">
                 Πώς μάθατε για εμάς;
               </label>
               <select
+                id="howFound"
                 value={data.howFound}
                 onChange={e => set("howFound", e.target.value)}
                 className="border-[3px] border-black px-4 py-3 font-bold text-sm focus:outline-none focus:border-brand-green bg-white appearance-none cursor-pointer"
@@ -374,10 +384,11 @@ export default function EnrollmentForm() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="font-black text-xs uppercase tracking-widest text-gray-600">
+            <label htmlFor="notes" className="font-black text-xs uppercase tracking-widest text-gray-600">
               Σχόλια / Ιδιαίτερες Ανάγκες
             </label>
             <textarea
+              id="notes"
               rows={3}
               value={data.notes}
               onChange={e => set("notes", e.target.value)}

@@ -6,6 +6,14 @@ const nextConfig: NextConfig = {
     // Fix underlying type errors progressively in development.
     ignoreBuildErrors: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

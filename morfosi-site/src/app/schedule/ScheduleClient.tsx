@@ -240,8 +240,10 @@ function ScheduleCard({ group }: { group: ClassGroup }) {
 // ─── Main Client Component ──────────────────────────────────────────────────────
 export default function ScheduleClient({
   displayClasses,
+  contactPhone = "210 506 3610"
 }: {
   displayClasses: ClassGroup[];
+  contactPhone?: string;
 }) {
   // Determine which tabs are available
   const hasGymnasio = displayClasses.some((c) => GYMNASIO_YEARS.includes(c.schoolYear));
@@ -442,10 +444,10 @@ export default function ScheduleClient({
               ΕΓΓΡΑΨΟΥ ΤΩΡΑ <ChevronRight size={16} />
             </Link>
             <a
-              href="tel:2105063610"
+              href={`tel:${contactPhone.replace(/\s+/g, "")}`}
               className="border-2 border-white text-white px-10 py-4 font-black uppercase tracking-widest text-sm hover:bg-white hover:text-gray-900 transition-colors"
             >
-              210 506 3610
+              {contactPhone}
             </a>
           </div>
         </section>

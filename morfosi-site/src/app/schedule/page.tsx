@@ -134,7 +134,10 @@ export const metadata = {
 
 export default async function SchedulePage() {
   let classes: typeof DEMO_CLASSES = [];
+  let contactPhone = "210 506 3610";
   try {
+    const settings = await client.fetch(`*[_type == "siteSettings"][0]{ contactPhone }`);
+    if (settings?.contactPhone) contactPhone = settings.contactPhone;
     classes = await client.fetch(SCHEDULE_QUERY);
   } catch {
     classes = [];
@@ -142,5 +145,5 @@ export default async function SchedulePage() {
 
   const displayClasses = classes.length > 0 ? classes : DEMO_CLASSES;
 
-  return <ScheduleClient displayClasses={displayClasses} />;
+  return <ScheduleClient displayClasses={displayClasses} contactPhone={contactPhone} />;
 }

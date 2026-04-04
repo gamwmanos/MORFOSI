@@ -14,6 +14,7 @@ import Link from "next/link";
 
 // Server Component GROQ Query - Τραβάει τα πάντα από την Βάση
 const PAGE_DATA_QUERY = `{
+  "settings": *[_type == "siteSettings"][0] { contactPhone },
   "programs": *[_type == "program"] | order(_createdAt asc) {
     _id,
     title,
@@ -58,10 +59,13 @@ export default async function Home() {
     { _id: 'b3', title: 'ΒΙΒΛΙΟ 3', category: 'Πρόσθεσε από το Studio' }
   ];
 
-  const displayPosts = data.posts.length > 0 ? data.posts : [
+  const displayPosts = data.posts?.length > 0 ? data.posts : [
     { _id: 'p1', title: 'Demo Ανακοίνωση 1 (Βάση Άδεια)', publishedAt: '2026-04-01T00:00:00Z' },
     { _id: 'p2', title: 'Demo Ανακοίνωση 2 (Βάση Άδεια)', publishedAt: '2026-11-01T00:00:00Z' }
   ];
+
+  const phone = data.settings?.contactPhone || '2105063610';
+  const phoneClean = phone.replace(/\s+/g, '');
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-teal selection:text-white">
@@ -188,10 +192,10 @@ export default async function Home() {
                   ΚΛΕΙΣΕ ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ
                 </Link>
                 <a
-                  href="tel:2105063610"
+                  href={`tel:${phoneClean}`}
                   className="inline-flex items-center gap-3 bg-white text-brand-teal px-12 py-6 font-black uppercase tracking-widest text-base border-4 border-black shadow-[8px_8px_0px_#031516] hover:shadow-[2px_2px_0px_#031516] hover:translate-x-[6px] hover:translate-y-[6px] transition-all"
                 >
-                  📞 2105063610
+                  📞 {phone}
                 </a>
               </div>
             </div>

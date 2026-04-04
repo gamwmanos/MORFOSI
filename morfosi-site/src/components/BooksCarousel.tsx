@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import Image from "next/image";
 
 export default function BooksCarousel({ books }: { books: any[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -36,10 +37,10 @@ export default function BooksCarousel({ books }: { books: any[] }) {
     <div className="w-full md:w-2/3">
        
        <div className="flex gap-4 items-center justify-start md:justify-end mb-6">
-          <button onClick={prevSlide} className="w-12 h-12 border-2 border-brand-orange text-brand-orange flex items-center justify-center hover:bg-brand-orange hover:text-brand-teal-dark transition-colors">
+          <button aria-label="Προηγούμενο Βιβλίο" onClick={prevSlide} className="w-12 h-12 border-2 border-brand-orange text-brand-orange flex items-center justify-center hover:bg-brand-orange hover:text-brand-teal-dark transition-colors">
             <ChevronLeft size={24} />
           </button>
-          <button onClick={nextSlide} className="w-12 h-12 border-2 border-brand-orange bg-brand-orange text-brand-teal-dark flex items-center justify-center hover:bg-transparent hover:text-brand-orange transition-colors">
+          <button aria-label="Επόμενο Βιβλίο" onClick={nextSlide} className="w-12 h-12 border-2 border-brand-orange bg-brand-orange text-brand-teal-dark flex items-center justify-center hover:bg-transparent hover:text-brand-orange transition-colors">
             <ChevronRight size={24} />
           </button>
        </div>
@@ -49,7 +50,7 @@ export default function BooksCarousel({ books }: { books: any[] }) {
              <div key={`${item._id}-${currentIndex}-${index}`} className="w-full h-full animate-in fade-in zoom-in-95 duration-300">
                <Link href={item.pdfUrl || item.externalUrl || '#'} target="_blank" rel="noopener noreferrer" className="bg-white aspect-[3/4] flex flex-col items-center justify-center p-0 border-b-[12px] border-brand-teal text-center hover:-translate-y-2 transition-transform shadow-xl w-full relative group overflow-hidden">
                   {item.coverUrl ? (
-                     <img src={item.coverUrl} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                     <Image src={item.coverUrl} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
                      <div className="p-6 flex flex-col items-center justify-center w-full h-full">
                         <span className="text-brand-teal-dark font-black text-xl lg:text-2xl mb-2 block leading-snug">{item.title}</span>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { client } from "@/sanity/client";
 import {
   GraduationCap,
   Users,
@@ -276,6 +277,13 @@ function StatCard({ stat, index }: { stat: (typeof STATS)[0]; index: number }) {
 export default function AboutPage() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [historyExpanded, setHistoryExpanded] = useState(false);
+  const [contactPhone, setContactPhone] = useState("210 506 3610");
+
+  useEffect(() => {
+    client.fetch(`*[_type == "siteSettings"][0]{ contactPhone }`).then(data => {
+      if (data?.contactPhone) setContactPhone(data.contactPhone);
+    }).catch(console.error);
+  }, []);
 
   // Auto-rotate testimonials
   useEffect(() => {
@@ -797,10 +805,10 @@ export default function AboutPage() {
               {
                 icon: Phone,
                 label: "Καλέστε μας",
-                val: "210 506 3610",
+                val: contactPhone,
                 sub: "Δευ-Παρ 09:00-21:00 · Σάβ 09:00-14:00",
                 color: "bg-brand-orange",
-                href: "tel:2105063610",
+                href: `tel:${contactPhone.replace(/\s+/g, "")}`,
               },
               {
                 icon: Mail,
@@ -881,12 +889,12 @@ export default function AboutPage() {
               <ArrowRight size={20} strokeWidth={3} />
             </Link>
             <a
-              href="tel:2105063610"
+              href={`tel:${contactPhone.replace(/\s+/g, "")}`}
               id="about-cta-call"
               className="inline-flex items-center justify-center gap-3 bg-transparent text-white px-14 py-6 font-black uppercase tracking-widest text-base border-4 border-white/30 hover:border-white hover:bg-white/10 transition-all hover:-translate-y-2"
             >
               <Phone size={18} strokeWidth={3} />
-              210 506 3610
+              {contactPhone}
             </a>
           </div>
 

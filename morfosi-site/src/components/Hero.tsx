@@ -1,5 +1,6 @@
 import { ChevronRight, Calculator, FileText, GraduationCap, ArrowDown } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Hero() {
   return (
@@ -69,13 +70,13 @@ export default function Hero() {
             <div className="flex flex-col gap-4">
                {/* Search / Select component inside a card */}
                <div className="flex border-4 border-black bg-white shadow-[4px_4px_0px_#000] h-[5.5rem]">
-                  <select className="flex-1 bg-transparent text-gray-900 font-extrabold px-4 appearance-none focus:outline-none text-sm uppercase tracking-wider">
+                  <select aria-label="Επιλογή Εκπαιδευτικής Βαθμίδας" className="flex-1 bg-transparent text-gray-900 font-extrabold px-4 appearance-none focus:outline-none text-sm uppercase tracking-wider">
                     <option>Επιλογη Βαθμιδας</option>
                     <option>Γενικό Λύκειο</option>
                     <option>ΕΠΑΛ</option>
                     <option>Γυμνάσιο</option>
                   </select>
-                  <button className="bg-black text-white w-16 flex items-center justify-center hover:bg-brand-teal transition-colors border-l-4 border-black">
+                  <button aria-label="Μετάβαση στη Βαθμίδα" className="bg-black text-white w-16 flex items-center justify-center hover:bg-brand-teal transition-colors border-l-4 border-black">
                     <ChevronRight size={24} strokeWidth={4} />
                   </button>
                </div>
@@ -102,10 +103,12 @@ export default function Hero() {
          {/* Neo-Brutalist Image Frame */}
          <div className="relative w-full max-w-lg xl:max-w-2xl aspect-[4/5] xl:aspect-square bg-brand-orange border-[6px] border-black shadow-[16px_16px_0px_#000] -rotate-2 hover:rotate-0 transition-transform duration-500 ease-out z-20">
             {/* The Generated Image */}
-            <img 
+            <Image 
                src="/hero_greek.png" 
                alt="Εκπαίδευση με σύγχρονα μέσα" 
-               className="w-full h-full object-cover grayscale-[10%] contrast-[1.05]"
+               fill
+               priority
+               className="object-cover grayscale-[10%] contrast-[1.05]"
             />
             
             {/* Overlay Badge — Enhanced with stats */}

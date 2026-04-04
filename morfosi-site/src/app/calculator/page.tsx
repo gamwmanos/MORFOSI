@@ -3,12 +3,24 @@ import CalculatorWizard from '@/components/calculator/CalculatorWizard';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
+import { client } from '@/sanity/client';
+
 export const metadata: Metadata = {
   title: 'Υπολογισμός Μορίων | Μόρφωση Φροντιστήριο',
   description: 'Υπολογίστε τα μόριά σας με ακρίβεια βάσει των νέων συντελεστών βαρύτητας.',
 };
 
-export default function CalculatorPage() {
+export default async function CalculatorPage() {
+  let contactPhone = "210 506 3610";
+  try {
+    const settings = await client.fetch(`*[_type == "siteSettings"][0]{ contactPhone }`);
+    if (settings?.contactPhone) {
+      contactPhone = settings.contactPhone;
+    }
+  } catch (e) {
+    // fallback to default
+  }
+
   return (
     <main className="min-h-screen bg-gray-50 font-sans">
        {/* Sharp Light Theme Navigation Bar */}
@@ -29,7 +41,7 @@ export default function CalculatorPage() {
           </div>
        </header>
 
-       <CalculatorWizard />
+       <CalculatorWizard contactPhone={contactPhone} />
     </main>
   );
 }

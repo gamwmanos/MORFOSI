@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import {
   ChevronDown,
   Menu,
@@ -225,7 +226,7 @@ const NAV_ITEMS: NavItem[] = [
   },
   {
     id: "morfosi",
-    label: "Η ΜΟΡΦΩΣΗ",
+    label: "ΜΟΡΦΩΣΗ",
     children: [
       {
         href: "/about",
@@ -275,28 +276,28 @@ const NAV_ITEMS: NavItem[] = [
 function DropdownPanel({
   item,
   isOpen,
+  contactPhone,
 }: {
   item: NavItem;
   isOpen: boolean;
+  contactPhone: string;
 }) {
   if (!item.children) return null;
 
   return (
     <div
-      className={`absolute top-full left-1/2 -translate-x-1/2 mt-0 z-[200] transition-all duration-300 ease-out ${
-        isOpen
+      className={`absolute top-full left-1/2 -translate-x-1/2 mt-0 z-[200] transition-all duration-300 ease-out ${isOpen
           ? "opacity-100 translate-y-0 pointer-events-auto"
           : "opacity-0 -translate-y-3 pointer-events-none"
-      }`}
+        }`}
       style={{ minWidth: item.featured ? "700px" : "380px" }}
     >
       {/* Arrow */}
       <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45 border-l border-t border-gray-200 z-10" />
 
       <div
-        className={`relative bg-white border-2 border-gray-900 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex overflow-hidden rounded-none mt-2 ${
-          item.featured ? "flex-row" : "flex-col"
-        }`}
+        className={`relative bg-white border-2 border-gray-900 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex overflow-hidden rounded-none mt-2 ${item.featured ? "flex-row" : "flex-col"
+          }`}
       >
         {/* Links Column */}
         <div className={`flex flex-col p-3 ${item.featured ? "w-[55%]" : "w-full"}`}>
@@ -352,7 +353,7 @@ function DropdownPanel({
               </p>
             </div>
             <Link
-              href={item.featured.href}
+              href={item.featured.href.startsWith("tel:") ? `tel:${contactPhone.replace(/\s+/g, "")}` : item.featured.href}
               className="mt-6 bg-white text-gray-900 px-4 py-3 font-black text-xs uppercase tracking-widest hover:bg-gray-100 transition-colors inline-flex items-center gap-2 w-full justify-center"
             >
               {item.featured.cta}
@@ -371,9 +372,11 @@ function DropdownPanel({
 function MobileMenu({
   isOpen,
   onClose,
+  contactPhone,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  contactPhone: string;
 }) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -393,23 +396,24 @@ function MobileMenu({
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-[300] bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 z-[300] bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
         onClick={onClose}
       />
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-full max-w-sm z-[400] bg-white shadow-2xl transform transition-transform duration-400 ease-out flex flex-col ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-full max-w-sm z-[400] bg-white shadow-2xl transform transition-transform duration-400 ease-out flex flex-col ${isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b-4 border-gray-900 flex-shrink-0">
-          <img
+          <Image
             src="/morfosi.jpg"
             alt="Μόρφωση"
+            width={200}
+            height={48}
+            priority
             className="h-12 w-auto object-contain"
           />
           <button
@@ -439,15 +443,13 @@ function MobileMenu({
                     <ChevronDown
                       size={16}
                       strokeWidth={2.5}
-                      className={`text-gray-500 transition-transform duration-200 ${
-                        expandedId === item.id ? "rotate-180" : ""
-                      }`}
+                      className={`text-gray-500 transition-transform duration-200 ${expandedId === item.id ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
                   <div
-                    className={`overflow-hidden transition-all duration-300 ease-out ${
-                      expandedId === item.id ? "max-h-[500px]" : "max-h-0"
-                    }`}
+                    className={`overflow-hidden transition-all duration-300 ease-out ${expandedId === item.id ? "max-h-[500px]" : "max-h-0"
+                      }`}
                   >
                     <div className="bg-gray-50 px-4 pb-4 pt-1 space-y-1">
                       {item.children.map((child) => (
@@ -481,7 +483,7 @@ function MobileMenu({
                       ))}
                       {item.featured && (
                         <Link
-                          href={item.featured.href}
+                          href={item.featured.href.startsWith("tel:") ? `tel:${contactPhone.replace(/\s+/g, "")}` : item.featured.href}
                           onClick={onClose}
                           className={`flex items-center justify-between px-4 py-3 mt-2 ${item.featured.color} text-white group transition-opacity hover:opacity-90`}
                         >
@@ -511,7 +513,7 @@ function MobileMenu({
         {/* Bottom CTA */}
         <div className="flex-shrink-0 p-6 bg-gray-900 space-y-3">
           <a
-            href="tel:2105063610"
+            href={`tel:${contactPhone.replace(/\s+/g, "")}`}
             className="flex items-center gap-3 text-white hover:text-brand-orange transition-colors group"
           >
             <div className="w-9 h-9 bg-brand-orange flex items-center justify-center flex-shrink-0">
@@ -522,7 +524,7 @@ function MobileMenu({
                 Τηλέφωνο
               </p>
               <p className="font-black text-lg tracking-tighter group-hover:text-brand-orange transition-colors">
-                2105063610
+                {contactPhone}
               </p>
             </div>
           </a>
@@ -543,7 +545,7 @@ function MobileMenu({
 // ─────────────────────────────────────────────
 //  TOP ANNOUNCEMENTS TICKER
 // ─────────────────────────────────────────────
-function AnnouncementBar() {
+function AnnouncementBar({ contactPhone }: { contactPhone: string }) {
   const [visible, setVisible] = useState(true);
 
   if (!visible) return null;
@@ -553,11 +555,11 @@ function AnnouncementBar() {
       <div className="absolute inset-0 flex items-center">
         <div className="flex animate-marquee whitespace-nowrap">
           {[
-            "🎓 Εγγραφές 2025-26 σε εξέλιξη — Κάλεσε στο 210 506 3610",
+            `🎓 Εγγραφές 2025-26 σε εξέλιξη — Κάλεσε στο ${contactPhone}`,
             "📚 Νέα συγγράμματα Πανελληνίων διαθέσιμα στη βιβλιοθήκη",
             "🏆 Πάνω από 200 επιτυχίες στις Πανελλήνιες 2024",
             "⚡ Δωρεάν υπολογιστής μορίων — Υπολόγισε τώρα",
-            "🎓 Εγγραφές 2025-26 σε εξέλιξη — Κάλεσε στο 210 506 3610",
+            `🎓 Εγγραφές 2025-26 σε εξέλιξη — Κάλεσε στο ${contactPhone}`,
             "📚 Νέα συγγράμματα Πανελληνίων διαθέσιμα στη βιβλιοθήκη",
             "🏆 Πάνω από 200 επιτυχίες στις Πανελλήνιες 2024",
             "⚡ Δωρεάν υπολογιστής μορίων — Υπολόγισε τώρα",
@@ -582,7 +584,7 @@ function AnnouncementBar() {
 // ─────────────────────────────────────────────
 //  MAIN HEADER
 // ─────────────────────────────────────────────
-export default function Header() {
+export default function Header({ contactPhone = "210 506 3610" }: { contactPhone?: string }) {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -636,24 +638,35 @@ export default function Header() {
     }, 150);
   };
 
+  const dynamicNavItems = NAV_ITEMS.map((item) => {
+    if (item.id === "morfosi" && item.featured) {
+      return {
+        ...item,
+        featured: {
+          ...item.featured,
+          href: `tel:${contactPhone.replace(/\s+/g, "")}`,
+        },
+      };
+    }
+    return item;
+  });
+
   return (
     <>
       <header
         ref={headerRef}
-        className={`fixed top-0 left-0 right-0 z-[150] transition-transform duration-300 ${
-          hidden ? "-translate-y-full" : "translate-y-0"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-[150] transition-transform duration-300 ${hidden ? "-translate-y-full" : "translate-y-0"
+          }`}
       >
         {/* Announcement Ticker */}
-        <AnnouncementBar />
+        <AnnouncementBar contactPhone={contactPhone} />
 
         {/* Main Navigation Bar */}
         <div
-          className={`relative transition-all duration-300 ${
-            scrolled
+          className={`relative transition-all duration-300 ${scrolled
               ? "bg-white/95 backdrop-blur-md shadow-[0_4px_0_0_rgba(12,130,162,1)] py-2"
               : "bg-white shadow-[0_6px_0_0_rgba(12,130,162,1)] py-0"
-          }`}
+            }`}
         >
           <div className="max-w-screen-2xl mx-auto px-4 md:px-8 xl:px-12 flex items-center justify-between">
 
@@ -662,12 +675,14 @@ export default function Header() {
               href="/"
               className="flex-shrink-0 relative z-10"
             >
-              <img
+              <Image
                 src="/morfosi.jpg"
                 alt="Μόρφωση Φροντιστήριο"
-                className={`object-contain transition-all duration-300 ${
-                  scrolled ? "h-12 md:h-14" : "h-16 md:h-20"
-                }`}
+                width={300}
+                height={80}
+                priority
+                className={`object-contain w-auto transition-all duration-300 ${scrolled ? "h-12 md:h-14" : "h-16 md:h-20"
+                  }`}
               />
             </Link>
 
@@ -676,7 +691,7 @@ export default function Header() {
               className="hidden xl:flex items-center gap-1 mx-4 flex-1 justify-center"
               onMouseLeave={handleMouseLeave}
             >
-              {NAV_ITEMS.map((item) => (
+              {dynamicNavItems.map((item) => (
                 <div
                   key={item.id}
                   className="relative"
@@ -695,11 +710,10 @@ export default function Header() {
                       onClick={() =>
                         setOpenMenu(openMenu === item.id ? null : item.id)
                       }
-                      className={`flex items-center gap-1.5 px-4 py-5 font-black text-[13px] uppercase tracking-widest transition-colors relative group cursor-pointer ${
-                        openMenu === item.id
+                      className={`flex items-center gap-1.5 px-4 py-5 font-black text-[13px] uppercase tracking-widest transition-colors relative group cursor-pointer ${openMenu === item.id
                           ? "text-brand-teal"
                           : "text-gray-800 hover:text-brand-teal"
-                      }`}
+                        }`}
                       aria-expanded={openMenu === item.id}
                       aria-haspopup="true"
                     >
@@ -707,21 +721,19 @@ export default function Header() {
                       <ChevronDown
                         size={14}
                         strokeWidth={2.5}
-                        className={`transition-transform duration-200 ${
-                          openMenu === item.id ? "rotate-180 text-brand-orange" : ""
-                        }`}
+                        className={`transition-transform duration-200 ${openMenu === item.id ? "rotate-180 text-brand-orange" : ""
+                          }`}
                       />
                       <span
-                        className={`absolute bottom-0 left-0 right-0 h-[3px] bg-brand-orange transition-transform duration-200 origin-center ${
-                          openMenu === item.id ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                        }`}
+                        className={`absolute bottom-0 left-0 right-0 h-[3px] bg-brand-orange transition-transform duration-200 origin-center ${openMenu === item.id ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                          }`}
                       />
                     </button>
                   )}
 
                   {/* Dropdown */}
                   {item.children && (
-                    <DropdownPanel item={item} isOpen={openMenu === item.id} />
+                    <DropdownPanel item={item} isOpen={openMenu === item.id} contactPhone={contactPhone} />
                   )}
                 </div>
               ))}
@@ -731,34 +743,31 @@ export default function Header() {
             <div className="flex items-center gap-3 flex-shrink-0">
               {/* Phone number - desktop */}
               <a
-                href="tel:2105063610"
-                className={`hidden lg:flex flex-col items-end transition-all duration-300 mr-2 ${
-                  scrolled ? "opacity-100" : "opacity-100"
-                }`}
+                href={`tel:${contactPhone.replace(/\s+/g, "")}`}
+                className={`hidden lg:flex flex-col items-end transition-all duration-300 mr-2 ${scrolled ? "opacity-100" : "opacity-100"
+                  }`}
               >
                 <span className="text-[10px] font-black tracking-[0.15em] text-brand-orange uppercase">
                   Επικοινωνία
                 </span>
                 <span className="font-black text-gray-900 tracking-tighter hover:text-brand-teal transition-colors text-xl leading-none">
-                  210 506 3610
+                  {contactPhone}
                 </span>
               </a>
 
               {/* Enrollment CTA Buttons */}
               <Link
                 href="/schedule"
-                className={`hidden lg:inline-flex items-center gap-2 border-2 border-gray-900 text-gray-900 font-black uppercase tracking-wider hover:bg-gray-900 hover:text-white transition-all duration-200 active:scale-95 ${
-                  scrolled ? "px-3 py-2 text-xs" : "px-4 py-2.5 text-xs"
-                }`}
+                className={`hidden lg:inline-flex items-center gap-2 border-2 border-gray-900 text-gray-900 font-black uppercase tracking-wider hover:bg-gray-900 hover:text-white transition-all duration-200 active:scale-95 ${scrolled ? "px-3 py-2 text-xs" : "px-4 py-2.5 text-xs"
+                  }`}
               >
                 <CalendarDays size={13} />
                 ΤΜΗΜΑΤΑ
               </Link>
               <Link
                 href="/contact"
-                className={`hidden md:inline-flex items-center gap-2 bg-brand-orange text-white font-black uppercase tracking-wider hover:bg-orange-600 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(245,130,32,0.5)] active:scale-95 relative overflow-hidden group/enroll ${
-                  scrolled ? "px-4 py-2.5 text-xs" : "px-5 py-3 text-xs"
-                }`}
+                className={`hidden md:inline-flex items-center gap-2 bg-brand-orange text-white font-black uppercase tracking-wider hover:bg-orange-600 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(245,130,32,0.5)] active:scale-95 relative overflow-hidden group/enroll ${scrolled ? "px-4 py-2.5 text-xs" : "px-5 py-3 text-xs"
+                  }`}
               >
                 <span className="absolute inset-0 bg-white/10 translate-x-[-110%] group-hover/enroll:translate-x-[110%] transition-transform duration-500 skew-x-12 pointer-events-none" />
                 ΕΓΓΡΑΨΟΥ ΤΩΡΑ
@@ -781,7 +790,7 @@ export default function Header() {
       <div className={`transition-all duration-300 ${scrolled ? "h-[82px]" : "h-[96px]"} md:${scrolled ? "h-[90px]" : "h-[112px]"}`} aria-hidden="true" />
 
       {/* Mobile Menu */}
-      <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} contactPhone={contactPhone} />
     </>
   );
 }

@@ -3,7 +3,7 @@
 import { Phone, UserPlus } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function MobileStickyBar() {
+export default function MobileStickyBar({ contactPhone = "2105063610" }: { contactPhone?: string }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function MobileStickyBar() {
       <div className="flex">
         {/* Phone button */}
         <a
-          href="tel:2105063610"
+          href={`tel:${contactPhone.replace(/\s+/g, "")}`}
           className="flex-1 flex items-center justify-center gap-2 bg-brand-teal text-white py-4 font-black text-sm uppercase tracking-wider border-r-[2px] border-black active:bg-brand-teal-dark transition-colors"
         >
           <Phone size={18} strokeWidth={3} />
