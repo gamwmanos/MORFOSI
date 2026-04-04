@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Stats() {
   return (
     <section className="bg-gradient-to-r from-brand-purple to-[#1a1c3d] py-32 w-full relative">
@@ -48,9 +50,9 @@ export default function Stats() {
         </div>
 
         <div className="mt-28">
-          <button className="bg-brand-orange text-white px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-orange-600 transition-colors shadow-lg">
-            ΜΑΘΕΤΕ ΠΕΡΙΣΣΟΤΕΡΑ {">"}
-          </button>
+          <Link href="/contact" className="bg-brand-orange text-white px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-orange-600 transition-colors shadow-lg inline-block">
+            ΚΛΕΙΣΕ ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ →
+          </Link>
         </div>
       </div>
     </section>

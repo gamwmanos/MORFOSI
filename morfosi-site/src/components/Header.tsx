@@ -522,7 +522,7 @@ function MobileMenu({
                 Τηλέφωνο
               </p>
               <p className="font-black text-lg tracking-tighter group-hover:text-brand-orange transition-colors">
-                21 0506 3610
+                2105063610
               </p>
             </div>
           </a>

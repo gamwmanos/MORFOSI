@@ -1,11 +1,14 @@
 import { client } from "@/sanity/client";
 import Hero from "@/components/Hero";
+import SocialProofBar from "@/components/SocialProofBar";
+import ScrollVideo from "@/components/ScrollVideo";
+import WhyUs from "@/components/WhyUs";
+import HowItWorks from "@/components/HowItWorks";
 import System from "@/components/System";
 import Stats from "@/components/Stats";
 import Programs from "@/components/Programs";
 import PromoStrips from "@/components/PromoStrips";
 import Testimonials from "@/components/Testimonials";
-import ScrollVideo from "@/components/ScrollVideo";
 import BooksCarousel from "@/components/BooksCarousel";
 import Link from "next/link";
 
@@ -63,28 +66,37 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-teal selection:text-white">
       <main>
-        {/* 1st Scroll: Split-Screen White Hero */}
+        {/* 1st: Split-Screen Hero — Clear value proposition + strong CTA */}
         <Hero />
+
+        {/* 2nd: Social Proof Bar — Instant credibility (95%, 6000+, 35 years) */}
+        <SocialProofBar />
         
-        {/* 2nd Scroll: Apple-style Scroll Video Scrubbing (Canvas) */}
+        {/* 3rd: Apple-style Scroll Video Scrubbing */}
         <ScrollVideo />
 
-        {/* 3rd Scroll: System of Success */}
+        {/* 4th: Why Us — Specific, measurable differentiators */}
+        <WhyUs />
+
+        {/* 5th: How It Works — 3 simple steps to reduce friction */}
+        <HowItWorks />
+
+        {/* 6th: System of Success — Philosophy & methodology */}
         <System />
 
-        {/* 3rd Scroll: Massive Stats */}
+        {/* 7th: Massive Stats */}
         <Stats />
 
-        {/* 4th Scroll: Programs Grid (ΣΥΝΔΕΘΗΚΕ ΜΕ CMS) */}
+        {/* 8th: Programs Grid (ΣΥΝΔΕΘΗΚΕ ΜΕ CMS) */}
         <Programs programs={data.programs} />
 
-        {/* 5th Scroll: Promo Strips */}
+        {/* 9th: Promo Strips */}
         <PromoStrips />
 
-        {/* 6th Scroll: Testimonials (ΣΥΝΔΕΘΗΚΕ ΜΕ CMS) */}
+        {/* 10th: Testimonials (ΣΥΝΔΕΘΗΚΕ ΜΕ CMS) */}
         <Testimonials testimonials={data.testimonials} />
 
-        {/* Calculator CTA - The Massive Blockbuster Banner */}
+        {/* 11th: Calculator CTA - The Massive Blockbuster Banner */}
         <section className="w-full bg-gradient-to-br from-gray-900 to-black py-24 md:py-32 relative overflow-hidden group">
            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-orange/20 via-transparent to-transparent opacity-50 z-0"></div>
            <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center relative z-10 flex flex-col items-center">
@@ -95,12 +107,12 @@ export default async function Home() {
                  Το πιο εξελιγμένο σύστημα υπολογισμού μορίων στην Ελλάδα. Δες τι μόρια συγκεντρώνεις και σύγκρινέ τα με τις περσινές βάσεις, ακαριαία.
               </p>
               <Link href="/calculator" className="bg-brand-orange text-white px-12 md:px-16 py-6 border-4 border-transparent hover:border-white rounded-full font-black uppercase tracking-widest text-lg md:text-xl hover:shadow-[0_0_60px_rgba(249,115,22,0.8)] hover:-translate-y-2 transition-all inline-block shadow-2xl">
-                 ΚΑΝΕ ΤΟΝ ΥΠΟΛΟΓΙΣΜΟ
+                 ΥΠΟΛΟΓΙΣΕ ΤΑ ΜΟΡΙΑ ΣΟΥ — ΔΩΡΕΑΝ
               </Link>
            </div>
         </section>
 
-        {/* 7th Scroll: Εκδόσεις (Books) (ΣΥΝΔΕΘΗΚΕ ΜΕ CMS) */}
+        {/* 12th: Εκδόσεις (Books) (ΣΥΝΔΕΘΗΚΕ ΜΕ CMS) */}
         <section className="bg-brand-teal-dark py-24 w-full">
           <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row gap-12 items-center">
             <div className="w-full md:w-1/3 text-white">
@@ -113,7 +125,7 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* 8th Scroll: Νέα & Ανακοινώσεις (ΣΥΝΔΕΘΗΚΕ ΜΕ CMS) */}
+        {/* 13th: Νέα & Ανακοινώσεις (ΣΥΝΔΕΘΗΚΕ ΜΕ CMS) */}
         <section className="bg-white py-32 w-full border-t border-gray-200">
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b-[6px] border-gray-900 pb-4 gap-6">
@@ -143,11 +155,45 @@ export default async function Home() {
                        <p className="text-gray-500 font-bold mb-4 line-clamp-2">
                          {item.category ? `Κατηγορία: ${item.category.toUpperCase()}` : 'Η θερινή προετοιμασία είναι το κλειδί για την επιτυχία...'}
                        </p>
-                       <p className="text-brand-teal font-extrabold text-xs uppercase tracking-widest">ΔΙΑΒΑΣΤΕ ΠΕΡΙΣΣΟΤΕРА</p>
+                       <p className="text-brand-teal font-extrabold text-xs uppercase tracking-widest">ΔΙΑΒΑΣΤΕ ΠΕΡΙΣΣΟΤΕΡΑ</p>
                     </div>
                  </div>
                  );
                })}
+            </div>
+          </div>
+        </section>
+
+        {/* 14th: Final CTA — Last chance to convert */}
+        <section className="bg-brand-teal py-20 md:py-28 border-t-[8px] border-black">
+          <div className="max-w-7xl mx-auto px-6 lg:px-12">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+              <div>
+                <div className="text-white/70 font-black text-xs uppercase tracking-[0.3em] mb-4">
+                  Ξεκινήστε Σήμερα — Χωρίς Υποχρεώσεις
+                </div>
+                <h2 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter leading-tight">
+                  ΔΩΡΕΑΝ<br/>
+                  <span className="text-brand-orange">ΔΟΚΙΜΑΣΤΙΚΟ</span>
+                </h2>
+                <p className="text-white/80 font-bold text-lg mt-4 max-w-xl leading-relaxed">
+                  Ελάτε για ένα δωρεάν μάθημα και δοκιμάστε τη μέθοδό μας. Αν δεν είστε ικανοποιημένοι, δεν χρωστάτε τίποτα.
+                </p>
+              </div>
+              <div className="flex flex-col gap-4 flex-shrink-0">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-3 bg-brand-orange text-white px-12 py-6 font-black uppercase tracking-widest text-base border-4 border-black shadow-[8px_8px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[6px] hover:translate-y-[6px] transition-all"
+                >
+                  ΚΛΕΙΣΕ ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ
+                </Link>
+                <a
+                  href="tel:2105063610"
+                  className="inline-flex items-center gap-3 bg-white text-brand-teal px-12 py-6 font-black uppercase tracking-widest text-base border-4 border-black shadow-[8px_8px_0px_#031516] hover:shadow-[2px_2px_0px_#031516] hover:translate-x-[6px] hover:translate-y-[6px] transition-all"
+                >
+                  📞 2105063610
+                </a>
+              </div>
             </div>
           </div>
         </section>

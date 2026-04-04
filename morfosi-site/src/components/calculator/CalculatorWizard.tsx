@@ -568,6 +568,26 @@ export default function CalculatorWizard() {
                    </div>
                 </div>
 
+                {/* FUNNEL CTA — Convert calculator users into leads */}
+                <div className="w-full bg-[#031516] border-[6px] border-gray-900 p-8 md:p-12 shadow-[12px_12px_0px_rgba(249,115,22,1)] mt-12 flex flex-col md:flex-row items-center gap-8">
+                   <div className="flex-1 text-center md:text-left">
+                     <h3 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter leading-tight mb-4">
+                       ΘΕΛΕΙΣ ΝΑ <span className="text-brand-orange">ΒΕΛΤΙΩΣΕΙΣ</span><br />ΤΟ ΑΠΟΤΕΛΕΣΜΑ;
+                     </h3>
+                     <p className="text-gray-400 font-bold leading-relaxed text-lg max-w-xl">
+                       Μίλα με τον σύμβουλο σπουδών μας. Σχεδιάζουμε μαζί σου στρατηγική βελτίωσης για τη σχολή που θέλεις.
+                     </p>
+                   </div>
+                   <div className="flex flex-col gap-4 flex-shrink-0 w-full md:w-auto">
+                     <a href="/contact" className="bg-brand-orange text-white px-10 py-5 font-black uppercase tracking-widest text-sm border-4 border-black shadow-[6px_6px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[4px] hover:translate-y-[4px] transition-all text-center flex items-center justify-center gap-2">
+                       📞 ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ ΜΑΘΗΜΑ
+                     </a>
+                     <a href="tel:2105063610" className="bg-white text-gray-900 px-10 py-5 font-black uppercase tracking-widest text-sm border-4 border-black shadow-[6px_6px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[4px] hover:translate-y-[4px] transition-all text-center flex items-center justify-center gap-2">
+                       📞 ΜΙΛΑ ΜΕ EXPERT
+                     </a>
+                   </div>
+                </div>
+
              </motion.div>
           )}
 

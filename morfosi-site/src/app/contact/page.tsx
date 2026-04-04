@@ -67,7 +67,7 @@ export default async function ContactPage() {
     settings = await client.fetch(SETTINGS_QUERY);
   } catch (e) { /* fallback */ }
 
-  const phone    = settings?.contactPhone || "21 0506 3610";
+  const phone    = settings?.contactPhone || "2105063610";
   const email    = settings?.contactEmail || "chronakesm@gmail.com";
   const address  = settings?.address      || "25ης Μαρτίου 84, Άγιος Δημήτριος";
   const facebook = settings?.socialMedia?.facebook;

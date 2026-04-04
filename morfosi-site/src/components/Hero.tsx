@@ -1,4 +1,4 @@
-import { ChevronRight, Calculator, FileText, Globe, GraduationCap } from "lucide-react";
+import { ChevronRight, Calculator, FileText, GraduationCap, ArrowDown } from "lucide-react";
 import Link from "next/link";
 
 export default function Hero() {
@@ -16,27 +16,34 @@ export default function Hero() {
       {/* Left Content Area (Text & Links) */}
       <div className="w-full xl:w-[55%] flex flex-col justify-center px-6 lg:px-16 pt-16 xl:py-16 relative z-20">
         
-        {/* Main Headline */}
-        <h1 className="text-white text-[12vw] sm:text-[5.5rem] leading-[0.9] font-black tracking-tighter mb-8 uppercase drop-shadow-[4px_4px_0px_#000]">
-          Το Φροντιστηριο <br/> Που <span className="text-brand-orange bg-black px-2 py-1 transform -rotate-2 inline-block">Στηριζει</span> <br />Τους Στοχους Σου
+        {/* Main Headline — Clear value proposition */}
+        <h1 className="text-white text-[11vw] sm:text-[5rem] lg:text-[5.5rem] leading-[0.9] font-black tracking-tighter mb-6 uppercase drop-shadow-[4px_4px_0px_#000]">
+          Πέρασε Στη <br/> Σχολη Που <br /><span className="text-brand-orange bg-black px-2 py-1 transform -rotate-2 inline-block">Θέλεις</span>
         </h1>
         
-        <div className="mb-12">
-           <span className="text-white text-xl md:text-2xl lg:text-3xl font-black bg-brand-orange border-4 border-black px-6 py-3 shadow-[6px_6px_0px_#000] inline-block tracking-widest uppercase">
-             Ολοκληρωμενη Προετοιμασια
+        {/* Subtitle — Why us in one line */}
+        <div className="mb-10">
+           <span className="text-white text-lg md:text-xl lg:text-2xl font-black bg-brand-orange border-4 border-black px-6 py-3 shadow-[6px_6px_0px_#000] inline-block tracking-wide uppercase leading-snug">
+             95% Επιτυχία — Εξατομικευμένο Πλάνο
            </span>
+           <p className="text-gray-300 font-bold text-base md:text-lg mt-6 max-w-lg leading-relaxed">
+             Προετοιμασία για Πανελλήνιες & Γυμνάσιο με πραγματικά αποτελέσματα, μικρά τμήματα, και εβδομαδιαία αξιολόγηση.
+           </p>
+
+           {/* Primary CTA Buttons */}
            <div className="flex flex-wrap gap-4 mt-8">
-             <Link href="/about" className="bg-white border-4 border-black px-8 py-4 font-black uppercase tracking-widest text-sm hover:bg-brand-teal hover:text-white transition-all shadow-[6px_6px_0px_#000] hover:translate-y-1 hover:shadow-[2px_2px_0px_#000]">
-                Η ΙΣΤΟΡΙΑ ΜΑΣ
+             <Link href="/contact" className="bg-brand-orange border-4 border-black px-8 py-4 font-black uppercase tracking-widest text-sm text-white hover:bg-black transition-all shadow-[6px_6px_0px_#000] hover:translate-y-1 hover:shadow-[2px_2px_0px_#000]">
+                ΚΛΕΙΣΕ ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ
              </Link>
-             <Link href="/contact" className="bg-brand-orange border-4 border-black px-8 py-4 font-black uppercase tracking-widest text-sm hover:bg-black text-white transition-all shadow-[6px_6px_0px_#000] hover:translate-y-1 hover:shadow-[2px_2px_0px_#000]">
-                ΕΠΙΚΟΙΝΩΝΙΑ
-             </Link>
+             <a href="#testimonials" className="bg-white border-4 border-black px-8 py-4 font-black uppercase tracking-widest text-sm hover:bg-brand-teal hover:text-white transition-all shadow-[6px_6px_0px_#000] hover:translate-y-1 hover:shadow-[2px_2px_0px_#000] flex items-center gap-2">
+                ΔΕΣ ΤΟΥΣ ΕΠΙΤΥΧΟΝΤΕΣ
+                <ArrowDown size={16} strokeWidth={3} />
+             </a>
            </div>
         </div>
 
-        {/* Quick Links Dashboard (Replaces bottom list, now layered) */}
-        <div className="mt-8">
+        {/* Quick Links Dashboard */}
+        <div className="mt-4">
           <div className="flex items-center gap-4 mb-6">
              <div className="h-[4px] bg-brand-orange w-12 border-y border-black"></div>
              <h3 className="text-white font-black text-xl tracking-widest uppercase text-shadow-sm">Βρες Γρηγορα</h3>
@@ -45,7 +52,7 @@ export default function Hero() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             
-            {/* The Featured CTA from the user request (Moved here) */}
+            {/* The Featured CTA - Calculator */}
             <Link href="/calculator" className="bg-brand-orange border-4 border-black p-5 shadow-[6px_6px_0px_#000] hover:translate-y-1 hover:shadow-[2px_2px_0px_#000] transition-all group relative overflow-hidden">
                <div className="absolute -right-4 -top-8 opacity-10 rotate-12 group-hover:rotate-45 transition-transform duration-500">
                   <Calculator size={120} />
@@ -101,14 +108,14 @@ export default function Hero() {
                className="w-full h-full object-cover grayscale-[10%] contrast-[1.05]"
             />
             
-            {/* Overlay Badge */}
+            {/* Overlay Badge — Enhanced with stats */}
             <div className="absolute -bottom-6 -left-6 bg-white border-[4px] border-black px-6 py-4 shadow-[8px_8px_0px_#000] transform rotate-3 flex items-center gap-3">
                <div className="bg-brand-teal p-2 border-2 border-black">
                   <GraduationCap className="text-white" size={24} />
                </div>
                <div className="flex flex-col">
-                 <span className="font-black text-black leading-none uppercase text-sm">Επιτυχιες</span>
-                 <span className="font-extrabold text-brand-orange text-xs uppercase tracking-widest">+ 500 Απόφοιτοι</span>
+                 <span className="font-black text-black leading-none uppercase text-sm">95% Επιτυχια</span>
+                 <span className="font-extrabold text-brand-orange text-xs uppercase tracking-widest">6.000+ Απόφοιτοι</span>
                </div>
             </div>
          </div>

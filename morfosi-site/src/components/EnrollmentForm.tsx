@@ -246,7 +246,7 @@ export default function EnrollmentForm() {
                 type="tel" required
                 value={data.parentPhone}
                 onChange={e => set("parentPhone", e.target.value)}
-                placeholder="21 0506 3610"
+                placeholder="2105063610"
                 className="border-[3px] border-black px-4 py-3 font-bold text-sm placeholder:text-gray-300 focus:outline-none focus:border-brand-orange transition-colors"
               />
             </div>
