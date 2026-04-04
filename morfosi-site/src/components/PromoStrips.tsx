@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function PromoStrips() {
   return (
     <>
@@ -5,8 +7,14 @@ export default function PromoStrips() {
         {/* Strip 1: Protypa - Teal Background */}
         <div className="w-full lg:w-1/2 flex flex-col xl:flex-row min-h-[500px]">
            {/* Image half */}
-           <div className="w-full xl:w-1/2 bg-gray-200 relative flex items-center justify-center p-8">
-             <span className="font-black text-3xl text-gray-400 uppercase tracking-widest text-center">PHOTO<br/>PLACEHOLDER</span>
+           <div className="w-full xl:w-1/2 bg-gray-200 relative overflow-hidden group">
+             <Image 
+                src="/front.jpg" 
+                alt="Πρότυπα και Πειραματικά Σχολεία" 
+                fill 
+                className="object-cover group-hover:scale-110 transition-transform duration-700" 
+             />
+             <div className="absolute inset-0 bg-brand-teal/10 group-hover:bg-transparent transition-colors"></div>
            </div>
            {/* Text half */}
            <div className="w-full xl:w-1/2 p-12 bg-brand-teal flex flex-col justify-center relative">
@@ -38,8 +46,14 @@ export default function PromoStrips() {
              </button>
            </div>
            {/* Image half */}
-           <div className="w-full xl:w-1/2 bg-gray-300 relative flex items-center justify-center p-8 order-1 xl:order-2">
-             <span className="font-black text-3xl text-gray-500 uppercase tracking-widest text-center">PHOTO<br/>PLACEHOLDER</span>
+           <div className="w-full xl:w-1/2 bg-gray-300 relative overflow-hidden group order-1 xl:order-2">
+             <Image 
+                src="/front2.jpg" 
+                alt="Επαγγελματικός Προσανατολισμός" 
+                fill 
+                className="object-cover group-hover:scale-110 transition-transform duration-700" 
+             />
+             <div className="absolute inset-0 bg-gray-900/20 group-hover:bg-transparent transition-colors"></div>
            </div>
         </div>
       </section>

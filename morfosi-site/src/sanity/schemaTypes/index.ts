@@ -8,6 +8,8 @@ import { teacherType } from './teacher'
 import { programType } from './program'
 import { siteSettingsType } from './siteSettings'
 import { classScheduleType } from './classSchedule'
+import { facilityPhotoType } from './facilityPhoto'
+import { examMaterialType } from './examMaterial'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -18,5 +20,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     programType,
     siteSettingsType,
     classScheduleType,
+    facilityPhotoType,
+    examMaterialType,
   ],
 }

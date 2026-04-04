@@ -296,11 +296,17 @@ export default function AboutPage() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [historyExpanded, setHistoryExpanded] = useState(false);
   const [contactPhone, setContactPhone] = useState("210 506 3610");
+  const [facilityPhotos, setFacilityPhotos] = useState<Array<{_id: string; title: string; photoUrl: string}>>([]);
+  const [activeFacilityPhoto, setActiveFacilityPhoto] = useState(0);
 
   useEffect(() => {
     client.fetch(`*[_type == "siteSettings"][0]{ contactPhone }`).then(data => {
       if (data?.contactPhone) setContactPhone(data.contactPhone);
     }).catch(console.error);
+
+    client.fetch(`*[_type == "facilityPhoto"] | order(order asc) { _id, title, "photoUrl": photo.asset->url }`)
+      .then(data => { if (data?.length) setFacilityPhotos(data); })
+      .catch(console.error);
   }, []);
 
   // Auto-rotate testimonials
@@ -310,6 +316,15 @@ export default function AboutPage() {
     }, 5000);
     return () => clearInterval(timer);
   }, []);
+
+  // Auto-rotate facility photos
+  useEffect(() => {
+    if (facilityPhotos.length < 2) return;
+    const timer = setInterval(() => {
+      setActiveFacilityPhoto((prev) => (prev + 1) % facilityPhotos.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [facilityPhotos]);
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-teal selection:text-white overflow-x-hidden">
@@ -650,21 +665,52 @@ export default function AboutPage() {
             })}
           </div>
 
-          {/* Photo placeholder banner */}
-          <div className="mt-8 h-64 md:h-96 bg-gray-900 border-[4px] border-gray-900 shadow-[12px_12px_0px_#000] flex items-center justify-center relative overflow-hidden group cursor-pointer">
-            <div
-              className="absolute inset-0 opacity-10"
-              style={{ backgroundImage: "radial-gradient(circle, #0c82a2 1px, transparent 1px)", backgroundSize: "30px 30px" }}
-            />
-            <div className="text-center relative z-10">
-              <div className="w-20 h-20 border-4 border-white/20 flex items-center justify-center mx-auto mb-4 group-hover:border-brand-teal transition-colors">
-                <Play size={32} className="text-white/60 group-hover:text-brand-teal transition-colors" />
+          {/* Facility Photo Banner — fetched from Sanity */}
+          <div className="mt-8 h-64 md:h-96 border-[4px] border-gray-900 shadow-[12px_12px_0px_#000] relative overflow-hidden group">
+            {facilityPhotos.length > 0 ? (
+              <>
+                {facilityPhotos.map((fp, i) => (
+                  <div
+                    key={fp._id}
+                    className={`absolute inset-0 transition-opacity duration-700 ${
+                      i === activeFacilityPhoto ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    <img src={fp.photoUrl} alt={fp.title} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gray-900/30" />
+                    <div className="absolute bottom-4 left-4 bg-gray-900/80 text-white font-black text-sm uppercase tracking-widest px-4 py-2">
+                      {fp.title}
+                    </div>
+                  </div>
+                ))}
+                {facilityPhotos.length > 1 && (
+                  <div className="absolute bottom-4 right-4 flex gap-2 z-10">
+                    {facilityPhotos.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setActiveFacilityPhoto(i)}
+                        className={`w-3 h-3 border-2 border-white transition-all ${
+                          i === activeFacilityPhoto ? "bg-brand-orange" : "bg-transparent"
+                        }`}
+                        aria-label={`Φωτογραφία ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="w-full h-full bg-gray-900 flex items-center justify-center">
+                <div
+                  className="absolute inset-0 opacity-10"
+                  style={{ backgroundImage: "radial-gradient(circle, #0c82a2 1px, transparent 1px)", backgroundSize: "30px 30px" }}
+                />
+                <div className="text-center relative z-10">
+                  <Play size={32} className="text-white/60 mx-auto mb-4" />
+                  <div className="text-white font-black text-xl uppercase tracking-widest mb-2">Φωτογραφίες Χώρου</div>
+                  <div className="text-gray-400 font-bold text-sm">Προσθέστε φωτογραφίες από τον τύπο &quot;Φωτογραφίες Χώρου&quot; στο Sanity Studio</div>
+                </div>
               </div>
-              <div className="text-white font-black text-xl uppercase tracking-widest mb-2">Φωτογραφίες Χώρου</div>
-              <div className="text-gray-400 font-bold text-sm">
-                [Προσθέστε φωτογραφίες από το Sanity CMS → Τύπος: &quot;facilityPhoto&quot;]
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
