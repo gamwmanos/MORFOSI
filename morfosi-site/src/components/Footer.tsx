@@ -51,6 +51,9 @@ export default async function Footer() {
                <Link href="/" className="hover:text-brand-orange transition-colors w-fit flex items-center gap-2 group">
                  <div className="w-1 h-1 bg-brand-orange opacity-0 group-hover:opacity-100 transition-opacity" /> Αρχική
                </Link>
+               <Link href="/about" className="hover:text-brand-orange transition-colors w-fit flex items-center gap-2 group">
+                 <div className="w-1 h-1 bg-brand-orange opacity-0 group-hover:opacity-100 transition-opacity" /> Σχετικά με Εμάς
+               </Link>
                <Link href="/teachers" className="hover:text-brand-orange transition-colors w-fit flex items-center gap-2 group">
                  <div className="w-1 h-1 bg-brand-orange opacity-0 group-hover:opacity-100 transition-opacity" /> Οι Καθηγητές μας
                </Link>

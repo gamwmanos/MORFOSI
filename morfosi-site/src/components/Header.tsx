@@ -224,8 +224,8 @@ const NAV_ITEMS: NavItem[] = [
     featured: null as any,
   },
   {
-    id: "epikoinonia",
-    label: "ΕΠΙΚΟΙΝΩΝΙΑ",
+    id: "morfosi",
+    label: "Η ΜΟΡΦΩΣΗ",
     children: [
       {
         href: "/about",

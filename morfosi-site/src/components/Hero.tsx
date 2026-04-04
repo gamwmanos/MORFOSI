@@ -25,6 +25,14 @@ export default function Hero() {
            <span className="text-white text-xl md:text-2xl lg:text-3xl font-black bg-brand-orange border-4 border-black px-6 py-3 shadow-[6px_6px_0px_#000] inline-block tracking-widest uppercase">
              Ολοκληρωμενη Προετοιμασια
            </span>
+           <div className="flex flex-wrap gap-4 mt-8">
+             <Link href="/about" className="bg-white border-4 border-black px-8 py-4 font-black uppercase tracking-widest text-sm hover:bg-brand-teal hover:text-white transition-all shadow-[6px_6px_0px_#000] hover:translate-y-1 hover:shadow-[2px_2px_0px_#000]">
+                Η ΙΣΤΟΡΙΑ ΜΑΣ
+             </Link>
+             <Link href="/contact" className="bg-brand-orange border-4 border-black px-8 py-4 font-black uppercase tracking-widest text-sm hover:bg-black text-white transition-all shadow-[6px_6px_0px_#000] hover:translate-y-1 hover:shadow-[2px_2px_0px_#000]">
+                ΕΠΙΚΟΙΝΩΝΙΑ
+             </Link>
+           </div>
         </div>
 
         {/* Quick Links Dashboard (Replaces bottom list, now layered) */}
