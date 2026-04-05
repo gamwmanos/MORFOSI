@@ -223,7 +223,7 @@ export default async function ContactPage() {
               </div>
 
               {/* Contact form */}
-              <div id="contact-form" className="mt-12">
+              <div id="contact-form" className="mt-12 scroll-mt-40">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="w-12 h-12 bg-brand-teal border-4 border-black flex items-center justify-center shadow-[4px_4px_0px_#000]">
                     <MessageSquare size={22} className="text-white" strokeWidth={2.5} />
@@ -244,7 +244,7 @@ export default async function ContactPage() {
               </div>
 
               {/* Enrollment form */}
-              <div id="enrollment-form">
+              <div id="enrollment-form" className="scroll-mt-40">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="w-12 h-12 bg-brand-orange border-4 border-black flex items-center justify-center shadow-[4px_4px_0px_#000]">
                     <UserPlus size={22} className="text-white" strokeWidth={2.5} />
@@ -421,7 +421,7 @@ export default async function ContactPage() {
       {/* ═══════════════════════════════════════════════════════════
           MAP SECTION — Google Maps embed
       ═══════════════════════════════════════════════════════════ */}
-      <section className="bg-white border-t-[8px] border-brand-orange">
+      <section id="map" className="bg-white border-t-[8px] border-brand-orange scroll-mt-40">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20">
           <div className="flex flex-col lg:flex-row items-start gap-12">
             {/* Label */}

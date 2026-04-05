@@ -128,11 +128,11 @@ function formatDate(dateStr: string) {
 
 // Accent color cycling for card borders
 const CARD_ACCENTS = [
-  { border: 'border-brand-teal',    num: 'bg-brand-teal',    tag: 'bg-brand-teal/10',    tagText: 'text-brand-teal' },
-  { border: 'border-brand-orange',  num: 'bg-brand-orange',  tag: 'bg-brand-orange/10',  tagText: 'text-brand-orange' },
-  { border: 'border-brand-green',   num: 'bg-brand-green',   tag: 'bg-brand-green/10',   tagText: 'text-brand-green' },
-  { border: 'border-brand-purple',  num: 'bg-brand-purple',  tag: 'bg-brand-purple/10',  tagText: 'text-brand-purple' },
-  { border: 'border-brand-red',     num: 'bg-brand-red',     tag: 'bg-brand-red/10',     tagText: 'text-brand-red' },
+  { border: 'border-brand-teal', num: 'bg-brand-teal', tag: 'bg-brand-teal/10', tagText: 'text-brand-teal' },
+  { border: 'border-brand-orange', num: 'bg-brand-orange', tag: 'bg-brand-orange/10', tagText: 'text-brand-orange' },
+  { border: 'border-brand-green', num: 'bg-brand-green', tag: 'bg-brand-green/10', tagText: 'text-brand-green' },
+  { border: 'border-brand-purple', num: 'bg-brand-purple', tag: 'bg-brand-purple/10', tagText: 'text-brand-purple' },
+  { border: 'border-brand-red', num: 'bg-brand-red', tag: 'bg-brand-red/10', tagText: 'text-brand-red' },
 ];
 
 export default async function NewsPage() {
@@ -196,7 +196,7 @@ export default async function NewsPage() {
 
               <h1 className="text-6xl md:text-8xl lg:text-[100px] font-black text-white uppercase tracking-tighter leading-[0.85] mb-8">
                 ΝΕΑ &<br />
-                <span className="text-brand-orange">ΑΝΑΚΟΙ-</span><br />
+                <span className="text-brand-orange">ΑΝΑΚΟΙ</span>
                 <span className="text-brand-teal">ΝΩΣΕΙΣ</span>
               </h1>
 

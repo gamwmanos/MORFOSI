@@ -1,8 +1,10 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { client } from '@/sanity/client';
+import { Sigma, Pencil, FlaskConical, Globe } from 'lucide-react';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface PlanFeature {
@@ -43,6 +45,22 @@ const PLANS_QUERY = `*[_type == "planPage"] | order(level asc) {
   subjects[] { subjectName, hoursPerWeek, category },
   stats[] { value, label },
   callToAction
+}`;
+
+interface SanityProgram {
+  _id: string;
+  title: string;
+  description: string;
+  slug: string;
+  bodyText?: string;
+}
+
+const PROGRAMS_QUERY = `*[_type == "program"] | order(_createdAt asc) {
+  _id,
+  title,
+  description,
+  "slug": slug.current,
+  "bodyText": pt::text(body)
 }`;
 
 // ─── Static Fallback Data ─────────────────────────────────────────────────────
@@ -157,7 +175,7 @@ const LEVEL_CONFIG = {
     },
   },
   lykeio: {
-    label: 'ΛΥΚΕΙΟ',
+    label: 'ΓΕΛ',
     sub: 'Α΄ — Γ΄ Λυκείου',
     emoji: '🎓',
     color: '#f58220',        // brand-orange
@@ -264,12 +282,14 @@ function HeroSection({ active, plans }: { active: string; plans: PlanData[] }) {
             >
               {plan?.callToAction || 'ΚΛΕΙΣΕ ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ'}
             </Link>
-            <Link
-              href="/calculator"
-              className="px-8 py-4 font-black uppercase tracking-widest text-sm text-black bg-white border-4 border-black shadow-[6px_6px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[4px] hover:translate-y-[4px] transition-all inline-block"
-            >
-              ΥΠΟΛΟΓΙΣΕ ΜΟΡΙΑ
-            </Link>
+            {active !== 'gymnasio' && (
+              <Link
+                href="/calculator"
+                className="px-8 py-4 font-black uppercase tracking-widest text-sm text-black bg-white border-4 border-black shadow-[6px_6px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[4px] hover:translate-y-[4px] transition-all inline-block"
+              >
+                ΥΠΟΛΟΓΙΣΕ ΜΟΡΙΑ
+              </Link>
+            )}
           </div>
         </div>
 
@@ -312,24 +332,39 @@ function TabBar({
     <div className="sticky top-0 z-50 w-full bg-white border-b-4 border-black shadow-lg">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex">
-          {levels.map((level) => {
+          {levels.map((level: 'gymnasio' | 'lykeio' | 'epal') => {
             const cfg = LEVEL_CONFIG[level];
             const isActive = active === level;
             return (
               <button
                 key={level}
                 onClick={() => onChange(level)}
-                className={`flex-1 flex items-center justify-center gap-2 py-5 font-black text-xs sm:text-sm uppercase tracking-widest border-b-[6px] transition-all duration-300 ${
-                  isActive ? 'text-white border-b-0' : 'text-gray-500 border-transparent hover:text-gray-800'
-                }`}
-                style={
-                  isActive
+                className={`flex-1 flex flex-col sm:flex-row items-center justify-center gap-2 py-5 font-black text-xs sm:text-sm uppercase tracking-widest border-b-[6px] transition-all duration-300 relative group ${isActive ? 'text-white border-b-0' : 'text-gray-400 border-transparent hover:text-gray-800'
+                  }`}
+                style={{
+                  ...(isActive
                     ? { background: cfg.color, borderBottomColor: cfg.colorDark }
-                    : { background: 'transparent' }
-                }
+                    : { background: 'transparent' })
+                }}
               >
-                <span className="text-lg">{cfg.emoji}</span>
-                <span>{cfg.label}</span>
+                {/* Hover Highlight Layer */}
+                {!isActive && (
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
+                    style={{ background: cfg.colorLight }}
+                  />
+                )}
+
+                <span className={`text-lg transition-transform duration-300 ${!isActive ? 'group-hover:scale-125 group-hover:-rotate-12' : ''}`}>{cfg.emoji}</span>
+                <span className="relative">
+                  {cfg.label}
+                  {!isActive && (
+                    <span
+                      className="absolute -bottom-1 left-0 w-full h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+                      style={{ background: cfg.color }}
+                    />
+                  )}
+                </span>
               </button>
             );
           })}
@@ -599,32 +634,168 @@ function CTASection({ plan }: { plan: PlanData }) {
   );
 }
 
+function DirectionsSection({ sanityPrograms }: { sanityPrograms: SanityProgram[] }) {
+  const FALLBACK_DIRECTIONS = [
+    {
+      id: "thetikes",
+      title: "Θετικές Σπουδές",
+      desc: "Μαθηματικά, Φυσική, Χημεία, Βιολογία",
+      icon: <Sigma size={32} strokeWidth={2.5} />,
+      color: "bg-brand-teal",
+      textColor: "text-brand-teal",
+      content: "Στις Θετικές Σπουδές στοχεύουμε στην απόλυτη κατανόηση εννοιών και φαινομένων. Το πρόγραμμά μας εστιάζει στην επίλυση σύνθετων προβλημάτων με συνεχή διαγωνίσματα προσομοίωσης, ώστε ο μαθητής να αποκτήσει αυτοπεποίθηση και ταχύτητα στις Πανελλαδικές. Ιδιαίτερη έμφαση δίνεται στην εξατομικευμένη διόρθωση λαθών και την κάλυψη κάθε απορίας."
+    },
+    {
+      id: "anthropistikes",
+      title: "Ανθρωπιστικές Σπουδές",
+      desc: "Έκθεση, Ιστορία, Λογοτεχνία, Λατινικά",
+      icon: <Pencil size={32} strokeWidth={2.5} />,
+      color: "bg-brand-orange",
+      textColor: "text-brand-orange",
+      content: "Οι Ανθρωπιστικές Σπουδές (Θεωρητική Κατεύθυνση) απαιτούν κριτική σκέψη, εύστοχο λόγο και σωστή απομνημόνευση χωρίς «παπαγαλία». Με σύγχρονες μεθόδους διδασκαλίας, μαθαίνουμε στους μαθητές μας να δομούν σωστά τα κείμενά τους, να εμβαθύνουν στα ιστορικά γεγονότα και να κατακτούν εγκαίρως τον απαιτητικό γραπτό λόγο του Λυκείου."
+    },
+    {
+      id: "ygeias",
+      title: "Σπουδές Υγείας",
+      desc: "Βιολογία, Χημεία, Φυσική",
+      icon: <FlaskConical size={32} strokeWidth={2.5} />,
+      color: "bg-brand-green",
+      textColor: "text-brand-green",
+      content: "Η Ιατρική και τα επαγγέλματα υγείας έχουν τον υψηλότερο ανταγωνισμό στις Πανελλαδικές. Γι' αυτό το πρόγραμμά μας περιλαμβάνει εξαντλητική εξάσκηση στη Βιολογία, βαθιά ανάλυση της Χημείας και Φυσικής, και ειδικά ενισχυτικά μαθήματα για τους μαθητές που στοχεύουν στην απόλυτη κορυφή."
+    },
+    {
+      id: "oikonomias",
+      title: "Οικονομίας & Πληροφορικής",
+      desc: "Μαθηματικά, ΑΟΘ, Πληροφορική",
+      icon: <Globe size={32} strokeWidth={2.5} />,
+      color: "bg-brand-purple",
+      textColor: "text-brand-purple",
+      content: "Αυτή η κατεύθυνση είναι η πιο δημοφιλής επιλογή με υψηλές προοπτικές. Οι μαθητές μαθαίνουν στην πράξη να προσεγγίζουν προγραμματιστικά προβλήματα με αλγοριθμική σκέψη (Πληροφορική) και να αναλύουν δείκτες (ΑΟΘ). Προσφέρουμε στοχευμένο υλικό που κάνει τα μαθήματα απόλυτα κατανοητά ακόμα και από αρχάριους."
+    }
+  ];
+
+  const colorMap = [
+    { icon: <Sigma size={32} strokeWidth={2.5} />, color: "bg-brand-teal", textColor: "text-brand-teal" },
+    { icon: <Pencil size={32} strokeWidth={2.5} />, color: "bg-brand-orange", textColor: "text-brand-orange" },
+    { icon: <FlaskConical size={32} strokeWidth={2.5} />, color: "bg-brand-green", textColor: "text-brand-green" },
+    { icon: <Globe size={32} strokeWidth={2.5} />, color: "bg-brand-purple", textColor: "text-brand-purple" },
+  ];
+
+  // If Sanity length > 0, map them. Or fallback to the hardcoded ones.
+  const directions = sanityPrograms && sanityPrograms.length > 0 
+    ? sanityPrograms.map((prog, i) => {
+        const style = colorMap[i % colorMap.length];
+        return {
+          id: prog.slug || prog._id,
+          title: prog.title,
+          desc: prog.description,
+          icon: style.icon,
+          color: style.color,
+          textColor: style.textColor,
+          content: prog.bodyText || "Χωρίς λεπτομέρειες"
+        };
+      })
+    : FALLBACK_DIRECTIONS;
+
+  return (
+    <section className="py-24 bg-gray-50 border-t-[8px] border-black">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="mb-16 text-center">
+          <span className="text-brand-orange text-xs font-black uppercase tracking-[0.3em] mb-3 block">
+            Τι κάνουμε σε κάθε κατεύθυνση
+          </span>
+          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-gray-900 leading-tight">
+            ΟΙ <span className="text-brand-teal">ΚΑΤΕΥΘΥΝΣΕΙΣ</span><br/>ΣΤΟ ΛΥΚΕΙΟ
+          </h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+          {directions.map((dir) => (
+            <div key={dir.id} id={dir.id} className="scroll-mt-36 bg-white border-4 border-black p-8 lg:p-10 shadow-[8px_8px_0px_#000] relative flex flex-col items-center text-center md:items-start md:text-left transition-all hover:-translate-y-2 hover:shadow-[8px_12px_0px_#000]">
+              <div className={`w-20 h-20 flex-shrink-0 flex items-center justify-center border-4 border-black text-white shadow-[4px_4px_0px_#000] ${dir.color} -mt-16 bg-white mb-6`}>
+                <div className={`w-full h-full flex items-center justify-center ${dir.color}`}>
+                   {dir.icon}
+                </div>
+              </div>
+              <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tight mb-2">
+                {dir.title}
+              </h3>
+              <h4 className={`text-sm font-black uppercase tracking-widest mb-4 ${dir.textColor}`}>
+                {dir.desc}
+              </h4>
+              <p className="text-gray-600 font-semibold leading-relaxed">
+                {dir.content}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Main Page ────────────────────────────────────────────────────────────────
-export default function PlanoPage() {
+function PlanoPageContent() {
+  const searchParams = useSearchParams();
+  const queryLevel = searchParams.get('level');
   const [activeLevel, setActiveLevel] = useState<string>('gymnasio');
   const [plans, setPlans] = useState<PlanData[]>(FALLBACK_PLANS);
+  const [sanityPrograms, setSanityPrograms] = useState<SanityProgram[]>([]);
   const [loading, setLoading] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Read level preference from session (set via Hero select dropdown)
-    const storedLevel = sessionStorage.getItem('planoLevel');
-    if (storedLevel && ['gymnasio', 'lykeio', 'epal'].includes(storedLevel)) {
-      setActiveLevel(storedLevel);
-      sessionStorage.removeItem('planoLevel'); // consume it
+    // 1. Check Query Params first (from Header links)
+    if (queryLevel && ['gymnasio', 'lykeio', 'epal'].includes(queryLevel)) {
+      setActiveLevel(queryLevel);
+    } 
+    // 2. Check Hash second (from old links)
+    else if (window.location.hash) {
+      const hash = window.location.hash.replace('#', '');
+      if (['gymnasio', 'lykeio', 'epal'].includes(hash)) {
+        setActiveLevel(hash);
+      }
+    } 
+    // 3. Check Session Storage (from Hero section dropdowns if implemented)
+    else {
+      const storedLevel = sessionStorage.getItem('planoLevel');
+      if (storedLevel && ['gymnasio', 'lykeio', 'epal'].includes(storedLevel)) {
+        setActiveLevel(storedLevel);
+        sessionStorage.removeItem('planoLevel'); // consume it
+      }
     }
 
-    client
-      .fetch<PlanData[]>(PLANS_QUERY)
-      .then((data) => {
-        if (data && data.length > 0) setPlans(data);
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (['gymnasio', 'lykeio', 'epal'].includes(hash)) {
+        setActiveLevel(hash);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+
+    Promise.all([
+      client.fetch<PlanData[]>(PLANS_QUERY),
+      client.fetch<SanityProgram[]>(PROGRAMS_QUERY)
+    ])
+      .then(([planData, progData]) => {
+        if (planData && planData.length > 0) setPlans(planData);
+        if (progData && progData.length > 0) setSanityPrograms(progData);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, []);
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [queryLevel]);
 
   const handleTabChange = (level: string) => {
     setActiveLevel(level);
+    // Remove query params or hash so it doesn't get stuck on refresh if tab changed
+    if (window.history.replaceState) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('level');
+      url.hash = '';
+      window.history.replaceState({}, '', url.toString());
+    }
     // Scroll to content smoothly
     setTimeout(() => {
       contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -649,18 +820,27 @@ export default function PlanoPage() {
           <div className="flex items-center gap-3 flex-wrap">
             {(['gymnasio', 'lykeio', 'epal'] as const).map((level) => {
               const cfg = LEVEL_CONFIG[level];
+              const isActive = activeLevel === level;
               return (
                 <button
                   key={level}
                   onClick={() => handleTabChange(level)}
-                  className={`px-4 py-2 font-black text-xs uppercase tracking-widest border-2 transition-all ${
-                    activeLevel === level
+                  className={`group px-4 py-2 font-black text-xs uppercase tracking-widest border-2 transition-all relative overflow-hidden ${isActive
                       ? 'text-white border-transparent'
-                      : 'text-gray-400 border-gray-700 hover:border-gray-400 hover:text-white'
-                  }`}
-                  style={activeLevel === level ? { background: cfg.color, borderColor: cfg.color } : {}}
+                      : 'text-gray-400 border-gray-700 hover:text-white'
+                    }`}
+                  style={isActive ? { background: cfg.color, borderColor: cfg.color } : {}}
                 >
-                  {cfg.emoji} {cfg.label}
+                  {!isActive && (
+                    <div
+                      className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
+                      style={{ background: cfg.color }}
+                    />
+                  )}
+                  <span className={`inline-block mr-2 transition-transform duration-300 ${!isActive ? 'group-hover:scale-125 group-hover:-rotate-12' : ''}`}>
+                    {cfg.emoji}
+                  </span>
+                  {cfg.label}
                 </button>
               );
             })}
@@ -677,7 +857,11 @@ export default function PlanoPage() {
           <div className="flex items-center justify-center py-40">
             <div
               className="w-12 h-12 border-4 border-t-transparent rounded-full animate-spin"
-              style={{ borderColor: LEVEL_CONFIG[activeLevel as keyof typeof LEVEL_CONFIG].color, borderTopColor: 'transparent' }}
+              style={{ 
+                borderBottomColor: LEVEL_CONFIG[activeLevel as keyof typeof LEVEL_CONFIG].color,
+                borderLeftColor: LEVEL_CONFIG[activeLevel as keyof typeof LEVEL_CONFIG].color,
+                borderRightColor: LEVEL_CONFIG[activeLevel as keyof typeof LEVEL_CONFIG].color
+              }}
             />
           </div>
         ) : (
@@ -685,6 +869,7 @@ export default function PlanoPage() {
             <div key={activeLevel} className="animate-fade-in">
               <HeroSection active={activeLevel} plans={plans} />
               <FeaturesGrid plan={activePlan} />
+              {activeLevel === 'lykeio' && <DirectionsSection sanityPrograms={sanityPrograms} />}
               <SubjectsSection plan={activePlan} />
               <MethodologyBanner plan={activePlan} />
               <CTASection plan={activePlan} />
@@ -693,5 +878,13 @@ export default function PlanoPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function PlanoPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white"></div>}>
+      <PlanoPageContent />
+    </Suspense>
   );
 }

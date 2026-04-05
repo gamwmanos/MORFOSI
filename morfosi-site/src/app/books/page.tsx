@@ -34,22 +34,22 @@ const FALLBACK_BOOKS = [
 ];
 
 const CATEGORY_META: Record<string, { label: string; icon: string; color: string; bg: string; border: string; description: string }> = {
-  'Γ_ΛΥΚΕΙΟΥ':  { label: "Γ΄ Λυκείου",  icon: '🎓', color: 'text-brand-orange',    bg: 'bg-brand-orange',    border: 'border-brand-orange',    description: 'Πλήρης προετοιμασία για Πανελλαδικές Εξετάσεις' },
-  'Β_ΛΥΚΕΙΟΥ':  { label: "Β΄ Λυκείου",  icon: '📘', color: 'text-brand-teal',      bg: 'bg-brand-teal',      border: 'border-brand-teal',      description: 'Εδραίωση βάσεων και αρχές κατεύθυνσης' },
-  'Α_ΛΥΚΕΙΟΥ':  { label: "Α΄ Λυκείου",  icon: '📗', color: 'text-brand-green',     bg: 'bg-brand-green',     border: 'border-brand-green',     description: 'Ομαλή μετάβαση από Γυμνάσιο σε Λύκειο' },
-  'ΓΥΜΝΑΣΙΟ':   { label: "Γυμνάσιο",    icon: '📙', color: 'text-brand-purple',    bg: 'bg-brand-purple',    border: 'border-brand-purple',    description: 'Σταθερές βάσεις για την ανώτερη εκπαίδευση' },
-  'ΓΕΝΙΚΟ':     { label: "Γενικό",       icon: '📕', color: 'text-brand-red',       bg: 'bg-brand-red',       border: 'border-brand-red',       description: 'Γενικά βοηθήματα και study guides' },
+  'Γ_ΛΥΚΕΙΟΥ': { label: "Γ΄ Λυκείου", icon: '🎓', color: 'text-brand-orange', bg: 'bg-brand-orange', border: 'border-brand-orange', description: 'Πλήρης προετοιμασία για Πανελλαδικές Εξετάσεις' },
+  'Β_ΛΥΚΕΙΟΥ': { label: "Β΄ Λυκείου", icon: '📘', color: 'text-brand-teal', bg: 'bg-brand-teal', border: 'border-brand-teal', description: 'Εδραίωση βάσεων και αρχές κατεύθυνσης' },
+  'Α_ΛΥΚΕΙΟΥ': { label: "Α΄ Λυκείου", icon: '📗', color: 'text-brand-green', bg: 'bg-brand-green', border: 'border-brand-green', description: 'Ομαλή μετάβαση από Γυμνάσιο σε Λύκειο' },
+  'ΓΥΜΝΑΣΙΟ': { label: "Γυμνάσιο", icon: '📙', color: 'text-brand-purple', bg: 'bg-brand-purple', border: 'border-brand-purple', description: 'Σταθερές βάσεις για την ανώτερη εκπαίδευση' },
+  'ΓΕΝΙΚΟ': { label: "Γενικό", icon: '📕', color: 'text-brand-red', bg: 'bg-brand-red', border: 'border-brand-red', description: 'Γενικά βοηθήματα και study guides' },
 };
 
 const CATEGORY_ORDER = ['Γ_ΛΥΚΕΙΟΥ', 'Β_ΛΥΚΕΙΟΥ', 'Α_ΛΥΚΕΙΟΥ', 'ΓΥΜΝΑΣΙΟ', 'ΓΕΝΙΚΟ'];
 
 // Spine colors for books without cover art — cycles through brand palette
 const SPINE_COLORS = [
-  { bg: 'bg-brand-teal',      text: 'text-white', accent: '#f58220' },
-  { bg: 'bg-brand-orange',    text: 'text-white', accent: '#0c82a2' },
-  { bg: 'bg-brand-green',     text: 'text-white', accent: '#031516' },
-  { bg: 'bg-brand-purple',    text: 'text-white', accent: '#f58220' },
-  { bg: 'bg-brand-red',       text: 'text-white', accent: '#0c82a2' },
+  { bg: 'bg-brand-teal', text: 'text-white', accent: '#f58220' },
+  { bg: 'bg-brand-orange', text: 'text-white', accent: '#0c82a2' },
+  { bg: 'bg-brand-green', text: 'text-white', accent: '#031516' },
+  { bg: 'bg-brand-purple', text: 'text-white', accent: '#f58220' },
+  { bg: 'bg-brand-red', text: 'text-white', accent: '#0c82a2' },
   { bg: 'bg-brand-teal-dark', text: 'text-white', accent: '#f58220' },
 ];
 
@@ -111,13 +111,11 @@ export default async function BooksPage() {
               </div>
 
               <h1 className="text-6xl md:text-8xl lg:text-[100px] font-black text-white uppercase tracking-tighter leading-[0.85] mb-10">
-                ΕΚΔΟ-
-                <br />
+                ΕΚΔΟ
                 <span className="text-brand-orange">ΣΕΙΣ</span>
                 <br />
-                <span className="text-brand-teal">ΜΟΡ-</span>
-                <br />
-                <span className="text-white/60">ΦΩΣΗ.</span>
+                <span className="text-brand-teal">ΜΟΡ</span>
+                <span className="text-white/60">ΦΩΣΗ</span>
               </h1>
 
               <p className="text-gray-300 font-bold text-xl md:text-2xl max-w-2xl leading-relaxed">
@@ -158,7 +156,7 @@ export default async function BooksPage() {
                 <a
                   key={catKey}
                   href={`#cat-${catKey}`}
-                  className={`${meta.bg} text-white font-black text-xs uppercase tracking-widest px-6 py-3 border-r-[3px] border-black hover:opacity-90 transition-opacity flex items-center gap-2`}
+                  className={`${meta.bg} text-white font-black text-xs uppercase tracking-widest px-6 py-3 border-r-[3px] border-black hover:brightness-110 hover:-translate-y-1 hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all flex items-center gap-2 active:translate-y-0 active:shadow-none`}
                 >
                   <span>{meta.icon}</span>
                   {meta.label}
@@ -375,8 +373,8 @@ export default async function BooksPage() {
                 ΚΑΛΥΤΕΡΟΥΣ
               </h2>
               <p className="text-gray-300 font-bold text-lg leading-relaxed">
-                Κάθε βιβλίο μας είναι γραμμένο από τους καθηγητές του φροντιστηρίου — ανθρώπους που γνωρίζουν 
-                ακριβώς τι ζητείται στις εξετάσεις, πού εστιάζουν οι εξεταστές και πώς να εξηγούν δύσκολες έννοιες 
+                Κάθε βιβλίο μας είναι γραμμένο από τους καθηγητές του φροντιστηρίου — ανθρώπους που γνωρίζουν
+                ακριβώς τι ζητείται στις εξετάσεις, πού εστιάζουν οι εξεταστές και πώς να εξηγούν δύσκολες έννοιες
                 με τρόπο που ο μαθητής καταλαβαίνει.
               </p>
             </div>

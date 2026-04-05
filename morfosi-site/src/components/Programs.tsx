@@ -1,4 +1,4 @@
-import { BookOpen } from "lucide-react";
+import { BookOpen, Sigma, Pencil, FlaskConical, Globe } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -19,10 +19,10 @@ export default function Programs({ programs = [] }: { programs?: ProgramType[] }
   // Επειδή θέλουμε τα χρώματα να είναι σταθερά Morfosi, 
   // τα αναθέτουμε βάσει της σειράς (index) που εμφανίζονται.
   const colorMap = [
-    { colorClass: "text-brand-orange", borderClass: "border-brand-orange", bgHover: "hover:bg-orange-50" },
-    { colorClass: "text-brand-purple", borderClass: "border-brand-purple", bgHover: "hover:bg-purple-50" },
-    { colorClass: "text-brand-red", borderClass: "border-brand-red", bgHover: "hover:bg-red-50" },
-    { colorClass: "text-brand-green", borderClass: "border-brand-green", bgHover: "hover:bg-green-50" },
+    { colorClass: "text-brand-orange", borderClass: "border-brand-orange", bgHover: "hover:bg-orange-50", iconNode: <Sigma size={48} strokeWidth={2} /> },
+    { colorClass: "text-brand-purple", borderClass: "border-brand-purple", bgHover: "hover:bg-purple-50", iconNode: <Pencil size={48} strokeWidth={2} /> },
+    { colorClass: "text-brand-red", borderClass: "border-brand-red", bgHover: "hover:bg-red-50", iconNode: <FlaskConical size={48} strokeWidth={2} /> },
+    { colorClass: "text-brand-green", borderClass: "border-brand-green", bgHover: "hover:bg-green-50", iconNode: <Globe size={48} strokeWidth={2} /> },
   ];
 
   return (
@@ -42,30 +42,27 @@ export default function Programs({ programs = [] }: { programs?: ProgramType[] }
              </Link>
           </div>
 
-          {/* Right: Sharp Line Minimalist Grid (Dynamic from CMS) */}
+          {/* Right: Sharp Line Minimalist Grid (Static Lykeio Directions) */}
           <div className="xl:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
              {items.map((prog, i) => {
                // Cycle through our 4 Morfosi styles using modulo math
                const style = colorMap[i % colorMap.length];
                
                return (
-                 <div key={prog._id} className={`bg-white p-10 flex flex-col justify-between group shadow-sm hover:shadow-xl transition-all border-l-[10px] ${style.borderClass} ${style.bgHover} min-h-[280px]`}>
+                 <Link href={`/plano?level=lykeio#${prog._id}`} key={prog._id} className={`bg-white p-10 flex flex-col justify-between group shadow-sm hover:shadow-xl transition-all border-l-[10px] ${style.borderClass} ${style.bgHover} min-h-[280px]`}>
                    <div className="mb-8">
-                     {/* Αν υπάρχει εικόνα/εικονίδιο από το Sanity τη δείχνουμε, αλλιώς fallback lucide icon */}
-                     {prog.iconUrl ? (
-                         <Image src={prog.iconUrl} alt={prog.title} width={48} height={48} className="w-12 h-12 mb-6 object-contain" />
-                     ) : (
-                         <BookOpen size={48} className={`${style.colorClass} mb-6`} strokeWidth={2} />
-                     )}
+                     <div className={`${style.colorClass} mb-6`}>
+                       {style.iconNode}
+                     </div>
                      <h3 className="text-3xl font-black tracking-tighter mb-3 text-brand-teal-dark">{prog.title}</h3>
                      <p className="text-xs text-gray-500 font-black uppercase tracking-widest leading-relaxed">
-                       {prog.description || 'Χωρίς περιγραφή.'}
+                       {prog.description}
                      </p>
                    </div>
                    <div className={`${style.colorClass} font-black text-xs uppercase tracking-widest group-hover:translate-x-2 transition-transform w-fit`}>
                      Περισσοτερα &rarr;
                    </div>
-                 </div>
+                 </Link>
                );
              })}
           </div>

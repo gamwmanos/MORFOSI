@@ -81,19 +81,19 @@ const NAV_ITEMS: NavItem[] = [
         badge: "ΝΕΟ",
       },
       {
-        href: "/plano#gymnasio",
+        href: "/plano?level=gymnasio",
         label: "Γυμνάσιο",
         description: "Α΄, Β΄, Γ΄ Γυμνασίου — πλάνο & μαθήματα",
         icon: <BookOpen size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/plano#lykeio",
+        href: "/plano?level=lykeio",
         label: "Λύκειο",
         description: "Α΄, Β΄, Γ΄ Λυκείου — πανελλήνιες & μόρια",
         icon: <GraduationCap size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/plano#epal",
+        href: "/plano?level=epal",
         label: "ΕΠΑΛ",
         description: "Επαγγελματικό Λύκειο — ειδικότητες & σπουδές",
         icon: <Award size={20} strokeWidth={2.5} />,
@@ -150,25 +150,25 @@ const NAV_ITEMS: NavItem[] = [
     label: "ΜΑΘΗΜΑΤΑ",
     children: [
       {
-        href: "/schedule#A_LYKEIOU",
+        href: "/plano?level=lykeio#thetikes",
         label: "Θετικές Σπουδές",
         description: "Μαθηματικά, Φυσική, Χημεία, Βιολογία",
         icon: <Sigma size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/schedule#A_LYKEIOU",
+        href: "/plano?level=lykeio#anthropistikes",
         label: "Ανθρωπιστικές Σπουδές",
         description: "Έκθεση, Ιστορία, Λογοτεχνία, Λατινικά",
         icon: <Pencil size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/schedule#A_LYKEIOU",
+        href: "/plano?level=lykeio#ygeias",
         label: "Σπουδές Υγείας",
         description: "Βιολογία, Χημεία, Φυσική",
         icon: <FlaskConical size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/schedule#A_LYKEIOU",
+        href: "/plano?level=lykeio#oikonomias",
         label: "Οικονομίας & Πληροφορικής",
         description: "Μαθηματικά, ΑΟΔΕ, Πληροφορική",
         icon: <Globe size={20} strokeWidth={2.5} />,
@@ -266,7 +266,7 @@ const NAV_ITEMS: NavItem[] = [
         icon: <Newspaper size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/news",
+        href: "/#testimonials",
         label: "Επιτυχίες Μαθητών",
         description: "Σπουδαστές που μπήκαν στη σχολή τους",
         icon: <Star size={20} strokeWidth={2.5} />,
@@ -286,13 +286,13 @@ const NAV_ITEMS: NavItem[] = [
         icon: <Info size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/contact",
+        href: "/contact#contact-form",
         label: "Φόρμα Επικοινωνίας",
         description: "Στείλε μας μήνυμα άμεσα",
         icon: <Mail size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/contact",
+        href: "/contact#map",
         label: "Πώς να μας βρεις",
         description: "Χάρτης & οδηγίες πρόσβασης",
         icon: <MapPin size={20} strokeWidth={2.5} />,
@@ -335,16 +335,30 @@ function DropdownPanel({
 }) {
   if (!item.children) return null;
 
+  const isFirst = item.id === "plano";
+  const isLast = item.id === "morfosi";
+
   return (
     <div
-      className={`absolute top-full left-1/2 -translate-x-1/2 mt-0 z-[200] transition-all duration-300 ease-out ${isOpen
+      className={`absolute top-full mt-0 z-[200] transition-all duration-300 ease-out ${
+        isFirst ? "left-0" : isLast ? "right-0" : "left-1/2 -translate-x-1/2"
+      } ${
+        isOpen
           ? "opacity-100 translate-y-0 pointer-events-auto"
           : "opacity-0 -translate-y-3 pointer-events-none"
-        }`}
+      }`}
       style={{ minWidth: item.featured ? "700px" : "380px" }}
     >
       {/* Arrow */}
-      <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45 border-l border-t border-gray-200 z-10" />
+      <div
+        className={`absolute -top-2 w-4 h-4 bg-white rotate-45 border-l border-t border-gray-200 z-10 ${
+          isFirst
+            ? "left-[60px]"
+            : isLast
+            ? "right-[60px]"
+            : "left-1/2 -translate-x-1/2"
+        }`}
+      />
 
       <div
         className={`relative bg-white border-2 border-gray-900 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex overflow-hidden rounded-none mt-2 ${item.featured ? "flex-row" : "flex-col"
@@ -741,7 +755,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
 
               {/* Desktop Nav */}
               <nav
-                className="hidden xl:flex items-center gap-4"
+                className="hidden xl:flex items-center gap-1 2xl:gap-4"
                 onMouseLeave={handleMouseLeave}
               >
                 {dynamicNavItems.map((item) => (
@@ -753,7 +767,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
                     {item.href && !item.children ? (
                       <Link
                         href={item.href}
-                        className="flex items-center gap-1.5 px-3 py-5 font-black text-[13px] uppercase tracking-widest text-gray-800 hover:text-brand-teal transition-colors relative group"
+                        className="flex items-center gap-1.5 px-2 2xl:px-3 py-5 font-black text-[12px] 2xl:text-[13px] uppercase tracking-widest text-gray-800 hover:text-brand-teal transition-colors relative group whitespace-nowrap"
                       >
                         {item.label}
                         <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
@@ -763,7 +777,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
                         onClick={() =>
                           setOpenMenu(openMenu === item.id ? null : item.id)
                         }
-                        className={`flex items-center gap-1.5 px-3 py-5 font-black text-[13px] uppercase tracking-widest transition-colors relative group cursor-pointer ${openMenu === item.id
+                        className={`flex items-center gap-1.5 px-2 2xl:px-3 py-5 font-black text-[12px] 2xl:text-[13px] uppercase tracking-widest transition-colors relative group cursor-pointer whitespace-nowrap ${openMenu === item.id
                             ? "text-brand-teal"
                             : "text-gray-800 hover:text-brand-teal"
                           }`}

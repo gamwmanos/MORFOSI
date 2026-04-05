@@ -385,23 +385,29 @@ export default function ScheduleClient({
           <button
             id="tab-gymnasio"
             onClick={() => setActiveTab("gymnasio")}
-            className={`border-2 border-black px-8 py-3 font-black text-sm uppercase tracking-widest shadow-[4px_4px_0px_#000] transition-all duration-200 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#000] ${
+            className={`group relative border-2 border-black px-8 py-3 font-black text-sm uppercase tracking-widest shadow-[4px_4px_0px_#000] transition-all duration-300 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#000] overflow-hidden ${
               activeTab === "gymnasio"
                 ? "bg-brand-teal text-white border-brand-teal"
-                : "bg-white text-gray-900 hover:bg-brand-teal hover:text-white hover:border-brand-teal"
+                : "bg-white text-gray-900 hover:text-white"
             }`}
           >
+            {activeTab !== "gymnasio" && (
+              <div className="absolute inset-0 bg-brand-teal opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+            )}
             ΓΥΜΝΑΣΙΟ
           </button>
           <button
             id="tab-lykeio"
             onClick={() => setActiveTab("lykeio")}
-            className={`border-2 border-black px-8 py-3 font-black text-sm uppercase tracking-widest shadow-[4px_4px_0px_#000] transition-all duration-200 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#000] ${
+            className={`group relative border-2 border-black px-8 py-3 font-black text-sm uppercase tracking-widest shadow-[4px_4px_0px_#000] transition-all duration-300 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_#000] overflow-hidden ${
               activeTab === "lykeio"
                 ? "bg-brand-orange text-white border-brand-orange"
-                : "bg-white text-gray-900 hover:bg-brand-orange hover:text-white hover:border-brand-orange"
+                : "bg-white text-gray-900 hover:text-white"
             }`}
           >
+            {activeTab !== "lykeio" && (
+              <div className="absolute inset-0 bg-brand-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+            )}
             ΛΥΚΕΙΟ
           </button>
         </div>

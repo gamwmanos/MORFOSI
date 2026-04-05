@@ -74,7 +74,7 @@ export default function Testimonials({ testimonials = [] }: { testimonials?: Tes
   }, [autoRotateInterval, items.length])
 
   return (
-    <section ref={sectionRef} id="testimonials" className="py-24 md:py-32 overflow-hidden bg-white border-t-[8px] border-black">
+    <section ref={sectionRef} id="testimonials" className="py-24 md:py-32 overflow-hidden bg-white border-t-[8px] border-black scroll-mt-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <motion.div
           initial="hidden"

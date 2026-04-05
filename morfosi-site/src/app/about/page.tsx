@@ -296,12 +296,16 @@ export default function AboutPage() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [historyExpanded, setHistoryExpanded] = useState(false);
   const [contactPhone, setContactPhone] = useState("210 506 3610");
+  const [address, setAddress] = useState("25ης Μαρτίου 84, Αγίου Δημητρίου 17, Πετρούπολη 132 31");
+  const [contactEmail, setContactEmail] = useState("morfosifront@gmail.com");
   const [facilityPhotos, setFacilityPhotos] = useState<Array<{_id: string; title: string; photoUrl: string}>>([]);
   const [activeFacilityPhoto, setActiveFacilityPhoto] = useState(0);
 
   useEffect(() => {
-    client.fetch(`*[_type == "siteSettings"][0]{ contactPhone }`).then(data => {
+    client.fetch(`*[_type == "siteSettings"][0]{ contactPhone, address, contactEmail }`).then(data => {
       if (data?.contactPhone) setContactPhone(data.contactPhone);
+      if (data?.address) setAddress(data.address);
+      if (data?.contactEmail) setContactEmail(data.contactEmail);
     }).catch(console.error);
 
     client.fetch(`*[_type == "facilityPhoto"] | order(order asc) { _id, title, "photoUrl": photo.asset->url }`)
@@ -666,7 +670,7 @@ export default function AboutPage() {
           </div>
 
           {/* Facility Photo Banner — fetched from Sanity */}
-          <div className="mt-8 h-64 md:h-96 border-[4px] border-gray-900 shadow-[12px_12px_0px_#000] relative overflow-hidden group">
+          <div id="facilities" className="mt-8 h-64 md:h-96 border-[4px] border-gray-900 shadow-[12px_12px_0px_#000] relative overflow-hidden group scroll-mt-32">
             {facilityPhotos.length > 0 ? (
               <>
                 {facilityPhotos.map((fp, i) => (
@@ -747,17 +751,12 @@ export default function AboutPage() {
                   <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     <div className="flex items-center gap-5">
                       <div className={`w-16 h-16 ${t.color.replace("border-", "bg-").replace("brand-", "brand-")} bg-gray-100 border-4 border-gray-900 flex items-center justify-center flex-shrink-0`}>
-                        <GraduationCap size={28} className={t.accent} />
+                        <GraduationCap size={32} className="opacity-40" />
                       </div>
                       <div>
-                        <div className="font-black text-gray-900 text-lg">{t.name}</div>
-                        <div className={`font-black text-sm uppercase tracking-widest ${t.accent}`}>{t.school}</div>
-                        <div className="text-gray-400 text-xs font-bold uppercase tracking-widest mt-0.5">Εισαγωγή {t.year}</div>
+                        <div className="font-black text-xl text-gray-900 uppercase tracking-tight">{t.name}</div>
+                        <div className="text-gray-500 font-bold">{t.school}</div>
                       </div>
-                    </div>
-                    <div className="flex-shrink-0 text-right">
-                      <div className="text-gray-400 font-black text-xs uppercase tracking-widest mb-1">Μόρια</div>
-                      <div className={`font-black text-5xl tracking-tighter ${t.accent}`}>{t.grade}</div>
                     </div>
                   </div>
                 </div>
@@ -765,7 +764,7 @@ export default function AboutPage() {
             ))}
           </div>
 
-          {/* Navigation dots */}
+          {/* Dots */}
           <div className="flex items-center justify-center gap-3">
             {TESTIMONIALS.map((_, i) => (
               <button
@@ -861,7 +860,7 @@ export default function AboutPage() {
               {
                 icon: MapPin,
                 label: "Βρείτε μας",
-                val: "Λεωφόρος Αθηνών 00, Αθήνα",
+                val: address,
                 sub: "[Ενημερώσιμο από Sanity → siteSettings.address]",
                 color: "bg-brand-teal",
                 href: "https://maps.google.com",
@@ -877,7 +876,7 @@ export default function AboutPage() {
               {
                 icon: Mail,
                 label: "Email",
-                val: "morfosifront@gmail.com",
+                val: contactEmail,
                 sub: "[Ενημερώσιμο από Sanity → siteSettings.contactEmail]",
                 color: "bg-brand-green",
                 href: "mailto:morfosifront@gmail.com",

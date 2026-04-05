@@ -110,7 +110,7 @@ export default async function System() {
             </Link>
 
             {/* Tile 2 — Facility photo from Sanity */}
-            <Link href="/about" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-brand-teal transition-colors h-[150px] group cursor-pointer relative overflow-hidden">
+            <Link href="/about#facilities" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-brand-teal transition-colors h-[150px] group cursor-pointer relative overflow-hidden">
               {facilityImg ? (
                 <>
                   <Image src={facilityImg} alt="Χώρος Μόρφωσης" fill className="object-cover group-hover:scale-105 transition-transform duration-500 group-hover:opacity-70" />
