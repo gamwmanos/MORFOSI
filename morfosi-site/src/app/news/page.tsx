@@ -135,7 +135,10 @@ const CARD_ACCENTS = [
   { border: 'border-brand-red', num: 'bg-brand-red', tag: 'bg-brand-red/10', tagText: 'text-brand-red' },
 ];
 
-export default async function NewsPage() {
+export default async function NewsPage(props: { searchParams?: Promise<{ filter?: string }> }) {
+  const searchParams = await props.searchParams;
+  const filter = searchParams?.filter || 'all';
+
   let posts: any[] = [];
 
   try {
@@ -148,10 +151,15 @@ export default async function NewsPage() {
 
   // Featured post = newest
   const featuredPost = displayPosts[0];
-  const restPosts = displayPosts.slice(1);
+  const restPostsRaw = displayPosts.slice(1);
+  
+  // Filtered posts for the main grid. 
+  // If 'all', hide the newest one because it's featured above. 
+  // If filtered, show ALL posts matching the category in the grid!
+  const restPosts = filter === 'all' ? restPostsRaw : displayPosts.filter((p: any) => (p.category || 'general') === filter);
 
-  // Latest 3 for sidebar
-  const sidebarPosts = restPosts.slice(0, 3);
+  // Latest 3 for sidebar (always from raw list so they don't disappear)
+  const sidebarPosts = restPostsRaw.slice(0, 3);
 
   // Category counts
   const categoryCounts = displayPosts.reduce((acc: Record<string, number>, p: any) => {
@@ -241,7 +249,7 @@ export default async function NewsPage() {
       {/* ═══════════════════════════════════════════════════════════
           FEATURED POST — Massive hero card
       ═══════════════════════════════════════════════════════════ */}
-      {featuredPost && (() => {
+      {filter === 'all' && featuredPost && (() => {
         const date = formatDate(featuredPost.publishedAt);
         const catMeta = CATEGORY_META[featuredPost.category || 'general'] || CATEGORY_META['general'];
 
@@ -334,11 +342,45 @@ export default async function NewsPage() {
 
             {/* LEFT: Main posts grid */}
             <div className="xl:col-span-2">
-              <div className="flex items-center justify-between mb-12">
-                <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter">
-                  ΟΛΑ ΤΑ <span className="text-brand-teal">ΝΕΑ</span>
-                </h2>
-                <span className="text-gray-400 font-bold text-sm">{restPosts.length} δημοσιεύσεις</span>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12 border-b-[4px] border-black pb-6">
+                <div>
+                  <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter mb-2">
+                    ΟΛΑ ΤΑ <span className="text-brand-teal">ΝΕΑ</span>
+                  </h2>
+                  <span className="text-gray-400 font-bold text-sm">{restPosts.length} δημοσιεύσεις</span>
+                </div>
+                
+                {/* ──────────────── TABS ──────────────── */}
+                <div className="flex flex-wrap gap-2">
+                  <Link 
+                    href="?filter=all" 
+                    scroll={false}
+                    className={`px-4 py-2 text-xs font-black uppercase tracking-widest border-2 border-black shadow-[3px_3px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0px_#000] transition-all ${filter === 'all' ? 'bg-black text-white' : 'bg-white text-gray-800'}`}
+                  >
+                    ΟΛΑ
+                  </Link>
+                  <Link 
+                    href="?filter=students" 
+                    scroll={false}
+                    className={`px-4 py-2 text-xs font-black uppercase tracking-widest border-2 border-black shadow-[3px_3px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0px_#000] transition-all ${filter === 'students' ? 'bg-brand-orange text-white' : 'bg-white text-brand-orange'}`}
+                  >
+                    ΜΑΘΗΤΕΣ
+                  </Link>
+                  <Link 
+                    href="?filter=parents" 
+                    scroll={false}
+                    className={`px-4 py-2 text-xs font-black uppercase tracking-widest border-2 border-black shadow-[3px_3px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0px_#000] transition-all ${filter === 'parents' ? 'bg-brand-green text-white' : 'bg-white text-brand-green'}`}
+                  >
+                    ΓΟΝΕΙΣ
+                  </Link>
+                  <Link 
+                    href="?filter=general" 
+                    scroll={false}
+                    className={`px-4 py-2 text-xs font-black uppercase tracking-widest border-2 border-black shadow-[3px_3px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0px_#000] transition-all ${filter === 'general' ? 'bg-brand-teal text-white' : 'bg-white text-brand-teal'}`}
+                  >
+                    ΓΕΝΙΚΑ
+                  </Link>
+                </div>
               </div>
 
               <div className="flex flex-col gap-0 border-[4px] border-black shadow-[10px_10px_0px_#000]">
@@ -513,9 +555,13 @@ export default async function NewsPage() {
               <Newspaper size={16} /> Αρχείο
             </div>
             <h2 className="text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter">
-              ΟΛΕΣˌ ΟΙ
-              <br />
-              <span className="text-brand-orange">ΔΗΜΟΣΙΕΥΣΕΙΣ</span>
+              {filter === 'all' && <>ΟΛΕΣ ΟΙ<br/></>}
+              {filter === 'general' && <>ΓΕΝΙΚΕΣ<br/></>}
+              {filter === 'students' && <>ΑΝΑΚΟΙΝΩΣΕΙΣ<br/></>}
+              {filter === 'parents' && <>ΕΝΗΜΕΡΩΣΗ<br/></>}
+              <span className="text-brand-orange">
+                {filter === 'students' ? 'ΜΑΘΗΤΩΝ' : filter === 'parents' ? 'ΓΟΝΕΩΝ' : 'ΔΗΜΟΣΙΕΥΣΕΙΣ'}
+              </span>
             </h2>
           </div>
 
@@ -530,44 +576,56 @@ export default async function NewsPage() {
             </div>
 
             {/* Table rows */}
-            {displayPosts.map((post: any, index: number) => {
-              const date = formatDate(post.publishedAt);
-              const catMeta = CATEGORY_META[post.category || 'general'] || CATEGORY_META['general'];
-              const accent = CARD_ACCENTS[index % CARD_ACCENTS.length];
+            {(() => {
+              const filteredFullPosts = filter === 'all' ? displayPosts : displayPosts.filter((p: any) => (p.category || 'general') === filter);
+              
+              if (filteredFullPosts.length === 0) {
+                return (
+                  <div className="p-16 text-center bg-gray-50 text-gray-600 font-bold uppercase tracking-widest text-sm">
+                    Δεν βρέθηκαν δημοσιεύσεις σε αυτή την κατηγορία.
+                  </div>
+                );
+              }
 
-              return (
-                <div
-                  key={post._id}
-                  className="grid grid-cols-12 gap-0 border-b-[3px] border-gray-200 last:border-b-0 hover:bg-white transition-colors group"
-                >
-                  <div className={`col-span-1 p-4 flex items-center font-black text-sm ${accent.tagText}`}>
-                    {String(index + 1).padStart(2, '0')}
+              return filteredFullPosts.map((post: any, index: number) => {
+                const date = formatDate(post.publishedAt);
+                const catMeta = CATEGORY_META[post.category || 'general'] || CATEGORY_META['general'];
+                const accent = CARD_ACCENTS[index % CARD_ACCENTS.length];
+
+                return (
+                  <div
+                    key={post._id}
+                    className="grid grid-cols-12 gap-0 border-b-[3px] border-gray-200 last:border-b-0 hover:bg-white transition-colors group"
+                  >
+                    <div className={`col-span-1 p-4 flex items-center font-black text-sm ${accent.tagText}`}>
+                      {String(index + 1).padStart(2, '0')}
+                    </div>
+                    <div className="col-span-6 p-4 flex items-center">
+                      <span className="font-black text-sm text-gray-900 leading-snug line-clamp-2 group-hover:text-brand-teal transition-colors tracking-tight">
+                        {post.title}
+                      </span>
+                    </div>
+                    <div className="col-span-2 p-4 hidden md:flex items-center">
+                      <span className={`${catMeta.bg} text-white font-black text-[9px] uppercase tracking-widest px-2 py-1 flex items-center gap-1`}>
+                        {catMeta.icon} {catMeta.label}
+                      </span>
+                    </div>
+                    <div className="col-span-2 p-4 hidden md:flex items-center">
+                      <span className="text-gray-500 font-bold text-xs">{date.day} {date.month} {date.year}</span>
+                    </div>
+                    <div className="col-span-3 md:col-span-1 p-4 flex items-center justify-end">
+                      <Link
+                        href={`/news/${post.slug?.current || post._id}`}
+                        id={`post-table-${post._id}`}
+                        className={`${accent.num} text-white p-2 border border-black hover:scale-110 transition-transform inline-flex`}
+                      >
+                        <ChevronRight size={16} strokeWidth={3} />
+                      </Link>
+                    </div>
                   </div>
-                  <div className="col-span-6 p-4 flex items-center">
-                    <span className="font-black text-sm text-gray-900 leading-snug line-clamp-2 group-hover:text-brand-teal transition-colors tracking-tight">
-                      {post.title}
-                    </span>
-                  </div>
-                  <div className="col-span-2 p-4 hidden md:flex items-center">
-                    <span className={`${catMeta.bg} text-white font-black text-[9px] uppercase tracking-widest px-2 py-1 flex items-center gap-1`}>
-                      {catMeta.icon} {catMeta.label}
-                    </span>
-                  </div>
-                  <div className="col-span-2 p-4 hidden md:flex items-center">
-                    <span className="text-gray-500 font-bold text-xs">{date.day} {date.month} {date.year}</span>
-                  </div>
-                  <div className="col-span-3 md:col-span-1 p-4 flex items-center justify-end">
-                    <Link
-                      href={`/news/${post.slug?.current || post._id}`}
-                      id={`post-table-${post._id}`}
-                      className={`${accent.num} text-white p-2 border border-black hover:scale-110 transition-transform inline-flex`}
-                    >
-                      <ChevronRight size={16} strokeWidth={3} />
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              });
+            })()}
           </div>
         </div>
       </section>

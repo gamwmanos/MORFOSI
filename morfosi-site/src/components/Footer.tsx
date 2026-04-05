@@ -105,7 +105,7 @@ export default async function Footer() {
             </div>
             
             <div className="mt-auto pt-8">
-               <Link href="/contact" className="bg-brand-red text-white py-2 px-4 inline-block font-black text-xs tracking-widest uppercase hover:bg-white hover:text-brand-red transition-colors cursor-pointer">
+               <Link href="/contact#enrollment-form" className="bg-brand-red text-white py-2 px-4 inline-block font-black text-xs tracking-widest uppercase hover:bg-white hover:text-brand-red transition-colors cursor-pointer">
                   Online Εγγραφες
                </Link>
             </div>

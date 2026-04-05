@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Download, FileText, BookOpen, Layers, CheckCircle } from 'lucide-react';
 
@@ -10,11 +10,20 @@ export interface ExamType {
   title: string;
   date?: string;
   examCategory?: 'panellinies' | 'oefe' | 'morfosi';
+  tracks?: string[];
   classDropdown?: string;
   subject?: string;
   questionsUrl?: string;
   answersUrl?: string;
 }
+
+const TRACK_LABELS: Record<string, string> = {
+  general: "Γενικής Παιδείας",
+  humanities: "Ανθρωπιστικών Σπουδών",
+  positive: "Θετικών Σπουδών",
+  health: "Σπουδών Υγείας",
+  econ: "Σπουδών Οικονομίας & Πληροφορικής",
+};
 
 export default function ExamsHub({ initialExams }: { initialExams: ExamType[] }) {
   const [activeTab, setActiveTab] = useState<'panellinies' | 'oefe' | 'morfosi'>('panellinies');
@@ -22,24 +31,80 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
 
   // Fallback Data if Sanity is empty so UI still looks impressive
   const examsList = initialExams.length > 0 ? initialExams : [
-    { _id: 'e1', title: 'Μαθηματικά Προσανατολισμού', examCategory: 'panellinies', classDropdown: 'Γ Λυκείου', subject: 'Μαθηματικά', date: '2023-06-08' },
-    { _id: 'e2', title: 'Φυσική Προσανατολισμού', examCategory: 'panellinies', classDropdown: 'Γ Λυκείου', subject: 'Φυσική', date: '2023-06-12' },
-    { _id: 'e3', title: 'Χημεία Προσανατολισμού', examCategory: 'oefe', classDropdown: 'Γ Λυκείου', subject: 'Χημεία', date: '2024-01-20' },
-    { _id: 'e4', title: 'Eκθεση (Νεοελληνική Γλώσσα)', examCategory: 'morfosi', classDropdown: 'Γ Λυκείου', subject: 'Έκθεση', date: '2024-03-05' },
-    { _id: 'e5', title: 'Αρχαία Ελληνικά', examCategory: 'panellinies', classDropdown: 'Γ Λυκείου', subject: 'Αρχαία', date: '2023-06-09' },
-    { _id: 'e6', title: 'Βιολογία Προσανατολισμού', examCategory: 'oefe', classDropdown: 'Γ Λυκείου', subject: 'Βιολογία', date: '2024-01-22' },
+    { _id: 'e1', title: 'Μαθηματικά Προσανατολισμού', examCategory: 'panellinies', tracks: ['positive'], classDropdown: 'Γ Λυκείου', subject: 'Μαθηματικά', date: '2023-06-08' },
+    { _id: 'e2', title: 'Φυσική Προσανατολισμού', examCategory: 'panellinies', tracks: ['positive', 'health'], classDropdown: 'Γ Λυκείου', subject: 'Φυσική', date: '2023-06-12' },
+    { _id: 'e3', title: 'Χημεία Προσανατολισμού', examCategory: 'oefe', tracks: ['positive', 'health'], classDropdown: 'Γ Λυκείου', subject: 'Χημεία', date: '2024-01-20' },
+    { _id: 'e4', title: 'Eκθεση (Νεοελληνική Γλώσσα)', examCategory: 'morfosi', tracks: ['general', 'positive', 'humanities', 'health', 'econ'], classDropdown: 'Γ Λυκείου', subject: 'Έκθεση', date: '2024-03-05' },
+    { _id: 'e5', title: 'Αρχαία Ελληνικά', examCategory: 'panellinies', tracks: ['humanities'], classDropdown: 'Γ Λυκείου', subject: 'Αρχαία', date: '2023-06-09' },
+    { _id: 'e6', title: 'Βιολογία Προσανατολισμού', examCategory: 'oefe', tracks: ['health'], classDropdown: 'Γ Λυκείου', subject: 'Βιολογία', date: '2024-01-22' },
   ] as ExamType[];
 
-  // Filter based on Tab & Search Query
-  const filteredExams = useMemo(() => {
-    return examsList.filter((exam) => {
-      const matchesTab = exam.examCategory === activeTab;
-      const searchTerms = searchQuery.toLowerCase();
-      const matchesSearch = 
-        (exam.title?.toLowerCase().includes(searchTerms) || false) || 
-        (exam.subject?.toLowerCase().includes(searchTerms) || false);
-      return matchesTab && matchesSearch;
+  // Debugging: Log the exams to see what data we're actually getting
+  useEffect(() => {
+    console.log("Initial Exams from Sanity:", initialExams);
+  }, [initialExams]);
+
+  // Helper to infer tracks if not set in Sanity
+  const inferTracks = (subject?: string, title?: string): string[] => {
+    const s = (subject || title || "").toUpperCase();
+    
+    if (s.includes("ΕΚΘΕΣΗ") || s.includes("ΓΛΩΣΣΑ")) {
+      return ['general', 'humanities', 'positive', 'health', 'econ'];
+    }
+    if (s.includes("ΜΑΘΗΜΑΤΙΚΑ")) {
+      return ['positive', 'econ'];
+    }
+    if (s.includes("ΦΥΣΙΚΗ") || s.includes("ΧΗΜΕΙΑ") || s.includes("ΒΙΟΛΟΓΙΑ")) {
+      return ['positive', 'health'];
+    }
+    if (s.includes("ΑΡΧΑΙΑ") || s.includes("ΛΑΤΙΝΙΚΑ") || s.includes("ΙΣΤΟΡΙΑ")) {
+      return ['humanities'];
+    }
+    if (s.includes("ΠΛΗΡΟΦΟΡΙΚΗ") || s.includes("ΑΕΠΠ")) {
+       return ['econ'];
+    }
+    
+    return ['general'];
+  };
+
+  // Grouped and Filtered Exams
+  const groupedExams = useMemo(() => {
+    const groups: Record<string, ExamType[]> = {
+      general: [],
+      humanities: [],
+      positive: [],
+      health: [],
+      econ: [],
+    };
+    
+    let totalCount = 0;
+
+    examsList.forEach(exam => {
+       const category = exam.examCategory || 'panellinies';
+       if (category !== activeTab) return;
+       
+       const searchTerms = searchQuery.toLowerCase();
+       const matchesSearch = !searchTerms || 
+          (exam.title?.toLowerCase().includes(searchTerms) || false) || 
+          (exam.subject?.toLowerCase().includes(searchTerms) || false);
+       
+       if (!matchesSearch) return;
+
+       totalCount++;
+       
+       // Use tracks from Sanity if available, otherwise infer from subject/title
+       const tracks = (exam.tracks && exam.tracks.length > 0) 
+          ? exam.tracks 
+          : inferTracks(exam.subject, exam.title);
+
+       tracks.forEach(track => {
+         if (groups[track]) {
+           groups[track].push(exam);
+         }
+       });
     });
+    
+    return { groups, totalCount };
   }, [examsList, activeTab, searchQuery]);
 
   return (
@@ -120,7 +185,7 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
       <section className="relative z-10 flex-1 px-6 lg:px-12 pb-32 max-w-7xl mx-auto w-full">
          <div className="bg-white border-[8px] border-black shadow-[20px_20px_0px_#000] p-6 lg:p-12 min-h-[500px]">
             
-            {filteredExams.length === 0 ? (
+            {groupedExams.totalCount === 0 ? (
                <div className="w-full h-full flex flex-col items-center justify-center py-20 text-center">
                   <div className="w-24 h-24 bg-gray-100 border-[4px] border-black rounded-full flex items-center justify-center mb-6">
                      <Search size={48} className="text-gray-400" />
@@ -129,16 +194,30 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
                   <p className="font-bold text-gray-500 max-w-md">Δοκίμασε να αλλάξεις τους όρους αναζήτησης ή επέλεξε άλλη κατηγορία στο πάνω μέρος.</p>
                </div>
             ) : (
-               <motion.div 
-                 layout
-                 className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
-               >
-                 <AnimatePresence>
-                   {filteredExams.map((exam) => (
-                     <ExamCard key={exam._id} exam={exam} />
-                   ))}
-                 </AnimatePresence>
-               </motion.div>
+               <div className="space-y-16">
+                  {Object.entries(TRACK_LABELS).map(([trackId, label]) => {
+                     const examsInTrack = groupedExams.groups[trackId];
+                     if (!examsInTrack || examsInTrack.length === 0) return null;
+
+                     return (
+                        <div key={trackId} className="space-y-8">
+                           <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter border-l-8 border-brand-orange pl-4 bg-gray-50 py-3 inline-block shadow-[6px_6px_0px_#000]">
+                              {label}
+                           </h2>
+                           <motion.div 
+                             layout
+                             className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
+                           >
+                             <AnimatePresence>
+                               {examsInTrack.map((exam: ExamType) => (
+                                 <ExamCard key={`${trackId}-${exam._id}`} exam={exam} />
+                               ))}
+                             </AnimatePresence>
+                           </motion.div>
+                        </div>
+                     );
+                  })}
+               </div>
             )}
 
          </div>

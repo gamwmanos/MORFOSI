@@ -20,6 +20,7 @@ export const examMaterialType = defineType({
     defineField({
       name: 'examCategory',
       title: 'Κατηγορία',
+      description: 'Επιλέξτε την κατηγορία του διαγωνίσματος (Πανελλήνιες, ΟΕΦΕ κλπ). Αν μείνει κενό, θα εμφανιστεί στις Πανελλήνιες.',
       type: 'string',
       options: {
         list: [
@@ -29,7 +30,25 @@ export const examMaterialType = defineType({
         ],
       },
       validation: (Rule) => Rule.required(),
-      initialValue: 'morfosi'
+      initialValue: 'panellinies'
+    }),
+    defineField({
+      name: 'tracks',
+      title: 'Κατεύθυνση / Προσανατολισμός',
+      description: 'Επιλέξτε μία ή περισσότερες κατευθύνσεις για αυτό το διαγώνισμα.',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        list: [
+          { title: 'Γενικής Παιδείας', value: 'general' },
+          { title: 'Ανθρωπιστικών Σπουδών', value: 'humanities' },
+          { title: 'Θετικών Σπουδών', value: 'positive' },
+          { title: 'Σπουδών Υγείας', value: 'health' },
+          { title: 'Σπουδών Οικονομίας & Πληροφορικής', value: 'econ' },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
+      initialValue: ['general']
     }),
     defineField({
       name: 'classDropdown',

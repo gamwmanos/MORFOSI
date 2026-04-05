@@ -201,16 +201,10 @@ const NAV_ITEMS: NavItem[] = [
         icon: <FileText size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/exams",
+        href: "/schedule-exams",
         label: "Πρόγραμμα Εξετάσεων",
         description: "Ημερομηνίες & Παρατηρήσεις",
         icon: <CalendarDays size={20} strokeWidth={2.5} />,
-      },
-      {
-        href: "/exams",
-        label: "Βάσεις Εισαγωγής",
-        description: `Ιστορικά στοιχεία βάσεων 2020-${prevYear}`,
-        icon: <Award size={20} strokeWidth={2.5} />,
       },
       {
         href: "/calculator",

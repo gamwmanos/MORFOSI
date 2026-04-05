@@ -3,15 +3,12 @@ import ExamsHub from "@/components/exams/ExamsHub";
 
 // Server Component GROQ Query
 const EXAMS_DATA_QUERY = `*[_type == "examMaterial"] | order(date desc) {
-  _id,
-  title,
-  date,
-  examCategory,
-  classDropdown,
-  subject,
+  ...,
   "questionsUrl": questionsFile.asset->url,
   "answersUrl": answersFile.asset->url
 }`;
+
+export const revalidate = 60; // Refresh data from Sanity every 60 seconds
 
 export const metadata = {
   title: 'Θέματα & Διαγωνίσματα | Μόρφωση',
