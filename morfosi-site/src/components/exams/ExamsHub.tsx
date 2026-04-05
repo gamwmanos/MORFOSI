@@ -27,6 +27,7 @@ const TRACK_LABELS: Record<string, string> = {
 
 export default function ExamsHub({ initialExams }: { initialExams: ExamType[] }) {
   const [activeTab, setActiveTab] = useState<'panellinies' | 'oefe' | 'morfosi'>('panellinies');
+  const [activeTrack, setActiveTrack] = useState<string>('positive');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Fallback Data if Sanity is empty so UI still looks impressive
@@ -68,44 +69,40 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
   };
 
   // Grouped and Filtered Exams
-  const groupedExams = useMemo(() => {
-    const groups: Record<string, ExamType[]> = {
-      general: [],
-      humanities: [],
-      positive: [],
-      health: [],
-      econ: [],
-    };
-    
-    let totalCount = 0;
-
-    examsList.forEach(exam => {
+  const filteredData = useMemo(() => {
+    // 1. Filter by Category and Search
+    const prelimFiltered = examsList.filter(exam => {
        const category = exam.examCategory || 'panellinies';
-       if (category !== activeTab) return;
+       if (category !== activeTab) return false;
        
        const searchTerms = searchQuery.toLowerCase();
-       const matchesSearch = !searchTerms || 
+       return !searchTerms || 
           (exam.title?.toLowerCase().includes(searchTerms) || false) || 
           (exam.subject?.toLowerCase().includes(searchTerms) || false);
-       
-       if (!matchesSearch) return;
+    });
 
-       totalCount++;
-       
-       // Use tracks from Sanity if available, otherwise infer from subject/title
+    // 2. Filter by Active Track
+    const finalExams = prelimFiltered.filter(exam => {
        const tracks = (exam.tracks && exam.tracks.length > 0) 
           ? exam.tracks 
           : inferTracks(exam.subject, exam.title);
-
-       tracks.forEach(track => {
-         if (groups[track]) {
-           groups[track].push(exam);
-         }
-       });
+       return tracks.includes(activeTrack);
     });
-    
-    return { groups, totalCount };
-  }, [examsList, activeTab, searchQuery]);
+
+    // 3. Group by Subject within the track
+    const subjectGroups: Record<string, ExamType[]> = {};
+    finalExams.forEach(exam => {
+       const sub = exam.subject || "Λοιπά";
+       if (!subjectGroups[sub]) subjectGroups[sub] = [];
+       subjectGroups[sub].push(exam);
+    });
+
+    return { 
+       exams: finalExams, 
+       groups: subjectGroups,
+       totalCount: finalExams.length 
+    };
+  }, [examsList, activeTab, activeTrack, searchQuery]);
 
   return (
     <div className="w-full flex-1 flex flex-col bg-brand-teal-dark relative overflow-hidden">
@@ -120,7 +117,7 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
       />
       
       {/* Massive Header Section */}
-      <section className="relative z-10 pt-24 pb-16 px-6 lg:px-12 max-w-7xl mx-auto w-full">
+      <section className="relative z-10 pt-24 pb-8 px-6 lg:px-12 max-w-7xl mx-auto w-full">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
           
           <div className="flex-1">
@@ -140,7 +137,7 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
           </div>
         </div>
 
-        {/* Tab System & Search */}
+        {/* Category Tabs & Search Row */}
         <div className="flex flex-col lg:flex-row items-center gap-6 mt-16 p-4 bg-white border-[6px] border-black shadow-[12px_12px_0px_#000]">
           
           {/* Tabs */}
@@ -179,44 +176,60 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
             </div>
           </div>
         </div>
+
+        {/* Secondary Track Tabs */}
+        <div className="flex flex-wrap gap-3 mt-8">
+           {Object.entries(TRACK_LABELS).map(([trackId, label]) => (
+              <button
+                key={trackId}
+                onClick={() => setActiveTrack(trackId)}
+                className={`px-5 py-3 font-black uppercase text-xs tracking-widest border-[4px] border-black transition-all shadow-[4px_4px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-none ${
+                   activeTrack === trackId 
+                   ? 'bg-brand-orange text-white' 
+                   : 'bg-white text-gray-900 hover:bg-gray-100'
+                }`}
+              >
+                {label}
+              </button>
+           ))}
+        </div>
       </section>
 
       {/* Grid Content Section */}
       <section className="relative z-10 flex-1 px-6 lg:px-12 pb-32 max-w-7xl mx-auto w-full">
          <div className="bg-white border-[8px] border-black shadow-[20px_20px_0px_#000] p-6 lg:p-12 min-h-[500px]">
             
-            {groupedExams.totalCount === 0 ? (
+            {filteredData.totalCount === 0 ? (
                <div className="w-full h-full flex flex-col items-center justify-center py-20 text-center">
                   <div className="w-24 h-24 bg-gray-100 border-[4px] border-black rounded-full flex items-center justify-center mb-6">
                      <Search size={48} className="text-gray-400" />
                   </div>
                   <h3 className="text-3xl font-black text-gray-900 tracking-tight uppercase mb-2">Δεν βρεθηκαν σετ</h3>
-                  <p className="font-bold text-gray-500 max-w-md">Δοκίμασε να αλλάξεις τους όρους αναζήτησης ή επέλεξε άλλη κατηγορία στο πάνω μέρος.</p>
+                  <p className="font-bold text-gray-500 max-w-md">Δοκίμασε να αλλάξεις τους όρους αναζήτησης ή επέλεξε άλλη κατηγορία/κατεύθυνση.</p>
                </div>
             ) : (
                <div className="space-y-16">
-                  {Object.entries(TRACK_LABELS).map(([trackId, label]) => {
-                     const examsInTrack = groupedExams.groups[trackId];
-                     if (!examsInTrack || examsInTrack.length === 0) return null;
-
-                     return (
-                        <div key={trackId} className="space-y-8">
-                           <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter border-l-8 border-brand-orange pl-4 bg-gray-50 py-3 inline-block shadow-[6px_6px_0px_#000]">
-                              {label}
+                  {Object.entries(filteredData.groups).map(([subject, exams]) => (
+                     <div key={subject} className="space-y-8">
+                        <div className="flex items-center gap-4">
+                           <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter border-l-8 border-brand-teal pl-4 py-1">
+                              {subject}
                            </h2>
-                           <motion.div 
-                             layout
-                             className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
-                           >
-                             <AnimatePresence>
-                               {examsInTrack.map((exam: ExamType) => (
-                                 <ExamCard key={`${trackId}-${exam._id}`} exam={exam} />
-                               ))}
-                             </AnimatePresence>
-                           </motion.div>
+                           <div className="h-1 flex-1 bg-gray-100 border-y-2 border-black"></div>
                         </div>
-                     );
-                  })}
+                        
+                        <motion.div 
+                          layout
+                          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
+                        >
+                          <AnimatePresence>
+                            {exams.map((exam) => (
+                              <ExamCard key={`${activeTrack}-${exam._id}`} exam={exam} />
+                            ))}
+                          </AnimatePresence>
+                        </motion.div>
+                     </div>
+                  ))}
                </div>
             )}
 
