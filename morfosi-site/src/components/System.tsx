@@ -64,7 +64,7 @@ export default async function System() {
             href="/contact"
             className="mt-4 inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 font-black text-xs uppercase tracking-widest border-4 border-gray-900 shadow-[6px_6px_0px_#111] hover:shadow-[2px_2px_0px_#111] hover:translate-x-[4px] hover:translate-y-[4px] transition-all group"
           >
-            Κλείσε Δωρεάν Δοκιμαστικό
+            Κάνε την Εγγραφή σου
             <span className="group-hover:translate-x-1 transition-transform">→</span>
           </Link>
         </div>

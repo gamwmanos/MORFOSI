@@ -5,7 +5,7 @@ const REASONS = [
   {
     icon: <Users size={32} strokeWidth={2.5} />,
     number: "01",
-    title: "Μικρά τμήματα έως 5 άτομα",
+    title: "Μικρά τμήματα έως 7 άτομα",
     description:
       "Κάθε μαθητής έχει φωνή στην τάξη. Δεν «χάνεται» στο πλήθος — ο καθηγητής γνωρίζει τις αδυναμίες του και εστιάζει σε αυτές.",
     color: "bg-brand-teal",
@@ -32,9 +32,9 @@ const REASONS = [
   {
     icon: <Gift size={32} strokeWidth={2.5} />,
     number: "04",
-    title: "Δωρεάν δοκιμαστικό μάθημα",
+    title: "Εξατομικευμένη Προσέγγιση",
     description:
-      "Δοκίμασε χωρίς δέσμευση. Έλα σε ένα μάθημα, γνώρισε τον καθηγητή σου, και αποφάσισε αν σου ταιριάζει.",
+      "Σχεδιάζουμε μαζί το πλάνο επιτυχίας σου από την πρώτη μέρα, με βάση τις δικές σου ανάγκες.",
     color: "bg-brand-green",
     borderColor: "border-brand-green",
   },
@@ -105,9 +105,9 @@ export default function WhyUs() {
         <div className="mt-16 text-center">
           <Link
             href="/contact"
-            className="inline-flex items-center gap-3 bg-brand-orange text-white px-12 py-6 font-black uppercase tracking-widest text-base border-4 border-black shadow-[8px_8px_0px_#000] hover:shadow-[3px_3px_0px_#000] hover:translate-x-[5px] hover:translate-y-[5px] transition-all"
+            className="bg-brand-orange border-4 border-black px-12 py-5 font-black uppercase tracking-widest text-base text-white hover:bg-black transition-all shadow-[10px_10px_0px_#000] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_#000] inline-flex items-center justify-center gap-3"
           >
-            ΚΛΕΙΣΕ ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ
+            ΚΑΝΕ ΤΗΝ ΕΓΓΡΑΦΗ ΣΟΥ
             <span className="text-2xl">→</span>
           </Link>
         </div>

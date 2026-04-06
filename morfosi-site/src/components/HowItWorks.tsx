@@ -1,13 +1,13 @@
-import { PhoneCall, FileText, BarChart3, ArrowRight } from "lucide-react";
+import { PhoneCall, FileText, BarChart3, ArrowRight, Users } from "lucide-react";
 import Link from "next/link";
 
 const STEPS = [
   {
     number: "01",
-    icon: <PhoneCall size={36} strokeWidth={2} />,
-    title: "ΔΩΡΕΑΝ\nΔΟΚΙΜΑΣΤΙΚΟ",
+    icon: <Users size={36} strokeWidth={2} />,
+    title: "ΡΑΝΤΕΒΟΥ\nΓΝΩΡΙΜΙΑΣ",
     description:
-      "Κλείνεις ένα ραντεβού γνωριμίας. Έρχεσαι σε ένα μάθημα δωρεάν, γνωρίζεις τον καθηγητή, και βλέπουμε μαζί τις ανάγκες σου.",
+      "Κλείνεις ένα ραντεβού γνωριμίας. Συζητάμε τις ανάγκες σου, γνωρίζεις τους καθηγητές μας και σχεδιάζουμε το μέλλον σου.",
     color: "bg-brand-teal",
   },
   {
@@ -53,8 +53,8 @@ export default function HowItWorks() {
             <br />
             <span className="text-brand-orange">ΜΕΧΡΙ ΤΗΝ ΕΠΙΤΥΧΙΑ</span>
           </h2>
-          <p className="text-gray-500 font-bold text-lg max-w-2xl mx-auto">
-            Η πρώτη κίνηση είναι μόνο ένα δωρεάν δοκιμαστικό μάθημα. Χωρίς δέσμευση.
+          <p className="text-gray-400 font-bold max-w-lg mb-10 mx-auto">
+            Η πρώτη κίνηση είναι η επικοινωνία μαζί μας. Χωρίς καμία δέσμευση.
           </p>
         </div>
 

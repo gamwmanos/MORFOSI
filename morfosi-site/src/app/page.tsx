@@ -1,4 +1,5 @@
 import { client } from "@/sanity/client";
+import { ArrowRight } from "lucide-react";
 import Hero from "@/components/Hero";
 import SocialProofBar from "@/components/SocialProofBar";
 import ScrollVideo from "@/components/ScrollVideo";
@@ -180,10 +181,10 @@ export default async function Home() {
                 </div>
                 <h2 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter leading-tight">
                   ΔΩΡΕΑΝ<br/>
-                  <span className="text-brand-orange">ΔΟΚΙΜΑΣΤΙΚΟ</span>
+                  <span className="text-brand-orange border-b-4 border-brand-orange">ΕΓΓΡΑΦΗ</span> ΤΩΡΑ
                 </h2>
                 <p className="text-white/80 font-bold text-lg mt-4 max-w-xl leading-relaxed">
-                  Ελάτε για ένα δωρεάν μάθημα και δοκιμάστε τη μέθοδό μας. Αν δεν είστε ικανοποιημένοι, δεν χρωστάτε τίποτα.
+                  Ξεκινήστε την προετοιμασία σας με τους κορυφαίους. Εξασφαλίστε τη θέση σας στα ολιγομελή τμήματά μας.
                 </p>
               </div>
               <div className="flex flex-col gap-4 flex-shrink-0">
@@ -191,7 +192,8 @@ export default async function Home() {
                   href="/contact"
                   className="inline-flex items-center gap-3 bg-brand-orange text-white px-12 py-6 font-black uppercase tracking-widest text-base border-4 border-black shadow-[8px_8px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[6px] hover:translate-y-[6px] transition-all"
                 >
-                  ΚΛΕΙΣΕ ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ
+                  ΚΑΝΕ ΤΗΝ ΕΓΓΡΑΦΗ ΣΟΥ
+                  <ArrowRight size={20} strokeWidth={3} />
                 </Link>
                 <a
                   href={`tel:${phoneClean}`}

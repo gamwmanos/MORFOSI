@@ -50,9 +50,9 @@ export default function Stats() {
         </div>
 
         <div className="mt-28">
-          <Link href="/contact" className="bg-brand-orange text-white px-10 py-5 font-black text-sm uppercase tracking-widest hover:bg-orange-600 transition-colors shadow-lg inline-block">
-            ΚΛΕΙΣΕ ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ →
-          </Link>
+              <Link href="/contact" className="inline-flex items-center justify-center gap-2 bg-brand-orange text-white px-8 py-5 font-black uppercase tracking-widest text-sm border-4 border-black shadow-[6px_6px_0px_#000] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all">
+                ΕΓΓΡΑΨΟΥ ΤΩΡΑ
+              </Link>
         </div>
       </div>
     </section>

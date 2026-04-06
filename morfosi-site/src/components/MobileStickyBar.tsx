@@ -40,7 +40,7 @@ export default function MobileStickyBar({ contactPhone = "2105063610" }: { conta
           className="flex-[1.4] flex items-center justify-center gap-2 bg-brand-orange text-white py-4 font-black text-sm uppercase tracking-wider active:bg-orange-600 transition-colors"
         >
           <UserPlus size={18} strokeWidth={3} />
-          ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ
+          ΕΓΓΡΑΨΟΥ ΤΩΡΑ
         </a>
       </div>
     </div>

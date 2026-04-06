@@ -46,9 +46,9 @@ export default function Hero() {
 
            {/* Primary CTA Buttons */}
            <div className="flex flex-wrap gap-4 mt-8">
-             <Link href="/contact" className="bg-brand-orange border-4 border-black px-8 py-4 font-black uppercase tracking-widest text-sm text-white hover:bg-black transition-all shadow-[6px_6px_0px_#000] hover:translate-y-1 hover:shadow-[2px_2px_0px_#000]">
-                ΚΛΕΙΣΕ ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ
-             </Link>
+              <Link href="/contact" className="px-8 py-5 bg-brand-orange text-white font-black text-sm md:text-base uppercase tracking-[0.2em] border-4 border-black shadow-[8px_8px_0px_#000] hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all flex items-center justify-center gap-2">
+                ΕΓΓΡΑΨΟΥ ΤΩΡΑ
+              </Link>
              <a href="#testimonials" className="bg-white border-4 border-black px-8 py-4 font-black uppercase tracking-widest text-sm hover:bg-brand-teal hover:text-white transition-all shadow-[6px_6px_0px_#000] hover:translate-y-1 hover:shadow-[2px_2px_0px_#000] flex items-center gap-2">
                 ΔΕΣ ΤΟΥΣ ΕΠΙΤΥΧΟΝΤΕΣ
                 <ArrowDown size={16} strokeWidth={3} />

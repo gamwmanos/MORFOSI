@@ -29,8 +29,8 @@ const FAQ = [
     a: "Τηρούμε μικρά τμήματα 5-8 μαθητών ώστε κάθε παιδί να λαμβάνει εξατομικευμένη προσοχή. Δεν κάνουμε εκπτώσεις στην ποιότητα.",
   },
   {
-    q: "Υπάρχει δοκιμαστικό μάθημα;",
-    a: "Ναι! Προσφέρουμε ένα δωρεάν δοκιμαστικό μάθημα για κάθε νέο μαθητή, χωρίς υποχρέωση εγγραφής.",
+    q: "Πώς μπορώ να κάνω την εγγραφή μου;",
+    a: "Η διαδικασία είναι απλή: Μπορείτε να συμπληρώσετε την online φόρμα εγγραφής, να μας καλέσετε στο τηλέφωνο ή να επισκεφθείτε το χώρο μας για μια συνάντηση γνωριμίας και ενημέρωσης."
   },
   {
     q: "Μπορώ να εγγραφώ μέσα στη χρονιά;",
@@ -42,7 +42,7 @@ const FAQ = [
   },
   {
     q: "Ποιο είναι το κόστος φοίτησης;",
-    a: "Τα δίδακτρα εξαρτώνται από τον αριθμό μαθημάτων και την τάξη. Επικοινωνήστε μαζί μας για αναλυτική προσφορά βάσει των ανagκών σας.",
+    a: "Τα δίδακτρα εξαρτώνται από τον αριθμό μαθημάτων και την τάξη. Επικοινωνήστε μαζί μας για αναλυτική προσφορά βάσει των αναγκών σας.",
   },
 ];
 
@@ -58,7 +58,7 @@ const WHY_ITEMS = [
   { icon: <Users size={28} />, title: "Μικρά Τμήματα", desc: "Έως 8 μαθητές ανά τμήμα για εξατομικευμένη διδασκαλία", color: "bg-brand-teal" },
   { icon: <Award size={28} />, title: "Εγγύηση Αποτελεσμάτων", desc: "94%+ εισαγωγή στη σχολή πρώτης επιλογής", color: "bg-brand-orange" },
   { icon: <Star size={28} />, title: "Κορυφαίοι Καθηγητές", desc: "Επιλεγμένοι εκπαιδευτικοί με αποδεδειγμένα αποτελέσματα", color: "bg-brand-green" },
-  { icon: <CheckCircle size={28} />, title: "Δωρεάν Δοκιμαστικό", desc: "Ένα μάθημα δωρεάν χωρίς καμία δέσμευση", color: "bg-brand-purple" },
+  { icon: <CheckCircle size={28} />, title: "Άμεση Εγγραφή", desc: "Διαδικασία εξπρές για να ξεκινήσετε αμέσως.", color: "bg-brand-purple" },
 ];
 
 export default async function ContactPage() {
@@ -255,8 +255,7 @@ export default async function ContactPage() {
                   </div>
                 </div>
                 <p className="text-gray-500 font-bold mb-8 leading-relaxed">
-                  Συμπληρώστε την παρακάτω αίτηση και θα επικοινωνήσουμε μαζί σας για να οριστικοποιήσουμε την εγγραφή.
-                  Ολόκληρη η διαδικασία διαρκεί μόνο 3 λεπτά.
+                  Συμπληρώστε την παρακάτω φόρμα και θα επικοινωνήσουμε μαζί σας εντός 24 ωρών για να συζητήσουμε τις ανάγκες σας.
                 </p>
                 <EnrollmentForm />
               </div>
@@ -528,54 +527,6 @@ export default async function ContactPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          TESTIMONIAL STRIP — Social proof
-      ═══════════════════════════════════════════════════════════ */}
-      <section className="bg-[#031516] py-20 border-t-[8px] border-brand-orange overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="text-center mb-12">
-            <div className="text-brand-orange font-black text-xs uppercase tracking-[0.3em] mb-4">Τι λένε οι γονείς μας</div>
-            <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter">
-              ΓΙΑΤΙ ΕΠΙΛΕΓΟΥΝ <span className="text-brand-teal">ΜΟΡΦΩΣΗ</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-[4px] border-white/20 shadow-[12px_12px_0px_rgba(245,130,32,0.3)]">
-            {[
-              {
-                quote: "Ο γιος μου πέρασε στην Ιατρική Αθηνών! Ποτέ δεν το πιστεύαμε. Οι καθηγητές της Μόρφωσης τον στήριξαν καθ' όλη τη χρονιά.",
-                name: "Μαρία Κ.", role: "Μητέρα μαθητή Γ΄ Λυκείου", color: "bg-brand-teal",
-              },
-              {
-                quote: "Αμέσως μετά την εγγραφή νιώσαμε ότι το παιδί ήταν σε καλά χέρια. Επαγγελματισμός, ζεστασιά, αποτελέσματα.",
-                name: "Γιώργος Π.", role: "Πατέρας μαθήτριας Β΄ Γυμνασίου", color: "bg-brand-orange",
-              },
-              {
-                quote: "Έχουμε βάλει και τα 3 παιδιά μας στη Μόρφωση. Δεν αλλάζαμε φροντιστήριο με τίποτα. 100% σύσταση.",
-                name: "Ελένη Δ.", role: "Γονέας 3 μαθητών", color: "bg-brand-green",
-              },
-            ].map((t, i) => (
-              <div key={i} className={`${t.color} p-10 border-r-[4px] last:border-r-0 border-white/20`}>
-                <div className="text-white/30 font-black text-6xl leading-none mb-4 select-none">&ldquo;</div>
-                <p className="text-white font-bold text-base leading-relaxed mb-8">{t.quote}</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-black/30 border-2 border-white/30 flex items-center justify-center font-black text-white">
-                    {t.name.charAt(0)}
-                  </div>
-                  <div>
-                    <div className="text-white font-black text-sm">{t.name}</div>
-                    <div className="text-white/70 font-bold text-xs">{t.role}</div>
-                  </div>
-                </div>
-                <div className="flex gap-1 mt-4">
-                  {[1,2,3,4,5].map(s => <Star key={s} size={14} className="text-white fill-white" />)}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════
           FINAL CTA
       ═══════════════════════════════════════════════════════════ */}
       <section className="bg-brand-teal py-24 border-t-[8px] border-black">
@@ -583,14 +534,13 @@ export default async function ContactPage() {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
             <div>
               <div className="text-white/70 font-black text-xs uppercase tracking-[0.3em] mb-4">
-                Ξεκινήστε Σήμερα — Χωρίς Υποχρεώσεις
+                Ξεκινήστε Σήμερα — Χωρίς Καθυστέρηση
               </div>
               <h2 className="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter leading-tight">
-                ΔΩΡΕΑΝ<br />
-                <span className="text-brand-orange">ΔΟΚΙΜΑΣΤΙΚΟ</span>
+                ΚΑΝΕ ΤΗΝ <span className="text-brand-orange border-b-4 border-brand-orange">ΕΓΓΡΑΦΗ</span> ΣΟΥ ΤΩΡΑ
               </h2>
               <p className="text-white/80 font-bold text-lg mt-4 max-w-xl leading-relaxed">
-                Ελάτε για ένα δωρεάν μάθημα και δοκιμάστε τη μέθοδό μας. Αν δεν είστε ικανοποιημένοι, δεν χρωστάτε τίποτα.
+                Ξεκινήστε σήμερα την προετοιμασία σας. Εξασφαλίστε τη θέση σας στα ολιγομελή τμήματά μας και κάντε το πρώτο βήμα για την επιτυχία.
               </p>
             </div>
             <div className="flex flex-col gap-4 flex-shrink-0">

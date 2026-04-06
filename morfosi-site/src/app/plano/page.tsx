@@ -72,7 +72,7 @@ const FALLBACK_PLANS: PlanData[] = [
     heroDescription:
       'Στο Γυμνάσιο μαθαίνουμε να μαθαίνουμε. Η μεθοδολογία μας εστιάζει στην κατανόηση των εννοιών, την ανάπτυξη κριτικής σκέψης και την απόκτηση σταθερής βάσης για το Λύκειο. Μικρά τμήματα, εξατομικευμένη προσοχή, εβδομαδιαία διαγνωστικά τεστ.',
     features: [
-      { icon: '📚', title: 'Μικρά Τμήματα', description: 'Μέγιστο 8 μαθητές ανά τμήμα για εξατομικευμένη προσοχή' },
+      { icon: '📚', title: 'Μικρά Τμήματα', description: 'Μέγιστο 7 μαθητές ανά τμήμα για εξατομικευμένη προσοχή' },
       { icon: '📊', title: 'Εβδομαδιαία Αξιολόγηση', description: 'Διαγνωστικά τεστ κάθε εβδομάδα για παρακολούθηση της προόδου' },
       { icon: '🎯', title: 'Στοχευμένη Προετοιμασία', description: 'Εστίαση στα κρίσιμα κεφάλαια για τις τελικές εξετάσεις' },
       { icon: '👨‍👩‍👧', title: 'Ενημέρωση Γονέων', description: 'Μηνιαίες συναντήσεις με γονείς για ενημέρωση προόδου' },
@@ -88,7 +88,7 @@ const FALLBACK_PLANS: PlanData[] = [
     ],
     stats: [
       { value: '97%', label: 'Επιτυχία στις Εξετάσεις' },
-      { value: '8', label: 'Μέγιστο Μαθητών/Τμήμα' },
+      { value: '7', label: 'Μέγιστο Μαθητών/Τμήμα' },
       { value: '200+', label: 'Απόφοιτοι Ετησίως' },
     ],
     callToAction: 'Εγγράψου Τώρα',
@@ -120,7 +120,7 @@ const FALLBACK_PLANS: PlanData[] = [
       { value: '1.200+', label: 'Επιτυχόντες Φοιτητές' },
       { value: '35+', label: 'Χρόνια Εμπειρίας' },
     ],
-    callToAction: 'Κλείσε Δωρεάν Δοκιμαστικό',
+    callToAction: 'Κάνε την Εγγραφή σου',
   },
   {
     _id: 'epal',
@@ -280,7 +280,7 @@ function HeroSection({ active, plans }: { active: string; plans: PlanData[] }) {
               className="px-8 py-4 font-black uppercase tracking-widest text-sm text-white border-4 border-black shadow-[6px_6px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[4px] hover:translate-y-[4px] transition-all inline-block"
               style={{ background: cfg.color }}
             >
-              {plan?.callToAction || 'ΚΛΕΙΣΕ ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ'}
+              {plan?.callToAction || 'Κάνε την Εγγραφή σου'}
             </Link>
             {active !== 'gymnasio' && (
               <Link
@@ -612,7 +612,7 @@ function CTASection({ plan }: { plan: PlanData }) {
           <span style={{ color: cfg.color }}>ΞΕΚΙΝΗΣΕΙΣ;</span>
         </h2>
         <p className="text-gray-500 font-semibold text-lg max-w-2xl mx-auto mb-12 leading-relaxed">
-          Κλείσε το δωρεάν δοκιμαστικό σου μάθημα σήμερα και γνώρισε τη μέθοδό μας από κοντά. Μηδέν υποχρεώσεις.
+          Κάνε την εγγραφή σου σήμερα και εξασφάλισε τη θέση σου στα τμήματά μας.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-6">
           <Link
@@ -620,7 +620,7 @@ function CTASection({ plan }: { plan: PlanData }) {
             className="px-10 py-5 font-black uppercase tracking-widest text-base text-white border-4 border-black shadow-[8px_8px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[6px] hover:translate-y-[6px] transition-all inline-block"
             style={{ background: cfg.color }}
           >
-            {plan.callToAction || 'ΚΛΕΙΣΕ ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ'}
+            {plan.callToAction || 'ΚΑΝΕ ΤΗΝ ΕΓΓΡΑΦΗ ΣΟΥ'}
           </Link>
           <Link
             href="/"

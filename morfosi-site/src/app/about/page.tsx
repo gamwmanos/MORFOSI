@@ -35,7 +35,7 @@ import {
 const now = new Date();
 const currentYear = now.getFullYear(); // 2026
 const prevYear = currentYear - 1; // 2025
-const foundingYear = 2005;
+const foundingYear = 2002;
 const yearsOfExp = currentYear - foundingYear;
 const academicYearShort = `${currentYear}-${(currentYear + 1).toString().slice(-2)}`;
 
@@ -298,7 +298,7 @@ export default function AboutPage() {
   const [contactPhone, setContactPhone] = useState("210 506 3610");
   const [address, setAddress] = useState("25ης Μαρτίου 84, Αγίου Δημητρίου 17, Πετρούπολη 132 31");
   const [contactEmail, setContactEmail] = useState("morfosifront@gmail.com");
-  const [facilityPhotos, setFacilityPhotos] = useState<Array<{_id: string; title: string; photoUrl: string}>>([]);
+  const [facilityPhotos, setFacilityPhotos] = useState<Array<{ _id: string; title: string; photoUrl: string }>>([]);
   const [activeFacilityPhoto, setActiveFacilityPhoto] = useState(0);
 
   useEffect(() => {
@@ -676,9 +676,8 @@ export default function AboutPage() {
                 {facilityPhotos.map((fp, i) => (
                   <div
                     key={fp._id}
-                    className={`absolute inset-0 transition-opacity duration-700 ${
-                      i === activeFacilityPhoto ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`absolute inset-0 transition-opacity duration-700 ${i === activeFacilityPhoto ? "opacity-100" : "opacity-0"
+                      }`}
                   >
                     <img src={fp.photoUrl} alt={fp.title} className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gray-900/30" />
@@ -693,9 +692,8 @@ export default function AboutPage() {
                       <button
                         key={i}
                         onClick={() => setActiveFacilityPhoto(i)}
-                        className={`w-3 h-3 border-2 border-white transition-all ${
-                          i === activeFacilityPhoto ? "bg-brand-orange" : "bg-transparent"
-                        }`}
+                        className={`w-3 h-3 border-2 border-white transition-all ${i === activeFacilityPhoto ? "bg-brand-orange" : "bg-transparent"
+                          }`}
                         aria-label={`Φωτογραφία ${i + 1}`}
                       />
                     ))}

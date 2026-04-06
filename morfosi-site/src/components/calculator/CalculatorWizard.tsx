@@ -443,8 +443,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
       <h2>ΜΟΡΦΩΣΗ</h2>
       <p>Θέλεις να βελτιώσεις τα μόριά σου; Κάλεσέ μας!</p>
     </div>
-    <div class="footer-right">
-      210 506 3610<br>morfosi.edu.gr<br>Δωρεάν δοκιμαστικό μάθημα
+      210 506 3610<br>morfosi.edu.gr<br>Εκπαιδευτικός Οργανισμός
     </div>
   </div>
 
@@ -712,7 +711,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
                         </div>
                         <div className="flex flex-col gap-4 flex-shrink-0 w-full md:w-auto">
                           <a href="/contact" className="bg-brand-orange text-white px-8 py-4 font-black uppercase tracking-widest text-sm border-4 border-black shadow-[6px_6px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[4px] hover:translate-y-[4px] transition-all text-center">
-                            📚 ΔΩΡΕΑΝ ΔΟΚΙΜΑΣΤΙΚΟ
+                            ΕΓΓΡΑΨΟΥ ΤΩΡΑ
                           </a>
                           <a href={`tel:${contactPhone.replace(/\s+/g, "")}`} className="bg-white text-gray-900 px-8 py-4 font-black uppercase tracking-widest text-sm border-4 border-black shadow-[6px_6px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[4px] hover:translate-y-[4px] transition-all text-center">
                             📞 {contactPhone}
