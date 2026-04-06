@@ -132,7 +132,7 @@ export default function Hero() {
          <div className="relative w-full max-w-lg xl:max-w-2xl aspect-[4/5] xl:aspect-square bg-brand-orange border-[6px] border-black shadow-[16px_16px_0px_#000] -rotate-2 hover:rotate-0 transition-transform duration-500 ease-out z-20">
             {/* The Generated Image */}
             <Image 
-               src="/hero_greek.png" 
+               src="/front2.jpg" 
                alt="Εκπαίδευση με σύγχρονα μέσα" 
                fill
                priority
