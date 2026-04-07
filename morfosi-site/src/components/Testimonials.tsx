@@ -1,6 +1,6 @@
 "use client"
 
-import { Quote, Star } from "lucide-react"
+import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react"
 import { motion, useAnimation, useInView } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
@@ -98,17 +98,35 @@ export default function Testimonials({ testimonials = [] }: { testimonials?: Tes
                 Δεν χρειάζεται να πούμε εμείς για το έργο μας. Δείτε τι λένε οι μαθητές μας για την εμπειρία τους και την πορεία τους προς την κορυφή.
               </p>
 
-              <div className="flex items-center gap-3 pt-6">
-                {items.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveIndex(index)}
-                    className={`h-4 transition-all duration-300 border-2 border-black ${
-                      activeIndex === index ? "w-16 bg-brand-teal shadow-[2px_2px_0px_#000]" : "w-4 bg-gray-200 hover:bg-gray-300"
-                    }`}
-                    aria-label={`View testimonial ${index + 1}`}
-                  />
-                ))}
+              <div className="flex items-center gap-6 pt-6 mt-4">
+                <button
+                  onClick={() => setActiveIndex((current) => (current - 1 + items.length) % items.length)}
+                  className="w-12 h-12 border-[3px] border-black bg-white flex items-center justify-center shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
+                  aria-label="Προηγούμενη αφήγηση"
+                >
+                  <ChevronLeft className="w-6 h-6 text-black" strokeWidth={3} />
+                </button>
+
+                <div className="flex items-center gap-3">
+                  {items.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setActiveIndex(index)}
+                      className={`h-4 transition-all duration-300 border-[3px] border-black ${
+                        activeIndex === index ? "w-16 bg-brand-teal shadow-[3px_3px_0px_#000]" : "w-4 bg-gray-100 hover:bg-gray-300"
+                      }`}
+                      aria-label={`Προβολή αφήγησης ${index + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => setActiveIndex((current) => (current + 1) % items.length)}
+                  className="w-12 h-12 border-[3px] border-black bg-white flex items-center justify-center shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
+                  aria-label="Επόμενη αφήγηση"
+                >
+                  <ChevronRight className="w-6 h-6 text-black" strokeWidth={3} />
+                </button>
               </div>
             </div>
           </motion.div>
