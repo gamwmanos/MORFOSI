@@ -23,6 +23,7 @@ import {
   Globe,
   Pencil,
   Star,
+  Target,
   CalendarDays,
   Info,
   Mail,
@@ -91,6 +92,12 @@ const NAV_ITEMS: NavItem[] = [
         label: "Λύκειο",
         description: "Α΄, Β΄, Γ΄ Λυκείου — πανελλήνιες & μόρια",
         icon: <GraduationCap size={20} strokeWidth={2.5} />,
+      },
+      {
+        href: "/prosanatolismos",
+        label: "Προσανατολισμός",
+        description: "Τεστ & προσωπικές συνεντεύξεις",
+        icon: <Target size={20} strokeWidth={2.5} />,
       },
     ],
     featured: {

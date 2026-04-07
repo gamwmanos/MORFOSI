@@ -213,7 +213,7 @@ export default function ProsanatolismosPage() {
           <div>
             <div className="inline-flex items-center gap-2 bg-brand-orange/10 border border-brand-orange/30 text-brand-orange font-black text-xs uppercase tracking-[0.2em] px-4 py-2 mb-8">
               <CalendarCheck size={14} />
-              Κάθε Χρόνο — Περιορισμένες Θέσεις
+              Κάθε Χρόνο
             </div>
             <h1 className="text-5xl lg:text-7xl xl:text-[80px] font-black text-white leading-[0.95] tracking-tighter mb-8 uppercase">
               Ακαδημαϊκός<br />

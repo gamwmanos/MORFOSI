@@ -57,7 +57,7 @@ export const planPageType = defineType({
           fields: [
             defineField({ name: 'subjectName', title: 'Όνομα Μαθήματος', type: 'string' }),
             defineField({ name: 'hoursPerWeek', title: 'Ώρες/Εβδομάδα', type: 'number' }),
-            defineField({ name: 'category', title: 'Κατηγορία', type: 'string', options: { list: ['Θετικά', 'Θεωρητικά', 'Τεχνολογικά', 'Γλώσσες', 'Γενική Παιδεία'] } }),
+            defineField({ name: 'category', title: 'Κατηγορία', type: 'string', options: { list: ['Θετικά', 'Θεωρητικά', 'Γλώσσες', 'Γενική Παιδεία', 'Ανθρωπιστικών Σπουδών', 'Θετικών Σπουδών', 'Σπουδών Υγείας', 'Οικονομίας & Πληροφορικής'] } }),
           ],
         },
       ],

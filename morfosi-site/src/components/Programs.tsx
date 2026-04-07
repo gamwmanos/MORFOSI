@@ -37,9 +37,14 @@ export default function Programs({ programs = [] }: { programs?: ProgramType[] }
              <p className="text-gray-600 font-medium mb-10 leading-relaxed text-lg">
                Σχεδιασμένα αυστηρά για να καλύπτουν κάθε εκπαιδευτική ανάγκη. Από θεμέλια γνώσης στο Γυμνάσιο, μέχρι την απόλυτη κορύφωση των Πανελλαδικών Εξετάσεων.
              </p>
-             <Link href="/plano" className="bg-brand-teal text-white w-fit px-10 py-5 font-black uppercase tracking-widest text-sm hover:bg-brand-teal-dark transition-colors shadow-lg inline-block">
-               ΔΕΣ ΤΟ ΠΛΑΝΟ ΜΑΘΗΜΑΤΩΝ →
-             </Link>
+             <div className="flex flex-col gap-4 w-fit">
+                <Link href="/plano" className="bg-brand-teal text-white px-10 py-5 font-black uppercase tracking-widest text-sm hover:bg-brand-teal-dark transition-colors shadow-lg inline-block text-center border-4 border-transparent hover:border-brand-teal">
+                  ΔΕΣ ΤΟ ΠΛΑΝΟ ΜΑΘΗΜΑΤΩΝ →
+                </Link>
+                <Link href="/prosanatolismos" className="bg-white text-brand-teal border-4 border-brand-teal px-10 py-5 font-black uppercase tracking-widest text-sm hover:bg-brand-teal hover:text-white transition-colors shadow-lg inline-block text-center">
+                  ΕΠΑΓΓΕΛΜΑΤΙΚΟΣ ΠΡΟΣΑΝΑΤΟΛΙΣΜΟΣ →
+                </Link>
+             </div>
           </div>
 
           {/* Right: Sharp Line Minimalist Grid (Static Lykeio Directions) */}
