@@ -240,7 +240,7 @@ export default function ProsanatolismosPage() {
           </div>
 
           {/* Stats card */}
-          <div className="grid grid-cols-2 gap-px bg-white/10 border border-white/10 shadow-2xl">
+          <div className="grid grid-cols-2 gap-px bg-white/10 border border-white/10 shadow-2xl lg:translate-x-16 xl:translate-x-24">
             {[
               { val: "100%", label: "Εξατομικευμένη\nΠροσέγγιση" },
               { val: "1Ο1", label: "Ατομικές\nΣυνεδρίες" },
