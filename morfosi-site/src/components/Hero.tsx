@@ -91,7 +91,6 @@ export default function Hero() {
                   >
                     <option value="">Επιλογη Βαθμιδας</option>
                     <option value="lykeio">Γενικό Λύκειο</option>
-                    <option value="epal">ΕΠΑΛ</option>
                     <option value="gymnasio">Γυμνάσιο</option>
                   </select>
                   <button

@@ -26,7 +26,7 @@ interface PlanStat {
 
 interface PlanData {
   _id: string;
-  level: 'gymnasio' | 'lykeio' | 'epal';
+  level: 'gymnasio' | 'lykeio';
   tagline?: string;
   heroDescription?: string;
   features?: PlanFeature[];
@@ -122,33 +122,6 @@ const FALLBACK_PLANS: PlanData[] = [
     ],
     callToAction: 'Κάνε την Εγγραφή σου',
   },
-  {
-    _id: 'epal',
-    level: 'epal',
-    tagline: 'Επαγγελματική Κατάρτιση & Πανεπιστήμιο',
-    heroDescription:
-      'Το ΕΠΑΛ ανοίγει μοναδικούς ορίζοντες: επαγγελματική κατάρτιση υψηλού επιπέδου και δρόμος προς ΤΕΙ & ΑΕΙ. Η Μόρφωση παρέχει εξειδικευμένη προετοιμασία για τις Πανελλαδικές Εξετάσεις ΕΠΑΛ, καλύπτοντας πλήρως τα ειδικά μαθήματα της κάθε ειδικότητας.',
-    features: [
-      { icon: '🔧', title: 'Ειδικά Μαθήματα', description: 'Πλήρης κάλυψη ειδικών μαθημάτων ανά ειδικότητα ΕΠΑΛ' },
-      { icon: '🎓', title: 'Δρόμος ΑΕΙ/ΤΕΙ', description: 'Εξειδικευμένη προετοιμασία για πρόσβαση σε ανώτατη εκπαίδευση' },
-      { icon: '💡', title: 'Πρακτική Εκπαίδευση', description: 'Συνδυασμός θεωρίας και πρακτικής εφαρμογής' },
-      { icon: '🤝', title: 'Καθοδήγηση Καριέρας', description: 'Συμβουλευτική για επαγγελματική αποκατάσταση και σπουδές' },
-    ],
-    subjects: [
-      { subjectName: 'Νεοελληνική Γλώσσα', hoursPerWeek: 2, category: 'Γενική Παιδεία' },
-      { subjectName: 'Μαθηματικά', hoursPerWeek: 3, category: 'Γενική Παιδεία' },
-      { subjectName: 'Φυσική', hoursPerWeek: 2, category: 'Γενική Παιδεία' },
-      { subjectName: 'Τεχνολογία Ειδικότητας', hoursPerWeek: 4, category: 'Τεχνολογικά' },
-      { subjectName: 'Εφαρμογές Ειδικότητας', hoursPerWeek: 4, category: 'Τεχνολογικά' },
-      { subjectName: 'Αγγλικά', hoursPerWeek: 2, category: 'Γλώσσες' },
-    ],
-    stats: [
-      { value: '92%', label: 'Επιτυχία ΕΠΑΛ' },
-      { value: '15+', label: 'Ειδικότητες' },
-      { value: '500+', label: 'Απόφοιτοι ΕΠΑΛ' },
-    ],
-    callToAction: 'Ξεκίνα Σήμερα',
-  },
 ];
 
 // ─── Config per level ─────────────────────────────────────────────────────────
@@ -187,27 +160,6 @@ const LEVEL_CONFIG = {
     badgeBg: '#fff4e6',
     badgeText: '#c96b10',
     tabBorder: 'border-brand-orange',
-    categoryColors: {
-      'Θετικά': '#0c82a2',
-      'Θεωρητικά': '#8e4585',
-      'Γλώσσες': '#00a651',
-      'Τεχνολογικά': '#e31837',
-      'Γενική Παιδεία': '#f58220',
-    },
-  },
-  epal: {
-    label: 'ΕΠΑΛ',
-    sub: 'Επαγγελματικό Λύκειο',
-    emoji: '🔧',
-    color: '#e31837',        // brand-red
-    colorDark: '#991020',
-    colorLight: '#fde8ec',
-    gradientFrom: '#991020',
-    gradientTo: '#0d0305',
-    accent: '#e31837',
-    badgeBg: '#fde8ec',
-    badgeText: '#991020',
-    tabBorder: 'border-brand-red',
     categoryColors: {
       'Θετικά': '#0c82a2',
       'Θεωρητικά': '#8e4585',
@@ -326,13 +278,13 @@ function TabBar({
   active: string;
   onChange: (v: string) => void;
 }) {
-  const levels = ['gymnasio', 'lykeio', 'epal'] as const;
+  const levels = ['gymnasio', 'lykeio'] as const;
 
   return (
     <div className="sticky top-0 z-50 w-full bg-white border-b-4 border-black shadow-lg">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex">
-          {levels.map((level: 'gymnasio' | 'lykeio' | 'epal') => {
+          {levels.map((level: 'gymnasio' | 'lykeio') => {
             const cfg = LEVEL_CONFIG[level];
             const isActive = active === level;
             return (
@@ -746,20 +698,20 @@ function PlanoPageContent() {
 
   useEffect(() => {
     // 1. Check Query Params first (from Header links)
-    if (queryLevel && ['gymnasio', 'lykeio', 'epal'].includes(queryLevel)) {
+    if (queryLevel && ['gymnasio', 'lykeio'].includes(queryLevel)) {
       setActiveLevel(queryLevel);
     } 
     // 2. Check Hash second (from old links)
     else if (window.location.hash) {
       const hash = window.location.hash.replace('#', '');
-      if (['gymnasio', 'lykeio', 'epal'].includes(hash)) {
+      if (['gymnasio', 'lykeio'].includes(hash)) {
         setActiveLevel(hash);
       }
     } 
     // 3. Check Session Storage (from Hero section dropdowns if implemented)
     else {
       const storedLevel = sessionStorage.getItem('planoLevel');
-      if (storedLevel && ['gymnasio', 'lykeio', 'epal'].includes(storedLevel)) {
+      if (storedLevel && ['gymnasio', 'lykeio'].includes(storedLevel)) {
         setActiveLevel(storedLevel);
         sessionStorage.removeItem('planoLevel'); // consume it
       }
@@ -767,7 +719,7 @@ function PlanoPageContent() {
 
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['gymnasio', 'lykeio', 'epal'].includes(hash)) {
+      if (['gymnasio', 'lykeio'].includes(hash)) {
         setActiveLevel(hash);
       }
     };
@@ -818,7 +770,7 @@ function PlanoPageContent() {
             </h1>
           </div>
           <div className="flex items-center gap-3 flex-wrap">
-            {(['gymnasio', 'lykeio', 'epal'] as const).map((level) => {
+            {(['gymnasio', 'lykeio'] as const).map((level) => {
               const cfg = LEVEL_CONFIG[level];
               const isActive = activeLevel === level;
               return (

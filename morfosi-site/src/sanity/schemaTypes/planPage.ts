@@ -14,7 +14,6 @@ export const planPageType = defineType({
         list: [
           { title: 'Γυμνάσιο', value: 'gymnasio' },
           { title: 'Λύκειο', value: 'lykeio' },
-          { title: 'ΕΠΑΛ', value: 'epal' },
         ],
         layout: 'radio',
       },
@@ -96,7 +95,6 @@ export const planPageType = defineType({
       const labels: Record<string, string> = {
         gymnasio: '🏫 Γυμνάσιο',
         lykeio: '🎓 Λύκειο',
-        epal: '🔧 ΕΠΑΛ',
       }
       return { title: labels[title] || title, subtitle }
     },

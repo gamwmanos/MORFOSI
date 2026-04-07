@@ -92,12 +92,6 @@ const NAV_ITEMS: NavItem[] = [
         description: "Α΄, Β΄, Γ΄ Λυκείου — πανελλήνιες & μόρια",
         icon: <GraduationCap size={20} strokeWidth={2.5} />,
       },
-      {
-        href: "/plano?level=epal",
-        label: "ΕΠΑΛ",
-        description: "Επαγγελματικό Λύκειο — ειδικότητες & σπουδές",
-        icon: <Award size={20} strokeWidth={2.5} />,
-      },
     ],
     featured: {
       title: "Το Πλάνο μας",

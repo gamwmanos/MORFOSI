@@ -60,7 +60,6 @@ export const examMaterialType = defineType({
           { title: 'Β Λυκείου', value: 'b_lykeiou' },
           { title: 'Γ Λυκείου', value: 'g_lykeiou' },
           { title: 'ΓΕΛ', value: 'gel' },
-          { title: 'ΕΠΑΛ', value: 'epal' },
           { title: 'Γυμνάσιο', value: 'gymnasio' },
           { title: 'Δημοτικό', value: 'dimotiko' },
         ],
