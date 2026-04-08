@@ -131,7 +131,7 @@ const NAV_ITEMS: NavItem[] = [
         icon: <GraduationCap size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/contact",
+        href: "/contact#enrollment-form",
         label: "Εγγραφή σε Τμήμα",
         description: "Κράτησε τη θέση σου τώρα",
         icon: <Users size={20} strokeWidth={2.5} />,
@@ -187,7 +187,7 @@ const NAV_ITEMS: NavItem[] = [
       description:
         "Οι εγγραφές για τη νέα σχολική χρονιά είναι ανοιχτές. Μη χάσεις τη θέση σου!",
       cta: "ΔΩΡΕΑΝ ΑΞΙΟΛΟΓΗΣΗ",
-      href: "/contact",
+      href: "/contact#enrollment-form",
       color: "bg-brand-orange",
     },
   },
@@ -197,7 +197,7 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       {
         href: "/exams",
-        label: "Εξεταζόμενα Μαθήματα",
+        label: "Παλιά Θέματα & Διαγωνίσματα",
         description: `Αναλυτικός οδηγός Πανελληνίων ${currentYear}`,
         icon: <FileText size={20} strokeWidth={2.5} />,
       },
@@ -293,13 +293,7 @@ const NAV_ITEMS: NavItem[] = [
         icon: <MapPin size={20} strokeWidth={2.5} />,
       },
       {
-        href: "/contact",
-        label: "Ωράριο Λειτουργίας",
-        description: "Δευ-Παρ 09:00-21:00 · Σάβ 09:00-14:00",
-        icon: <Clock size={20} strokeWidth={2.5} />,
-      },
-      {
-        href: "/contact",
+        href: "/contact#enrollment-form",
         label: `Εγγραφές ${academicYearShort}`,
         description: "Διαδικασία & απαραίτητα δικαιολογητικά",
         icon: <Info size={20} strokeWidth={2.5} />,
@@ -589,7 +583,7 @@ function MobileMenu({
             </div>
           </a>
           <Link
-            href="/contact"
+            href="/contact#enrollment-form"
             onClick={onClose}
             className="w-full bg-brand-orange text-white py-4 font-black text-sm uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-orange-600 transition-colors"
           >

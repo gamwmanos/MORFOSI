@@ -270,11 +270,6 @@ function StatCard({ stat, index }: { stat: (typeof STATS)[0]; index: number }) {
       className="group relative bg-white border-4 border-gray-900 shadow-[8px_8px_0px_#111] hover:shadow-[4px_4px_0px_#111] hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-200 p-8 overflow-hidden"
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      {/* Background number */}
-      <div className="absolute -bottom-4 -right-2 text-[5rem] font-black text-gray-100 leading-none select-none group-hover:text-gray-50 transition-colors">
-        {String(index + 1).padStart(2, "0")}
-      </div>
-
       <div className={`w-14 h-14 border-4 border-gray-900 flex items-center justify-center mb-6 ${stat.color} bg-opacity-10`}>
         <Icon size={24} className={stat.color} strokeWidth={2.5} />
       </div>

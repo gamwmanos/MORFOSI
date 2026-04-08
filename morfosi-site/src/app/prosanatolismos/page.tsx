@@ -507,7 +507,7 @@ export default function ProsanatolismosPage() {
           <div className="mb-16 text-center">
             <div className="text-brand-teal font-black text-xs uppercase tracking-[0.3em] mb-4">Συχνές Ερωτήσεις</div>
             <h2 className="text-4xl lg:text-5xl font-black text-gray-900 uppercase tracking-tighter">
-              ΟΛΑ ΤΑ <span className="text-brand-orange">ΕΡΩΤΑΑμενα</span>
+              ΣΥΧΝΕΣ <span className="text-brand-orange">ΕΡΩΤΗΣΕΙΣ</span>
             </h2>
           </div>
           <div>

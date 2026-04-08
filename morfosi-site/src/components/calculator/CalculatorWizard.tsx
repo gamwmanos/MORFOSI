@@ -822,10 +822,10 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
                               </div>
                               <h3 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight uppercase leading-none mb-3">{faculty.name}</h3>
                               <div className="flex flex-wrap gap-2">
-                                <div className="flex items-center gap-1.5 bg-yellow-100 px-2 py-1.5 border-[2px] border-gray-900 text-[10px] font-black uppercase">
+                                <div className="flex items-center gap-1.5 bg-yellow-400 text-gray-900 px-2 py-1.5 border-[2px] border-gray-900 text-[10px] font-black uppercase">
                                   <Building2 size={14} strokeWidth={3} /> {faculty.institution}
                                 </div>
-                                <div className="flex items-center gap-1.5 bg-gray-100 px-2 py-1.5 border-[2px] border-gray-900 text-[10px] font-black uppercase">
+                                <div className="flex items-center gap-1.5 bg-gray-900 text-white px-2 py-1.5 border-[2px] border-gray-900 text-[10px] font-black uppercase">
                                   <MapPin size={14} strokeWidth={3} /> {faculty.city}
                                 </div>
                                 {faculty.specialRequirements.length > 0 && (

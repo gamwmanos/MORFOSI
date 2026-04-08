@@ -82,12 +82,16 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
         (exam.subject?.toLowerCase().includes(searchTerms) || false);
     });
 
-    // 2. Filter by Active Track
+    // 2. Filter by Active Track and Sort by Date Descending
     const finalExams = prelimFiltered.filter(exam => {
       const tracks = (exam.tracks && exam.tracks.length > 0)
         ? exam.tracks
         : inferTracks(exam.subject, exam.title);
       return tracks.includes(activeTrack);
+    }).sort((a, b) => {
+      const dateA = a.date ? new Date(a.date).getTime() : 0;
+      const dateB = b.date ? new Date(b.date).getTime() : 0;
+      return dateB - dateA;
     });
 
     // 3. Group by Subject within the track

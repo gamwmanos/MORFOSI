@@ -85,7 +85,7 @@ export default async function System() {
           </div>
 
           {/* 4-tile grid — protrudes LEFT out of the photo edge */}
-          <div className="absolute -left-28 lg:-left-36 top-1/2 -translate-y-1/2 z-10 shadow-[12px_12px_0px_rgba(0,0,0,0.35)] w-[52%] max-w-[300px] grid grid-cols-2 border-l-[6px] border-brand-orange">
+          <div className="absolute -left-28 lg:-left-36 top-1/2 -translate-y-1/2 z-10 shadow-[12px_12px_0px_rgba(0,0,0,0.35)] w-[55%] max-w-[340px] grid grid-cols-2 border-l-[6px] border-brand-orange">
 
             {/* Tile 1 — Random teacher from Sanity */}
             <Link href="/teachers" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-colors h-[150px] group cursor-pointer relative overflow-hidden">
@@ -115,14 +115,14 @@ export default async function System() {
                 <>
                   <Image src={facilityImg} alt="Χώρος Μόρφωσης" fill className="object-cover group-hover:scale-105 transition-transform duration-500 group-hover:opacity-70" />
                   <div className="absolute inset-0 bg-brand-teal/0 group-hover:bg-brand-teal/60 transition-colors" />
-                  <span className="relative z-10 font-extrabold text-xs text-transparent group-hover:text-white leading-tight transition-colors px-2">
+                  <span className="relative z-10 font-extrabold text-[11px] text-transparent group-hover:text-white leading-tight transition-colors px-2">
                     Οι Εγκαταστάσεις<br/>μας
                   </span>
                 </>
               ) : (
                 <div className="flex flex-col items-center gap-2 p-4">
-                  <div className="w-12 h-12 bg-gray-200 group-hover:bg-white/30 transition-colors" />
-                  <span className="font-extrabold text-xs text-gray-900 group-hover:text-white leading-tight transition-colors">Οι Εγκαταστάσεις<br/>μας</span>
+                   <div className="w-12 h-12 bg-gray-200 group-hover:bg-white/30 transition-colors" />
+                   <span className="font-extrabold text-[11px] text-gray-900 group-hover:text-white leading-tight transition-colors">Οι Εγκαταστάσεις<br/>μας</span>
                 </div>
               )}
             </Link>
@@ -131,21 +131,21 @@ export default async function System() {
             <Link href="/exams" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-brand-orange transition-colors h-[150px] group cursor-pointer relative overflow-hidden">
               <Image src="/exetasi.jpg" alt="Προσομοίωση Εξέτασης" fill className="object-cover group-hover:scale-105 transition-transform duration-500 group-hover:opacity-60" />
               <div className="absolute inset-0 bg-brand-orange/0 group-hover:bg-brand-orange/50 transition-colors" />
-              <span className="relative z-10 font-extrabold text-[10px] text-white bg-gray-900/60 group-hover:bg-transparent px-2 py-0.5 leading-tight text-center transition-all">
+              <span className="relative z-10 font-extrabold text-[10px] sm:text-[11px] text-white bg-gray-900/60 group-hover:bg-transparent px-2 py-0.5 leading-tight text-center transition-all w-full text-center">
                 Προσομοιώσεις<br/>Εξετάσεων
               </span>
             </Link>
 
             {/* Tile 4 — Academic guidance */}
-            <Link href="/prosanatolismos" className="bg-white p-4 flex flex-col items-center justify-center text-center gap-3 hover:bg-brand-teal-dark transition-colors h-[150px] group cursor-pointer">
-              <div className="w-12 h-12 bg-brand-teal/20 border-2 border-brand-teal flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-teal group-hover:text-white transition-colors">
+            <Link href="/prosanatolismos" className="bg-white p-2 sm:p-4 flex flex-col items-center justify-center text-center gap-2 sm:gap-3 hover:bg-brand-teal-dark transition-colors h-[150px] group cursor-pointer overflow-hidden w-full">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-brand-teal/20 border-2 border-brand-teal flex items-center justify-center group-hover:bg-white/20 transition-colors shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-teal group-hover:text-white transition-colors">
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
                 </svg>
               </div>
-              <div>
-                <span className="font-extrabold text-xs text-gray-900 group-hover:text-white leading-tight transition-colors block">Ακαδημαϊκός<br/>Προσανατολισμός</span>
-                <span className="text-[9px] text-gray-400 group-hover:text-white/70 font-bold uppercase tracking-wider mt-1 block transition-colors">Βρες τον σωστό δρόμο</span>
+              <div className="w-full">
+                <span className="font-extrabold text-[9px] sm:text-[11px] text-gray-900 group-hover:text-white leading-tight transition-colors block break-words w-full">Ακαδημαϊκός<br/>Προσανατολ.</span>
+                <span className="text-[8px] sm:text-[9px] text-gray-400 group-hover:text-white/70 font-bold uppercase tracking-wider mt-1 block transition-colors truncate">Βρες τον σωστό δρόμο</span>
               </div>
             </Link>
 

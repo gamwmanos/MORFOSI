@@ -199,7 +199,7 @@ export default function Testimonials({ testimonials = [] }: { testimonials?: Tes
       {/* CTA — Conversion point */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 mt-16 flex flex-col sm:flex-row justify-center items-center gap-6">
         <a
-          href="/contact"
+          href="/contact#enrollment-form"
           className="inline-flex items-center gap-3 bg-brand-orange text-white px-12 py-5 font-black uppercase tracking-widest text-sm border-4 border-black shadow-[8px_8px_0px_#000] hover:shadow-[3px_3px_0px_#000] hover:translate-x-[5px] hover:translate-y-[5px] transition-all"
         >
           ΓΙΝΕ Ο ΕΠΟΜΕΝΟΣ ΕΠΙΤΥΧΩΝ →

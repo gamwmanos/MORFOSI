@@ -189,7 +189,7 @@ export default async function Home() {
               </div>
               <div className="flex flex-col gap-4 flex-shrink-0">
                 <Link
-                  href="/contact"
+                  href="/contact#enrollment-form"
                   className="inline-flex items-center gap-3 bg-brand-orange text-white px-12 py-6 font-black uppercase tracking-widest text-base border-4 border-black shadow-[8px_8px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[6px] hover:translate-y-[6px] transition-all"
                 >
                   ΚΑΝΕ ΤΗΝ ΕΓΓΡΑΦΗ ΣΟΥ
