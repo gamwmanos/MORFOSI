@@ -89,9 +89,25 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
         : inferTracks(exam.subject, exam.title);
       return tracks.includes(activeTrack);
     }).sort((a, b) => {
+      // 1. Title year match (e.g. "ΜΑΘΗΜΑΤΙΚΑ 2025")
+      const yearStrA = (a.title || "").match(/\b20\d{2}\b/)?.[0];
+      const yearStrB = (b.title || "").match(/\b20\d{2}\b/)?.[0];
+      const yearA = yearStrA ? parseInt(yearStrA, 10) : 0;
+      const yearB = yearStrB ? parseInt(yearStrB, 10) : 0;
+
+      if (yearA !== yearB) {
+        return yearB - yearA;
+      }
+
+      // 2. Fallback to date field
       const dateA = a.date ? new Date(a.date).getTime() : 0;
       const dateB = b.date ? new Date(b.date).getTime() : 0;
-      return dateB - dateA;
+      if (dateA !== dateB) {
+        return dateB - dateA;
+      }
+
+      // 3. Fallback to title comparison
+      return (b.title || "").localeCompare(a.title || "");
     });
 
     // 3. Group by Subject within the track
