@@ -740,7 +740,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
 
               {/* Desktop Nav */}
               <nav
-                className="hidden xl:flex items-center xl:gap-0 2xl:gap-4"
+                className="hidden min-[1380px]:flex items-center min-[1380px]:gap-0 2xl:gap-4"
                 onMouseLeave={handleMouseLeave}
               >
                 {dynamicNavItems.map((item) => (
@@ -752,7 +752,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
                     {item.href && !item.children ? (
                       <Link
                         href={item.href}
-                        className="flex items-center gap-1 xl:px-1 min-[1400px]:px-1.5 2xl:px-3 py-5 font-black xl:text-[9px] min-[1400px]:text-[11px] 2xl:text-[13px] uppercase xl:tracking-tight min-[1400px]:tracking-normal 2xl:tracking-widest text-gray-800 hover:text-brand-teal transition-colors relative group whitespace-nowrap"
+                        className="flex items-center gap-1 min-[1380px]:px-1.5 2xl:px-3 py-5 font-black min-[1380px]:text-[10px] min-[1450px]:text-[11px] 2xl:text-[13px] uppercase min-[1380px]:tracking-tight min-[1450px]:tracking-normal 2xl:tracking-widest text-gray-800 hover:text-brand-teal transition-colors relative group whitespace-nowrap"
                       >
                         {item.label}
                         <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
@@ -762,7 +762,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
                         onClick={() =>
                           setOpenMenu(openMenu === item.id ? null : item.id)
                         }
-                        className={`flex items-center gap-1 xl:px-1 min-[1400px]:px-1.5 2xl:px-3 py-5 font-black xl:text-[9px] min-[1400px]:text-[11px] 2xl:text-[13px] uppercase xl:tracking-tight min-[1400px]:tracking-normal 2xl:tracking-widest transition-colors relative group cursor-pointer whitespace-nowrap ${openMenu === item.id
+                        className={`flex items-center gap-1 min-[1380px]:px-1.5 2xl:px-3 py-5 font-black min-[1380px]:text-[10px] min-[1450px]:text-[11px] 2xl:text-[13px] uppercase min-[1380px]:tracking-tight min-[1450px]:tracking-normal 2xl:tracking-widest transition-colors relative group cursor-pointer whitespace-nowrap ${openMenu === item.id
                             ? "text-brand-teal"
                             : "text-gray-800 hover:text-brand-teal"
                           }`}
@@ -810,7 +810,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
               {/* Enrollment CTA Buttons */}
               <Link
                 href="/schedule"
-                className={`hidden lg:inline-flex xl:hidden items-center gap-2 border-2 border-gray-900 text-gray-900 font-black uppercase tracking-wider hover:bg-gray-900 hover:text-white transition-all duration-200 active:scale-95 ${scrolled ? "px-3 py-2 text-xs" : "px-4 py-2.5 text-xs"
+                className={`hidden lg:inline-flex min-[1380px]:hidden items-center gap-2 border-2 border-gray-900 text-gray-900 font-black uppercase tracking-wider hover:bg-gray-900 hover:text-white transition-all duration-200 active:scale-95 ${scrolled ? "px-3 py-2 text-xs" : "px-4 py-2.5 text-xs"
                   }`}
               >
                 <CalendarDays size={13} />
@@ -828,7 +828,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
               {/* Mobile Hamburger */}
               <button
                 onClick={() => setMobileOpen(true)}
-                className="xl:hidden w-11 h-11 flex items-center justify-center bg-gray-900 text-white hover:bg-brand-teal transition-colors"
+                className="min-[1380px]:hidden w-11 h-11 flex items-center justify-center bg-gray-900 text-white hover:bg-brand-teal transition-colors"
                 aria-label="Άνοιγμα μενού"
               >
                 <Menu size={20} strokeWidth={2.5} />
