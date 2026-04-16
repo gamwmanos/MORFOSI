@@ -10,7 +10,7 @@ export interface ExamType {
   title?: string;
   examYear?: string;
   date?: string;
-  examCategory?: 'panellinies' | 'oefe' | 'morfosi';
+  examCategory?: 'panellinies' | 'oefe' | 'epanaliptikes' | 'morfosi';
   tracks?: string[];
   classDropdown?: string;
   subject?: string;
@@ -35,7 +35,7 @@ const TRACK_LABELS: Record<string, string> = {
 };
 
 export default function ExamsHub({ initialExams }: { initialExams: ExamType[] }) {
-  const [activeTab, setActiveTab] = useState<'panellinies' | 'oefe' | 'morfosi'>('panellinies');
+  const [activeTab, setActiveTab] = useState<'panellinies' | 'epanaliptikes' | 'morfosi'>('panellinies');
   const [activeTrack, setActiveTrack] = useState<string>('positive');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -79,7 +79,9 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
   const filteredData = useMemo(() => {
     // 1. Filter by Category and Search
     const prelimFiltered = examsList.filter(exam => {
-      const category = exam.examCategory || 'panellinies';
+      let category = exam.examCategory || 'panellinies';
+      if (category === 'oefe') category = 'epanaliptikes';
+      
       if (category !== activeTab) return false;
 
       const searchTerms = searchQuery.toLowerCase();
@@ -156,7 +158,7 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
 
           <div className="w-full md:w-1/3">
             <p className="text-white font-bold text-lg border-l-4 border-brand-orange pl-4">
-              Πρόσβαση σε εκατοντάδες διαγωνίσματα, από παλαιότερα θέματα Πανελληνίων, της ΟΕΦΕ και τα δικά μας εσωτερικά τέστ, όλα σε μορφή PDF.
+              Πρόσβαση σε εκατοντάδες διαγωνίσματα, από παλαιότερα θέματα Πανελληνίων, επαναληπτικά θέματα και τα δικά μας εσωτερικά τέστ, όλα σε μορφή PDF.
             </p>
           </div>
         </div>
@@ -173,9 +175,9 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
               color="bg-brand-teal"
             />
             <TabButton
-              active={activeTab === 'oefe'}
-              onClick={() => setActiveTab('oefe')}
-              title="Ο.Ε.Φ.Ε."
+              active={activeTab === 'epanaliptikes'}
+              onClick={() => setActiveTab('epanaliptikes')}
+              title="ΕΠΑΝΑΛΗΠΤΙΚΕΣ"
               color="bg-brand-purple"
             />
             <TabButton

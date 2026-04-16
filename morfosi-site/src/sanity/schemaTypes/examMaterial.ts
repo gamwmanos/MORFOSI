@@ -62,12 +62,12 @@ export const examMaterialType = defineType({
     defineField({
       name: 'examCategory',
       title: 'Κατηγορία',
-      description: 'Επιλέξτε την κατηγορία του διαγωνίσματος (Πανελλήνιες, ΟΕΦΕ κλπ).',
+      description: 'Επιλέξτε την κατηγορία του διαγωνίσματος (Πανελλήνιες, Επαναληπτικές κλπ).',
       type: 'string',
       options: {
         list: [
           { title: 'Πανελλήνιες', value: 'panellinies' },
-          { title: 'Ο.Ε.Φ.Ε.', value: 'oefe' },
+          { title: 'Επαναληπτικές Πανελλήνιες', value: 'epanaliptikes' },
           { title: 'Προσομοιώσεις Μόρφωσης', value: 'morfosi' },
         ],
       },
