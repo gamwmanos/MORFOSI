@@ -8,19 +8,61 @@ export const examMaterialType = defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Τίτλος Διαγωνίσματος',
+      title: 'Κλασικός Τίτλος (Προαιρετικό)',
+      description: 'Συμπληρώστε μόνο αν θέλετε έναν ειδικό τίτλο (αλλιώς θα βγει αυτόματα από το μάθημα και τη χρονολογία).',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'subject',
+      title: 'Μάθημα',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Μαθηματικά', value: 'Μαθηματικά' },
+          { title: 'Φυσική', value: 'Φυσική' },
+          { title: 'Χημεία', value: 'Χημεία' },
+          { title: 'Έκθεση (Νεοελληνική Γλώσσα)', value: 'Έκθεση' },
+          { title: 'Αρχαία Ελληνικά', value: 'Αρχαία' },
+          { title: 'Ιστορία', value: 'Ιστορία' },
+          { title: 'Λατινικά', value: 'Λατινικά' },
+          { title: 'Βιολογία', value: 'Βιολογία' },
+          { title: 'Πληροφορική (ΑΕΠΠ)', value: 'Πληροφορική' },
+          { title: 'Οικονομία (ΑΟΘ)', value: 'Οικονομία' },
+          { title: 'Λογοτεχνία', value: 'Λογοτεχνία' },
+        ],
+      },
+    }),
+    defineField({
+      name: 'classDropdown',
+      title: 'Τάξη',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Γ Λυκείου', value: 'g_lykeiou' },
+          { title: 'Β Λυκείου', value: 'b_lykeiou' },
+          { title: 'Α Λυκείου', value: 'a_lykeiou' },
+          { title: 'ΓΕΛ (Γενικά)', value: 'gel' },
+          { title: 'Γυμνάσιο', value: 'gymnasio' },
+          { title: 'Δημοτικό', value: 'dimotiko' },
+        ],
+      },
+      initialValue: 'g_lykeiou'
+    }),
+    defineField({
+      name: 'examYear',
+      title: 'Χρονολογία Διαγωνίσματος',
+      description: 'Π.χ. 2024 (εναλλακτικά αφήστε το κενό αν πρόκειται για γενικό υλικό)',
+      type: 'string',
     }),
     defineField({
       name: 'date',
-      title: 'Ημερομηνία Προέλευσης',
+      title: 'Ακριβής Ημερομηνία Προέλευσης (Προαιρετικό)',
       type: 'date',
     }),
     defineField({
       name: 'examCategory',
       title: 'Κατηγορία',
-      description: 'Επιλέξτε την κατηγορία του διαγωνίσματος (Πανελλήνιες, ΟΕΦΕ κλπ). Αν μείνει κενό, θα εμφανιστεί στις Πανελλήνιες.',
+      description: 'Επιλέξτε την κατηγορία του διαγωνίσματος (Πανελλήνιες, ΟΕΦΕ κλπ).',
       type: 'string',
       options: {
         list: [
@@ -35,7 +77,6 @@ export const examMaterialType = defineType({
     defineField({
       name: 'tracks',
       title: 'Κατεύθυνση / Προσανατολισμός',
-      description: 'Επιλέξτε μία ή περισσότερες κατευθύνσεις για αυτό το διαγώνισμα.',
       type: 'array',
       of: [{ type: 'string' }],
       options: {
@@ -51,26 +92,6 @@ export const examMaterialType = defineType({
       initialValue: ['general']
     }),
     defineField({
-      name: 'classDropdown',
-      title: 'Τάξη',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Α Λυκείου', value: 'a_lykeiou' },
-          { title: 'Β Λυκείου', value: 'b_lykeiou' },
-          { title: 'Γ Λυκείου', value: 'g_lykeiou' },
-          { title: 'ΓΕΛ', value: 'gel' },
-          { title: 'Γυμνάσιο', value: 'gymnasio' },
-          { title: 'Δημοτικό', value: 'dimotiko' },
-        ],
-      },
-    }),
-    defineField({
-      name: 'subject',
-      title: 'Μάθημα',
-      type: 'string',
-    }),
-    defineField({
       name: 'questionsFile',
       title: 'Αρχείο Εκφωνήσεων (PDF)',
       type: 'file',
@@ -83,4 +104,22 @@ export const examMaterialType = defineType({
       options: { accept: 'application/pdf' },
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      subject: 'subject',
+      year: 'examYear',
+      date: 'date'
+    },
+    prepare(selection) {
+      const { title, subject, year, date } = selection;
+      // Fetch year from date if examYear isn't provided
+      const finalYear = year || (date ? new Date(date).getFullYear() : '');
+      const autoTitle = subject ? `${subject} ${finalYear}`.trim() : 'Διαγώνισμα Χωρίς Τίτλο';
+      
+      return {
+        title: title || autoTitle,
+      };
+    }
+  }
 })

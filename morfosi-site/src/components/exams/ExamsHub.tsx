@@ -7,7 +7,8 @@ import { Search, Download, FileText, BookOpen, Layers, CheckCircle } from 'lucid
 // Interface matching the Server Page GROQ Query
 export interface ExamType {
   _id: string;
-  title: string;
+  title?: string;
+  examYear?: string;
   date?: string;
   examCategory?: 'panellinies' | 'oefe' | 'morfosi';
   tracks?: string[];
@@ -16,6 +17,15 @@ export interface ExamType {
   questionsUrl?: string;
   answersUrl?: string;
 }
+
+const CLASS_LABELS: Record<string, string> = {
+  a_lykeiou: 'Α Λυκείου',
+  b_lykeiou: 'Β Λυκείου',
+  g_lykeiou: 'Γ Λυκείου',
+  gel: 'ΓΕΛ',
+  gymnasio: 'Γυμνάσιο',
+  dimotiko: 'Δημοτικό'
+};
 
 const TRACK_LABELS: Record<string, string> = {
   humanities: "Ανθρωπιστικών Σπουδών",
@@ -31,12 +41,8 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
 
   // Fallback Data if Sanity is empty so UI still looks impressive
   const examsList = initialExams.length > 0 ? initialExams : [
-    { _id: 'e1', title: 'Μαθηματικά Προσανατολισμού', examCategory: 'panellinies', tracks: ['positive'], classDropdown: 'Γ Λυκείου', subject: 'Μαθηματικά', date: '2023-06-08' },
-    { _id: 'e2', title: 'Φυσική Προσανατολισμού', examCategory: 'panellinies', tracks: ['positive', 'health'], classDropdown: 'Γ Λυκείου', subject: 'Φυσική', date: '2023-06-12' },
-    { _id: 'e3', title: 'Χημεία Προσανατολισμού', examCategory: 'oefe', tracks: ['positive', 'health'], classDropdown: 'Γ Λυκείου', subject: 'Χημεία', date: '2024-01-20' },
-    { _id: 'e4', title: 'Eκθεση (Νεοελληνική Γλώσσα)', examCategory: 'morfosi', tracks: ['general', 'positive', 'humanities', 'health', 'econ'], classDropdown: 'Γ Λυκείου', subject: 'Έκθεση', date: '2024-03-05' },
-    { _id: 'e5', title: 'Αρχαία Ελληνικά', examCategory: 'panellinies', tracks: ['humanities'], classDropdown: 'Γ Λυκείου', subject: 'Αρχαία', date: '2023-06-09' },
-    { _id: 'e6', title: 'Βιολογία Προσανατολισμού', examCategory: 'oefe', tracks: ['health'], classDropdown: 'Γ Λυκείου', subject: 'Βιολογία', date: '2024-01-22' },
+    { _id: 'e1', title: 'Μαθηματικά Προσανατολισμού', examCategory: 'panellinies', tracks: ['positive'], classDropdown: 'g_lykeiou', subject: 'Μαθηματικά', date: '2023-06-08' },
+    { _id: 'e2', title: 'Φυσική Προσανατολισμού', examCategory: 'panellinies', tracks: ['positive', 'health'], classDropdown: 'g_lykeiou', subject: 'Φυσική', date: '2023-06-12' },
   ] as ExamType[];
 
   // Debugging: Log the exams to see what data we're actually getting
@@ -77,8 +83,10 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
       if (category !== activeTab) return false;
 
       const searchTerms = searchQuery.toLowerCase();
+      // compute synthetic title for search
+      const syntheticTitle = (exam.title || `${exam.subject || ''} ${exam.examYear || ''}`).toLowerCase();
       return !searchTerms ||
-        (exam.title?.toLowerCase().includes(searchTerms) || false) ||
+        syntheticTitle.includes(searchTerms) ||
         (exam.subject?.toLowerCase().includes(searchTerms) || false);
     });
 
@@ -89,31 +97,26 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
         : inferTracks(exam.subject, exam.title);
       return tracks.includes(activeTrack);
     }).sort((a, b) => {
-      // 1. Title year match (e.g. "ΜΑΘΗΜΑΤΙΚΑ 2025")
-      const yearStrA = (a.title || "").match(/\b20\d{2}\b/)?.[0];
-      const yearStrB = (b.title || "").match(/\b20\d{2}\b/)?.[0];
-      const yearA = yearStrA ? parseInt(yearStrA, 10) : 0;
-      const yearB = yearStrB ? parseInt(yearStrB, 10) : 0;
+      const yearA = parseInt(a.examYear || (a.title || "").match(/\b20\d{2}\b/)?.[0] || "0", 10);
+      const yearB = parseInt(b.examYear || (b.title || "").match(/\b20\d{2}\b/)?.[0] || "0", 10);
 
       if (yearA !== yearB) {
         return yearB - yearA;
       }
 
-      // 2. Fallback to date field
       const dateA = a.date ? new Date(a.date).getTime() : 0;
       const dateB = b.date ? new Date(b.date).getTime() : 0;
       if (dateA !== dateB) {
         return dateB - dateA;
       }
 
-      // 3. Fallback to title comparison
-      return (b.title || "").localeCompare(a.title || "");
+      return ((b.title || "")).localeCompare(a.title || "");
     });
 
     // 3. Group by Subject within the track
     const subjectGroups: Record<string, ExamType[]> = {};
     finalExams.forEach(exam => {
-      const sub = exam.subject || "Λοιπά";
+      const sub = exam.subject || "Λοιπά (Παλαιά Αρχεία)";
       if (!subjectGroups[sub]) subjectGroups[sub] = [];
       subjectGroups[sub].push(exam);
     });
@@ -303,7 +306,7 @@ function ExamCard({ exam }: { exam: ExamType }) {
       <div>
         <div className="flex justify-between items-start mb-6">
           <div className="bg-gray-100 border-2 border-black px-3 py-1 font-black text-xs uppercase tracking-widest text-gray-600">
-            {exam.classDropdown || 'Γ Λυκείου'}
+            {CLASS_LABELS[exam.classDropdown || ''] || exam.classDropdown || 'Γ Λυκείου'}
           </div>
           {exam.subject && (
             <div className="bg-brand-orange border-2 border-black px-3 py-1 font-black text-xs uppercase tracking-widest text-white shadow-[2px_2px_0px_#000] rotate-2">
@@ -313,7 +316,7 @@ function ExamCard({ exam }: { exam: ExamType }) {
         </div>
 
         <h3 className="text-2xl font-black text-gray-900 tracking-tight leading-tight line-clamp-3 mb-4 group-hover:text-brand-orange transition-colors">
-          {exam.title}
+          {exam.title || `${exam.subject || ''} ${exam.examYear || ''}`.trim() || 'Διαγώνισμα'}
         </h3>
 
         <div className="flex items-center gap-2 mb-8">
