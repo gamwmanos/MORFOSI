@@ -101,8 +101,8 @@ export default function ScrollVideo() {
   }, [images]);
 
   return (
-    <section ref={containerRef} className="relative w-full h-[600vh] bg-black">
-      <div className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center bg-black border-y-8 border-brand-teal">
+    <section ref={containerRef} className="relative w-full h-[600dvh] bg-black">
+      <div className="sticky top-0 w-full h-[100svh] overflow-hidden flex items-center justify-center bg-black border-y-8 border-brand-teal">
         
         {/* ΤΕΛΟΣ ΤΟ HTML5 VIDEO. Πλέον είναι ένας ζωγραφικός καμβάς! */}
         <canvas ref={canvasRef} className="w-full h-full block" />

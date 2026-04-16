@@ -17,7 +17,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative w-full min-h-[85vh] bg-brand-teal-dark overflow-hidden flex flex-col xl:flex-row pb-12 xl:pb-0">
+    <section className="relative w-full min-h-[85svh] bg-brand-teal-dark overflow-hidden flex flex-col xl:flex-row pb-12 xl:pb-0">
       {/* Background Decor */}
       <div 
         className="absolute inset-0 opacity-[0.1] pointer-events-none" 

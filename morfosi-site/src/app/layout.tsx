@@ -40,7 +40,7 @@ export default async function RootLayout({
       lang="el"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col pt-0">
+      <body className="min-h-full flex flex-col pt-0 overflow-x-hidden w-full max-w-[100vw]">
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-LQM2YQEMFS" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">
           {`

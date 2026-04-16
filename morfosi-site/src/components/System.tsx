@@ -31,7 +31,7 @@ export default async function System() {
   const facilityImg = randomFacility?.photoUrl ?? null;
 
   return (
-    <section className="relative w-full py-24 bg-white overflow-hidden border-b-8 border-brand-teal min-h-[85vh] flex flex-col items-center justify-center">
+    <section className="relative w-full py-24 bg-white overflow-hidden border-b-8 border-brand-teal min-h-[85svh] flex flex-col items-center justify-center">
       {/* Billboard background text */}
       <div className="absolute top-[20%] left-0 w-full overflow-hidden pointer-events-none z-0">
         <h2 className="text-[25vw] font-black text-gray-100 whitespace-nowrap select-none tracking-tighter animate-billboard inline-block uppercase">

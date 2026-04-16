@@ -459,7 +459,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
   };
 
   return (
-    <div className="w-full min-h-[90vh] bg-brand-teal relative overflow-hidden font-sans pb-24">
+    <div className="w-full min-h-[90svh] bg-brand-teal relative overflow-hidden font-sans pb-24">
       {/* Grid bg */}
       <div className="absolute inset-0 z-0 opacity-20 pointer-events-none"
         style={{ backgroundImage: "linear-gradient(#000 2px, transparent 2px), linear-gradient(90deg, #000 2px, transparent 2px)", backgroundSize: "60px 60px" }} />
@@ -727,7 +727,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
 
           {/* STEP 5: SCHOOLS DATABASE */}
           {step === 5 && (
-            <motion.div key="step5" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} className="w-full bg-white border-[6px] border-gray-900 shadow-[20px_20px_0px_rgba(0,0,0,1)] overflow-hidden flex flex-col" style={{ minHeight: "80vh" }}>
+            <motion.div key="step5" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} className="w-full bg-white border-[6px] border-gray-900 shadow-[20px_20px_0px_rgba(0,0,0,1)] overflow-hidden flex flex-col" style={{ minHeight: "80svh" }}>
 
               {/* Header */}
               <div className="bg-gray-900 border-b-[6px] border-gray-900 p-6 md:p-8 flex flex-col lg:flex-row justify-between items-center gap-4 shrink-0">
