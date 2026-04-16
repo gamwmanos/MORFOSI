@@ -150,7 +150,11 @@ export default async function Home() {
                  const year = dateObj.getFullYear();
                  
                  return (
-                 <div key={item._id} className="flex gap-8 group cursor-pointer border-b-2 md:border-b-0 border-gray-200 pb-8 md:pb-0">
+                 <Link 
+                    href={`/news/${item.slug || item._id}`} 
+                    key={item._id} 
+                    className="flex gap-8 group cursor-pointer border-b-2 md:border-b-0 border-gray-200 pb-8 md:pb-0"
+                 >
                     <div className="text-brand-orange text-right flex-shrink-0">
                        <span className="text-6xl lg:text-7xl font-sans font-black leading-[0.8] block tracking-tighter group-hover:scale-110 transition-transform">{day}</span>
                        <span className="text-sm font-black uppercase tracking-widest mt-2 block">{monthStr} {year}</span>
@@ -162,9 +166,9 @@ export default async function Home() {
                        <p className="text-gray-500 font-bold mb-4 line-clamp-2">
                          {item.category ? `Κατηγορία: ${item.category.toUpperCase()}` : 'Η θερινή προετοιμασία είναι το κλειδί για την επιτυχία...'}
                        </p>
-                       <p className="text-brand-teal font-extrabold text-xs uppercase tracking-widest">ΔΙΑΒΑΣΤΕ ΠΕΡΙΣΣΟΤΕΡΑ</p>
+                       <span className="text-brand-teal font-extrabold text-xs uppercase tracking-widest flex items-center gap-2">ΔΙΑΒΑΣΤΕ ΠΕΡΙΣΣΟΤΕΡΑ <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform" /></span>
                     </div>
-                 </div>
+                 </Link>
                  );
                })}
             </div>
