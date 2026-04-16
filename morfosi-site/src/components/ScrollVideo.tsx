@@ -2,7 +2,7 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import { useScroll, useMotionValueEvent, useSpring, useInView } from "framer-motion";
 
-const FRAME_COUNT = 120;
+const FRAME_COUNT = 62;
 
 function currentFrame(index: number) {
   return `/video-frames/frame_${index.toString().padStart(4, "0")}.jpg`;
@@ -110,8 +110,8 @@ export default function ScrollVideo() {
   return (
     <section 
       ref={containerRef} 
-      className="relative w-full h-[600vh] bg-black"
-      style={{ minHeight: '600vh' }}
+      className="relative w-full h-[300vh] bg-black"
+      style={{ minHeight: '300vh' }}
     >
       <div className="sticky top-0 left-0 w-full h-screen overflow-hidden flex items-center justify-center bg-black border-y-8 border-brand-teal z-0">
         <canvas 
