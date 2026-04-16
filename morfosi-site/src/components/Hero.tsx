@@ -130,15 +130,16 @@ export default function Hero() {
          {/* Neo-Brutalist Image Frame */}
          <div className="relative w-full max-w-lg xl:max-w-2xl aspect-[4/5] xl:aspect-square bg-brand-orange border-[6px] border-black shadow-[16px_16px_0px_#000] -rotate-2 hover:rotate-0 transition-transform duration-500 ease-out z-20">
             {/* The Generated Image */}
-            <Image 
-               src="/front2.jpg" 
-               alt="Εκπαίδευση με σύγχρονα μέσα" 
-               fill
-               priority
-               quality={65}
-               sizes="(max-width: 768px) 100vw, 50vw"
-               className="object-cover grayscale-[10%] contrast-[1.05]"
-            />
+             <Image 
+                src="/front2.jpg" 
+                alt="Εκπαίδευση με σύγχρονα μέσα" 
+                fill
+                priority
+                quality={60}
+                fetchPriority="high"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover grayscale-[10%] contrast-[1.05]"
+             />
             
             {/* Overlay Badge — Enhanced with stats */}
             <div className="absolute -bottom-6 -left-6 bg-white border-[4px] border-black px-6 py-4 shadow-[8px_8px_0px_#000] transform rotate-3 flex items-center gap-3">
