@@ -125,13 +125,13 @@ export default async function Footer() {
                 <Link href="/privacy" className="hover:text-brand-teal transition-colors">Πολιτικη Απορρητου</Link>
               </div>
               <a 
-                href="mailto:contact@example.com" 
+                href="mailto:chronakesm@gmail.com" 
                 className="text-[10px] text-gray-700 hover:text-white transition-colors border-l border-gray-800 pl-8 hidden md:block"
               >
                 Built by Εμμανουήλ Χρονάκης
               </a>
               <a 
-                href="mailto:contact@example.com" 
+                href="mailto:chronakesm@gmail.com" 
                 className="text-[10px] text-gray-700 hover:text-white transition-colors md:hidden"
               >
                 Built by Εμμανουήλ Χρονάκης
