@@ -31,7 +31,7 @@ export default async function System() {
   const facilityImg = randomFacility?.photoUrl ?? null;
 
   return (
-    <section className="relative w-full py-24 bg-white overflow-hidden border-b-8 border-brand-teal min-h-[85vh] flex items-center">
+    <section className="relative w-full py-24 bg-white overflow-hidden border-b-8 border-brand-teal min-h-[85vh] flex flex-col items-center justify-center">
       {/* Billboard background text */}
       <div className="absolute top-[20%] left-0 w-full overflow-hidden pointer-events-none z-0">
         <h2 className="text-[25vw] font-black text-gray-100 whitespace-nowrap select-none tracking-tighter animate-billboard inline-block uppercase">
@@ -40,40 +40,16 @@ export default async function System() {
       </div>
 
       <div className="w-full px-6 lg:px-12 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-16 xl:max-w-[1600px] mx-auto">
-
         {/* Left Side text */}
-        <div className="lg:w-1/3 relative z-20">
+        <div className="lg:w-1/3">
           <span className="text-sm font-black tracking-widest text-gray-900 uppercase mb-8 block">Εκπαιδευτική Μέθοδος</span>
           <h3 className="text-4xl lg:text-5xl xl:text-6xl font-black text-brand-orange leading-[1.1] mb-10 tracking-tighter">
             Η Εκπαίδευση <br/> που Αξίζεις <br/> στη Μόρφωση!
           </h3>
-          <Link
-            href="/about"
-            className="inline-flex items-center gap-2 text-gray-900 font-extrabold uppercase text-xs hover:text-brand-teal transition-colors group tracking-widest"
-          >
-            Γνωρίστε την Ομάδα μας
-            <span className="text-brand-orange group-hover:translate-x-1 transition-transform">{">"}</span>
-          </Link>
-          <Link
-            href="/about"
-            id="homepage-about-cta"
-            className="mt-6 inline-flex items-center gap-3 bg-brand-teal text-white px-8 py-4 font-black text-xs uppercase tracking-widest border-4 border-gray-900 shadow-[6px_6px_0px_#111] hover:shadow-[2px_2px_0px_#111] hover:translate-x-[4px] hover:translate-y-[4px] transition-all group"
-          >
-            Σχετικά με Εμάς
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
-          </Link>
-          <Link
-            href="/contact"
-            className="mt-4 inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 font-black text-xs uppercase tracking-widest border-4 border-gray-900 shadow-[6px_6px_0px_#111] hover:shadow-[2px_2px_0px_#111] hover:translate-x-[4px] hover:translate-y-[4px] transition-all group"
-          >
-            Κάνε την Εγγραφή σου
-            <span className="group-hover:translate-x-1 transition-transform">→</span>
-          </Link>
         </div>
 
         {/* Right Side — Big photo + 4-tile grid floating in front */}
         <div className="lg:w-2/3 relative min-h-[500px] lg:min-h-[700px] w-full border-l-[12px] border-brand-teal">
-
           {/* Background image */}
           <div className="absolute inset-0 overflow-hidden">
             <Image
@@ -87,9 +63,8 @@ export default async function System() {
           </div>
 
           {/* 4-tile grid — protrudes LEFT out of the photo edge */}
-          <div className="absolute -left-28 lg:-left-36 top-1/2 -translate-y-1/2 z-10 shadow-[12px_12px_0px_rgba(0,0,0,0.35)] w-[55%] max-w-[340px] grid grid-cols-2 border-l-[6px] border-brand-orange">
-
-            {/* Tile 1 — Random teacher from Sanity */}
+          <div className="absolute -left-28 lg:-left-36 top-1/2 -translate-y-1/2 z-20 shadow-[12px_12px_0px_rgba(0,0,0,0.35)] w-[55%] max-w-[340px] grid grid-cols-2 border-l-[6px] border-brand-orange">
+            {/* Tile 1 — Teacher */}
             <Link href="/teachers" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-colors h-[150px] group cursor-pointer relative overflow-hidden">
               {teacherImg ? (
                 <>
@@ -111,7 +86,7 @@ export default async function System() {
               )}
             </Link>
 
-            {/* Tile 2 — Facility photo from Sanity */}
+            {/* Tile 2 — Facility */}
             <Link href="/about#facilities" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-brand-teal transition-colors h-[150px] group cursor-pointer relative overflow-hidden">
               {facilityImg ? (
                 <>
@@ -129,13 +104,13 @@ export default async function System() {
               )}
             </Link>
 
-            {/* Tile 3 — Exetasi foto (static) */}
+            {/* Tile 3 — Exams */}
             <Link href="/exams" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-brand-orange transition-colors h-[150px] group cursor-pointer relative overflow-hidden">
-              <Image src="/exetasi.jpg" alt="Προσομοίωση Εξέτασης" fill className="object-cover group-hover:scale-105 transition-transform duration-500 group-hover:opacity-60" />
-              <div className="absolute inset-0 bg-brand-orange/0 group-hover:bg-brand-orange/50 transition-colors" />
-              <span className="relative z-10 font-extrabold text-[10px] sm:text-[11px] text-white bg-gray-900/60 group-hover:bg-transparent px-2 py-0.5 leading-tight text-center transition-all w-full text-center">
-                Προσομοιώσεις<br/>Εξετάσεων
-              </span>
+                <Image src="/exetasi.jpg" alt="Προσομοίωση Εξέτασης" fill className="object-cover group-hover:scale-105 transition-transform duration-500 group-hover:opacity-60" />
+                <div className="absolute inset-0 bg-brand-orange/0 group-hover:bg-brand-orange/50 transition-colors" />
+                <span className="relative z-10 font-extrabold text-[10px] sm:text-[11px] text-white bg-gray-900/60 group-hover:bg-transparent px-2 py-0.5 leading-tight text-center transition-all w-full text-center">
+                  Προσομοιώσεις<br/>Εξετάσεων
+                </span>
             </Link>
 
             {/* Tile 4 — Academic guidance */}
@@ -151,10 +126,37 @@ export default async function System() {
                 </span>
               </div>
             </Link>
-
           </div>
         </div>
+      </div>
 
+      {/* CTAs container — Below to avoid overlap */}
+      <div className="w-full px-6 lg:px-12 relative z-30 xl:max-w-[1600px] mx-auto mt-20 flex flex-col sm:flex-row items-center justify-start gap-10">
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-2 text-gray-900 font-extrabold uppercase text-xs hover:text-brand-teal transition-colors group tracking-widest whitespace-nowrap"
+          >
+            Γνωρίστε την Ομάδα μας
+            <span className="text-brand-orange group-hover:translate-x-1 transition-transform">{">"}</span>
+          </Link>
+          
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-6">
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-3 bg-brand-teal text-white px-8 py-4 font-black text-xs uppercase tracking-widest border-4 border-gray-900 shadow-[8px_8px_0px_#111] hover:shadow-[2px_2px_0px_#111] hover:translate-x-[4px] hover:translate-y-[4px] transition-all group"
+            >
+              Σχετικά με Εμάς
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
+            
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-3 bg-brand-orange text-white px-8 py-4 font-black text-xs uppercase tracking-widest border-4 border-gray-900 shadow-[8px_8px_0px_#111] hover:shadow-[2px_2px_0px_#111] hover:translate-x-[4px] hover:translate-y-[4px] transition-all group"
+            >
+              Κάνε την Εγγραφή σου
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
+          </div>
       </div>
     </section>
   );
