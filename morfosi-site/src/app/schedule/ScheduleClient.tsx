@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { CalendarDays, Clock, User2, DoorOpen, Users2, ChevronRight, BookOpen } from "lucide-react";
 
@@ -260,6 +260,18 @@ export default function ScheduleClient({
   // Default to whichever exists — prefer Lykeio if both present
   const defaultTab = hasLykeio ? "lykeio" : "gymnasio";
   const [activeTab, setActiveTab] = useState<"gymnasio" | "lykeio">(defaultTab);
+
+  // Handle direct links to specific years (e.g. from Header dropdown)
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash) {
+      const hash = window.location.hash.replace("#", "");
+      if (GYMNASIO_YEARS.includes(hash)) {
+        setActiveTab("gymnasio");
+      } else if (LYKEIO_YEARS.includes(hash)) {
+        setActiveTab("lykeio");
+      }
+    }
+  }, []);
 
   // Year ordering for display
   const yearOrder = [
