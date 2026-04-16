@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
-import { useScroll, useMotionValueEvent, useSpring } from "framer-motion";
+import { useScroll, useMotionValueEvent, useSpring, useInView } from "framer-motion";
 
 const FRAME_COUNT = 120; // Έκανα extract ακριβώς 120 φωτογραφίες!
 
