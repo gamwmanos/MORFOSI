@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PortableText } from "next-sanity";
 import { ArrowLeft, Calendar, Tag, Clock } from "lucide-react";
+import ShareButtons from "@/components/ShareButtons";
 
 export const revalidate = 60; // Refresh every 60 seconds
 
@@ -161,18 +162,7 @@ export default async function SinglePostPage(props: { params: Promise<{ slug: st
         {/* Footer / Share container */}
         <div className="mt-20 pt-10 border-t-[4px] border-brand-teal flex flex-col sm:flex-row items-center justify-between gap-6">
           <h3 className="font-black text-gray-900 uppercase tracking-widest text-sm">Μοιραστείτε το:</h3>
-          <div className="flex gap-4">
-            {/* Simple static share placeholders */}
-            <div className="w-10 h-10 border-2 border-black flex items-center justify-center hover:bg-brand-teal hover:text-white transition-colors cursor-pointer bg-white">
-              FB
-            </div>
-            <div className="w-10 h-10 border-2 border-black flex items-center justify-center hover:bg-brand-teal hover:text-white transition-colors cursor-pointer bg-white">
-              X
-            </div>
-            <div className="w-10 h-10 border-2 border-black flex items-center justify-center hover:bg-brand-teal hover:text-white transition-colors cursor-pointer bg-white">
-              IN
-            </div>
-          </div>
+          <ShareButtons title={post.title} />
         </div>
 
       </div>
