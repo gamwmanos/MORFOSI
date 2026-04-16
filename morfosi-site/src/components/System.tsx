@@ -9,7 +9,7 @@ async function getSystemData() {
       firstName, lastName, specialty,
       "imageUrl": image.asset->url
     },
-    "facility": *[_type == "facilityPhoto"] | order(order asc)[0] {
+    "facilities": *[_type == "facilityPhoto"] {
       title,
       "photoUrl": photo.asset->url
     }
@@ -26,7 +26,9 @@ export default async function System() {
     : "Οι Καθηγητές μας";
   const teacherSpecialty = data?.teacher?.specialty ?? "";
 
-  const facilityImg = data?.facility?.photoUrl ?? null;
+  const facilities = data?.facilities ?? [];
+  const randomFacility = facilities.length > 0 ? facilities[Math.floor(Math.random() * facilities.length)] : null;
+  const facilityImg = randomFacility?.photoUrl ?? null;
 
   return (
     <section className="relative w-full py-24 bg-white overflow-hidden border-b-8 border-brand-teal min-h-[85vh] flex items-center">
@@ -40,7 +42,7 @@ export default async function System() {
       <div className="w-full px-6 lg:px-12 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-16 xl:max-w-[1600px] mx-auto">
 
         {/* Left Side text */}
-        <div className="lg:w-1/3">
+        <div className="lg:w-1/3 relative z-20">
           <span className="text-sm font-black tracking-widest text-gray-900 uppercase mb-8 block">Εκπαιδευτική Μέθοδος</span>
           <h3 className="text-4xl lg:text-5xl xl:text-6xl font-black text-brand-orange leading-[1.1] mb-10 tracking-tighter">
             Η Εκπαίδευση <br/> που Αξίζεις <br/> στη Μόρφωση!
@@ -137,15 +139,16 @@ export default async function System() {
             </Link>
 
             {/* Tile 4 — Academic guidance */}
-            <Link href="/prosanatolismos" className="bg-white p-2 sm:p-4 flex flex-col items-center justify-center text-center gap-2 sm:gap-3 hover:bg-brand-teal-dark transition-colors h-[150px] group cursor-pointer overflow-hidden w-full">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-brand-teal/20 border-2 border-brand-teal flex items-center justify-center group-hover:bg-white/20 transition-colors shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-teal group-hover:text-white transition-colors">
-                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
-                </svg>
-              </div>
-              <div className="w-full">
-                <span className="font-extrabold text-[9px] sm:text-[11px] text-gray-900 group-hover:text-white leading-tight transition-colors block break-words w-full">Ακαδημαϊκός<br/>Προσανατολ.</span>
-                <span className="text-[8px] sm:text-[9px] text-gray-400 group-hover:text-white/70 font-bold uppercase tracking-wider mt-1 block transition-colors truncate">Βρες τον σωστό δρόμο</span>
+            <Link href="/prosanatolismos" className="bg-white p-0 flex flex-col items-center justify-center text-center hover:bg-brand-teal-dark transition-colors h-[150px] group cursor-pointer relative overflow-hidden">
+              <Image src="/career_guidance.png" alt="Επαγγελματικός Προσανατολισμός" fill className="object-cover group-hover:scale-105 transition-transform duration-500 group-hover:opacity-60" />
+              <div className="absolute inset-0 bg-brand-teal/0 group-hover:bg-brand-teal/50 transition-colors" />
+              <div className="relative z-10 flex flex-col items-center justify-center w-full bg-gray-900/60 group-hover:bg-transparent py-1 transition-all">
+                <span className="font-extrabold text-[10px] sm:text-[11px] text-white leading-tight text-center block w-full">
+                  Ακαδημαϊκός<br/>Προσανατολ.
+                </span>
+                <span className="text-[8px] sm:text-[9px] text-gray-200 group-hover:text-white/90 font-bold uppercase tracking-wider mt-0.5 block transition-colors truncate">
+                  Βρες τον σωστό δρόμο
+                </span>
               </div>
             </Link>
 
