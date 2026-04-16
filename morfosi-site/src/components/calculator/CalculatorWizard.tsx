@@ -829,7 +829,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
                                   <MapPin size={14} strokeWidth={3} /> {faculty.city}
                                 </div>
                                 {faculty.specialRequirements.length > 0 && (
-                                  <div className="flex items-center gap-1.5 bg-purple-100 px-2 py-1.5 border-[2px] border-gray-900 text-[10px] font-black uppercase">
+                                  <div className="flex items-center gap-1.5 bg-indigo-600 text-white px-2 py-1.5 border-[2px] border-gray-900 text-[10px] font-black uppercase shadow-[2px_2px_0px_rgba(0,0,0,1)]">
                                     <AlertTriangle size={14} strokeWidth={3} /> {faculty.specialRequirements.join(", ")}
                                   </div>
                                 )}
