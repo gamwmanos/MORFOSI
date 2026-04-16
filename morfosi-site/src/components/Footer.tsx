@@ -119,9 +119,23 @@ export default async function Footer() {
         {/* Copyright */}
         <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-gray-600 uppercase tracking-widest">
            <p>© {new Date().getFullYear()} Εκπαιδευτικός Οργανισμός Μόρφωση.</p>
-           <div className="flex gap-6">
-              <Link href="/terms" className="hover:text-brand-teal transition-colors">Οροι Χρησης</Link>
-              <Link href="/privacy" className="hover:text-brand-teal transition-colors">Πολιτικη Απορρητου</Link>
+           <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
+              <div className="flex gap-6">
+                <Link href="/terms" className="hover:text-brand-teal transition-colors">Οροι Χρησης</Link>
+                <Link href="/privacy" className="hover:text-brand-teal transition-colors">Πολιτικη Απορρητου</Link>
+              </div>
+              <a 
+                href="mailto:contact@example.com" 
+                className="text-[10px] text-gray-700 hover:text-white transition-colors border-l border-gray-800 pl-8 hidden md:block"
+              >
+                Built by Εμμανουήλ Χρονάκης
+              </a>
+              <a 
+                href="mailto:contact@example.com" 
+                className="text-[10px] text-gray-700 hover:text-white transition-colors md:hidden"
+              >
+                Built by Εμμανουήλ Χρονάκης
+              </a>
            </div>
         </div>
       </div>
