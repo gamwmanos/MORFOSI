@@ -25,8 +25,14 @@ export default function ScrollVideo() {
     restDelta: 0.001
   });
 
-  // Preload των εικόνων στη μνήμη του Browser μια φορά στην αρχή
+  const isInView = useInView(containerRef, { margin: "800px" });
+  const [hasStartedLoading, setHasStartedLoading] = useState(false);
+
+  // Preload των εικόνων στη μνήμη του Browser μόνο όταν πλησιάσουμε στο section
   useEffect(() => {
+    if (!isInView || hasStartedLoading) return;
+    setHasStartedLoading(true);
+
     const loadedImages: HTMLImageElement[] = [];
     let loadCount = 0;
 
@@ -43,7 +49,7 @@ export default function ScrollVideo() {
         };
         loadedImages.push(img);
     }
-  }, []);
+  }, [isInView, hasStartedLoading]);
 
   const renderFrame = (index: number, imgArray: HTMLImageElement[]) => {
       if (imgArray[index - 1] && canvasRef.current) {

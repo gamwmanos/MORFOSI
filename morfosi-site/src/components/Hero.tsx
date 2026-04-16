@@ -135,6 +135,8 @@ export default function Hero() {
                alt="Εκπαίδευση με σύγχρονα μέσα" 
                fill
                priority
+               quality={65}
+               sizes="(max-width: 768px) 100vw, 50vw"
                className="object-cover grayscale-[10%] contrast-[1.05]"
             />
             
