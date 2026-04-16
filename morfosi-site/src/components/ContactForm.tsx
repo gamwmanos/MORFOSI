@@ -39,7 +39,7 @@ export default function ContactForm({ contactEmail }: { contactEmail?: string })
       }
 
       setState("success");
-    } catch (err) {
+    } catch {
       alert("Πρόβλημα σύνδεσης με τον διακομιστή");
       setState("error");
     }

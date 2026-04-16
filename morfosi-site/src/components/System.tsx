@@ -27,7 +27,9 @@ export default async function System() {
   const teacherSpecialty = data?.teacher?.specialty ?? "";
 
   const facilities = data?.facilities ?? [];
-  const randomFacility = facilities.length > 0 ? facilities[Math.floor(Math.random() * facilities.length)] : null;
+  // In a Server Component all impure functions (Math.random, Date.now) are disallowed.
+  // We simply pick the first facility; rotation can be done client-side if needed.
+  const randomFacility = facilities.length > 0 ? facilities[0] : null;
   const facilityImg = randomFacility?.photoUrl ?? null;
 
   return (

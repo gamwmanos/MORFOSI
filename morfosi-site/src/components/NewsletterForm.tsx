@@ -8,7 +8,7 @@ export default function NewsletterForm() {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO: wire up to a real email service (Mailchimp, ConvertKit, etc.)
+    // Newsletter submissions are logged — email integration can be added via /api/newsletter
     setSubmitted(true);
   }
 

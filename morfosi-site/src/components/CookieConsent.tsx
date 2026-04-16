@@ -1,18 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Cookie, X } from "lucide-react";
 
 export default function CookieConsent() {
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    const consent = localStorage.getItem("morfosi_cookie_consent");
-    if (!consent) {
-      setShow(true);
-    }
-  }, []);
+  const [show, setShow] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !localStorage.getItem("morfosi_cookie_consent");
+  });
 
   if (!show) return null;
 

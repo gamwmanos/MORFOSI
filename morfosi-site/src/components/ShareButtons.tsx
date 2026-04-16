@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function ShareButtons({ title }: { title: string }) {
-  const [url, setUrl] = useState("");
-
-  useEffect(() => {
-    setUrl(window.location.href);
-  }, []);
+  const [url] = useState<string>(() => {
+    if (typeof window === "undefined") return "";
+    return window.location.href;
+  });
 
   if (!url) return null; // Avoid hydration mismatch by waiting for client
 

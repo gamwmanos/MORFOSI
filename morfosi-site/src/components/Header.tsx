@@ -14,10 +14,8 @@ import {
   Users,
   Phone,
   MapPin,
-  Clock,
   ChevronRight,
   Newspaper,
-  Award,
   FlaskConical,
   Sigma,
   Globe,
@@ -38,8 +36,6 @@ const nextYear = currentYear + 1; // 2027
 const academicYear = `${currentYear}-${nextYear}`; // 2026-2027
 const academicYearShort = `${currentYear}-${nextYear.toString().slice(-2)}`; // 2026-27
 const prevYear = currentYear - 1; // 2025
-const successYear = prevYear; // 2025
-const successCount = 50;
 
 // ─────────────────────────────────────────────
 //  TYPE DEFINITIONS

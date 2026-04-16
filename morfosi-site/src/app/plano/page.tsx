@@ -702,31 +702,33 @@ function DirectionsSection({ sanityPrograms }: { sanityPrograms: SanityProgram[]
 function PlanoPageContent() {
   const searchParams = useSearchParams();
   const queryLevel = searchParams.get('level');
-  const [activeLevel, setActiveLevel] = useState<string>('gymnasio');
+
+  // Initialize activeLevel from URL params/hash at mount — avoids setState in effect
+  const [activeLevel, setActiveLevel] = useState<string>(() => {
+    if (queryLevel && ['gymnasio', 'lykeio'].includes(queryLevel)) return queryLevel;
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.replace('#', '');
+      if (['gymnasio', 'lykeio'].includes(hash)) return hash;
+      const stored = sessionStorage.getItem('planoLevel');
+      if (stored && ['gymnasio', 'lykeio'].includes(stored)) {
+        sessionStorage.removeItem('planoLevel');
+        return stored;
+      }
+    }
+    return 'gymnasio';
+  });
+
   const [plans, setPlans] = useState<PlanData[]>(FALLBACK_PLANS);
   const [sanityPrograms, setSanityPrograms] = useState<SanityProgram[]>([]);
   const [loading, setLoading] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // 1. Check Query Params first (from Header links)
+    // Update active level if queryLevel changes after navigation
+    // (intentional: responds to user navigating with ?level= query param)
     if (queryLevel && ['gymnasio', 'lykeio'].includes(queryLevel)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveLevel(queryLevel);
-    } 
-    // 2. Check Hash second (from old links)
-    else if (window.location.hash) {
-      const hash = window.location.hash.replace('#', '');
-      if (['gymnasio', 'lykeio'].includes(hash)) {
-        setActiveLevel(hash);
-      }
-    } 
-    // 3. Check Session Storage (from Hero section dropdowns if implemented)
-    else {
-      const storedLevel = sessionStorage.getItem('planoLevel');
-      if (storedLevel && ['gymnasio', 'lykeio'].includes(storedLevel)) {
-        setActiveLevel(storedLevel);
-        sessionStorage.removeItem('planoLevel'); // consume it
-      }
     }
 
     const handleHashChange = () => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { UserPlus, CheckCircle, Loader2, ChevronDown, ChevronUp } from "lucide-react";
+import { UserPlus, CheckCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 type EnrollStep = 1 | 2 | 3;
@@ -78,7 +78,7 @@ export default function EnrollmentForm() {
       }
 
       setFormState("success");
-    } catch (err) {
+    } catch {
       alert("Πρόβλημα σύνδεσης με τον διακομιστή");
       setFormState("idle");
     }

@@ -1,6 +1,5 @@
-import { BookOpen, Sigma, Pencil, FlaskConical, Globe } from "lucide-react";
+import { Sigma, Pencil, FlaskConical, Globe } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 export interface ProgramType {
   _id: string;

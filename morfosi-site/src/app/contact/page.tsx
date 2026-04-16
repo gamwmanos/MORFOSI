@@ -1,6 +1,7 @@
 import { client } from "@/sanity/client";
 import ContactForm from "@/components/ContactForm";
 import EnrollmentForm from "@/components/EnrollmentForm";
+import { FAQSchema, BreadcrumbSchema } from "@/components/SchemaOrg";
 import {
   Phone, Mail, MapPin, Clock,
   GraduationCap, MessageSquare, UserPlus,
@@ -79,6 +80,11 @@ export default async function ContactPage() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-teal selection:text-white overflow-x-hidden">
+      <FAQSchema faqs={FAQ} />
+      <BreadcrumbSchema items={[
+        { name: "Αρχική", url: "https://morfosi.edu.gr" },
+        { name: "Επικοινωνία", url: "https://morfosi.edu.gr/contact" },
+      ]} />
 
       {/* ═══════════════════════════════════════════════════════════
           HERO — Dark brutalist header

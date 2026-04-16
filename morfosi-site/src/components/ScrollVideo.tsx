@@ -98,6 +98,7 @@ export default function ScrollVideo() {
      window.addEventListener("resize", resize);
      resize(); // Κάλεσέ το μια φορά στο mount
      return () => window.removeEventListener("resize", resize);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [images]);
 
   return (

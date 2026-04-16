@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { CalendarDays, Clock, User2, DoorOpen, Users2, ChevronRight, BookOpen } from "lucide-react";
 
@@ -254,30 +254,17 @@ export default function ScheduleClient({
   contactPhone?: string;
 }) {
   // Determine which tabs are available
-  const hasGymnasio = displayClasses.some((c) => GYMNASIO_YEARS.includes(c.schoolYear));
   const hasLykeio = displayClasses.some((c) => LYKEIO_YEARS.includes(c.schoolYear));
 
-  // Default to whichever exists — prefer Lykeio if both present
-  const defaultTab = hasLykeio ? "lykeio" : "gymnasio";
-  const [activeTab, setActiveTab] = useState<"gymnasio" | "lykeio">(defaultTab);
-
-  // Handle direct links to specific years (e.g. from Header dropdown)
-  useEffect(() => {
+  // Default: prefer Lykeio; also respect URL hash at mount time
+  const [activeTab, setActiveTab] = useState<"gymnasio" | "lykeio">(() => {
     if (typeof window !== "undefined" && window.location.hash) {
       const hash = window.location.hash.replace("#", "");
-      if (GYMNASIO_YEARS.includes(hash)) {
-        setActiveTab("gymnasio");
-      } else if (LYKEIO_YEARS.includes(hash)) {
-        setActiveTab("lykeio");
-      }
+      if (GYMNASIO_YEARS.includes(hash)) return "gymnasio";
+      if (LYKEIO_YEARS.includes(hash)) return "lykeio";
     }
-  }, []);
-
-  // Year ordering for display
-  const yearOrder = [
-    "A_GYMNASIOU", "B_GYMNASIOU", "C_GYMNASIOU",
-    "A_LYKEIOU", "B_LYKEIOU", "C_LYKEIOU",
-  ];
+    return hasLykeio ? "lykeio" : "gymnasio";
+  });
 
   // Filter classes by active tab
   const filteredYears =

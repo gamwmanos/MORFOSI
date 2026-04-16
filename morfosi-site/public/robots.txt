@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Block Sanity Studio from indexing
+Disallow: /studio/
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://morfosi.edu.gr/sitemap.xml

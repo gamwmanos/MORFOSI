@@ -1,8 +1,8 @@
 "use client"
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Download, FileText, BookOpen, Layers, CheckCircle } from 'lucide-react';
+import { Search, FileText, BookOpen, Layers, CheckCircle } from 'lucide-react';
 
 // Interface matching the Server Page GROQ Query
 export interface ExamType {
@@ -39,17 +39,6 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
   const [activeTrack, setActiveTrack] = useState<string>('positive');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Fallback Data if Sanity is empty so UI still looks impressive
-  const examsList = initialExams.length > 0 ? initialExams : [
-    { _id: 'e1', title: 'Μαθηματικά Προσανατολισμού', examCategory: 'panellinies', tracks: ['positive'], classDropdown: 'g_lykeiou', subject: 'Μαθηματικά', date: '2023-06-08' },
-    { _id: 'e2', title: 'Φυσική Προσανατολισμού', examCategory: 'panellinies', tracks: ['positive', 'health'], classDropdown: 'g_lykeiou', subject: 'Φυσική', date: '2023-06-12' },
-  ] as ExamType[];
-
-  // Debugging: Log the exams to see what data we're actually getting
-  useEffect(() => {
-    console.log("Initial Exams from Sanity:", initialExams);
-  }, [initialExams]);
-
   // Helper to infer tracks if not set in Sanity
   const inferTracks = (subject?: string, title?: string): string[] => {
     const s = (subject || title || "").toUpperCase();
@@ -77,6 +66,12 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
 
   // Grouped and Filtered Exams
   const filteredData = useMemo(() => {
+    // Fallback data if Sanity is empty — computed inside useMemo to avoid stale dependency
+    const examsList: ExamType[] = initialExams.length > 0 ? initialExams : [
+      { _id: 'e1', title: 'Μαθηματικά Προσανατολισμού', examCategory: 'panellinies', tracks: ['positive'], classDropdown: 'g_lykeiou', subject: 'Μαθηματικά', date: '2023-06-08' },
+      { _id: 'e2', title: 'Φυσική Προσανατολισμού', examCategory: 'panellinies', tracks: ['positive', 'health'], classDropdown: 'g_lykeiou', subject: 'Φυσική', date: '2023-06-12' },
+    ];
+
     // 1. Filter by Category and Search
     const prelimFiltered = examsList.filter(exam => {
       let category = exam.examCategory || 'panellinies';
@@ -128,7 +123,7 @@ export default function ExamsHub({ initialExams }: { initialExams: ExamType[] })
       groups: subjectGroups,
       totalCount: finalExams.length
     };
-  }, [examsList, activeTab, activeTrack, searchQuery]);
+  }, [initialExams, activeTab, activeTrack, searchQuery]);
 
   return (
     <div className="w-full flex-1 flex flex-col bg-brand-teal-dark relative overflow-hidden">

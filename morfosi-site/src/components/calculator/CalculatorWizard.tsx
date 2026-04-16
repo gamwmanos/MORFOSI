@@ -124,22 +124,6 @@ const calcAvgPoints = (grades: Record<string, number>, specials: Record<string, 
   return Math.round(sum * 250 + bonus);
 };
 
-// Animated counter
-const AnimatedNumber = ({ value }: { value: number }) => {
-  const [display, setDisplay] = useState(0);
-  useEffect(() => {
-    let start = 0;
-    const inc = value / (1500 / 16);
-    const tick = () => {
-      start += inc;
-      if (start < value) { setDisplay(Math.floor(start)); requestAnimationFrame(tick); }
-      else setDisplay(value);
-    };
-    requestAnimationFrame(tick);
-  }, [value]);
-  return <span>{display.toLocaleString("el-GR")}</span>;
-};
-
 // EBE badge
 const EbeBadge = ({ grade, ebe, label }: { grade: number; ebe: number; label: string }) => {
   const ok = grade >= ebe;
@@ -179,7 +163,7 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
         const r = await fetch(`/data/bases-${prevYear}-field-${field}.json`);
         if (!r.ok) throw new Error();
         const data = await r.json();
-        const mapped = data.map((d: any) => ({
+        const mapped = data.map((d: Record<string, unknown>) => ({
           ...d,
           basePrev: d[`base${prevYear}`] || d.base2025 || 0
         }));
@@ -288,10 +272,6 @@ export default function CalculatorWizard({ contactPhone = "210 506 3610" }: { co
 
   const generatePDF = () => {
     const fieldName = currentField?.name || "";
-    const subjectRows = (currentField?.subjects || []).map(sub =>
-      `<tr><td>${sub.name}</td><td class="bold">${(grades[sub.id] || 0).toFixed(1)}</td></tr>`
-    ).join("");
-
     const passingSchools = filtered.filter(f => f.passed && f.ebeOk);
 
     const schoolRows = passingSchools.map(fac => {

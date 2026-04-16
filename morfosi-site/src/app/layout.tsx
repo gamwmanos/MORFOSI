@@ -8,6 +8,7 @@ import MobileStickyBar from "@/components/MobileStickyBar";
 import CookieConsent from "@/components/CookieConsent";
 import { client } from "@/sanity/client";
 import Script from "next/script";
+import { OrganizationSchema } from "@/components/SchemaOrg";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +42,7 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col pt-0 overflow-x-hidden w-full max-w-[100vw]">
+        <OrganizationSchema phone={phone} />
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-LQM2YQEMFS" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">
           {`

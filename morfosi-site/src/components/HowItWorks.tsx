@@ -1,4 +1,4 @@
-import { PhoneCall, FileText, BarChart3, ArrowRight, Users } from "lucide-react";
+import { FileText, BarChart3, ArrowRight, Users } from "lucide-react";
 import Link from "next/link";
 
 const STEPS = [
