@@ -718,7 +718,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
               : "bg-white shadow-[0_6px_0_0_rgba(12,130,162,1)] py-0"
             }`}
         >
-          <div className="w-full px-4 md:px-6 xl:px-8 flex items-center justify-between">
+          <div className="w-full px-4 md:px-6 xl:px-4 2xl:px-8 flex items-center justify-between">
 
             {/* LEFT GROUP: Logo + Nav */}
             <div className="flex items-center">
@@ -793,11 +793,11 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
             </div>
 
             {/* RIGHT GROUP: Phone + Buttons */}
-            <div className="flex items-center gap-3 xl:gap-4 2xl:gap-8 flex-shrink-0">
+            <div className="flex items-center gap-2 xl:gap-3 2xl:gap-6 flex-shrink-0">
               {/* Phone number - desktop */}
               <a
                 href={`tel:${contactPhone.replace(/\s+/g, "")}`}
-                className="hidden lg:flex xl:hidden 2xl:flex flex-col items-end"
+                className="hidden lg:flex flex-col items-end"
               >
                 <span className="text-[10px] font-black tracking-[0.15em] text-brand-orange uppercase">
                   Επικοινωνία
@@ -810,7 +810,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
               {/* Enrollment CTA Buttons */}
               <Link
                 href="/schedule"
-                className={`hidden lg:inline-flex xl:hidden 2xl:inline-flex items-center gap-2 border-2 border-gray-900 text-gray-900 font-black uppercase tracking-wider hover:bg-gray-900 hover:text-white transition-all duration-200 active:scale-95 ${scrolled ? "px-3 py-2 text-xs" : "px-4 py-2.5 text-xs"
+                className={`hidden lg:inline-flex xl:hidden items-center gap-2 border-2 border-gray-900 text-gray-900 font-black uppercase tracking-wider hover:bg-gray-900 hover:text-white transition-all duration-200 active:scale-95 ${scrolled ? "px-3 py-2 text-xs" : "px-4 py-2.5 text-xs"
                   }`}
               >
                 <CalendarDays size={13} />
@@ -818,7 +818,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
               </Link>
               <Link
                 href="/contact"
-                className={`hidden md:inline-flex items-center gap-2 bg-brand-orange text-white font-black uppercase tracking-wider hover:bg-orange-600 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(245,130,32,0.5)] active:scale-95 relative overflow-hidden group/enroll ${scrolled ? "px-4 py-2.5 text-xs" : "px-5 py-3 text-xs"
+                className={`hidden md:inline-flex items-center gap-2 bg-brand-orange text-white font-black uppercase tracking-wider hover:bg-orange-600 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(245,130,32,0.5)] active:scale-95 relative overflow-hidden group/enroll ${scrolled ? "px-4 py-2.5 text-xs xl:px-3 xl:py-2 2xl:px-4 2xl:py-2.5" : "px-5 py-3 text-xs xl:px-3 xl:py-2 2xl:px-5 2xl:py-3"
                   }`}
               >
                 <span className="absolute inset-0 bg-white/10 translate-x-[-110%] group-hover/enroll:translate-x-[110%] transition-transform duration-500 skew-x-12 pointer-events-none" />
