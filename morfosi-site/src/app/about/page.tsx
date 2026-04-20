@@ -391,7 +391,7 @@ export default function AboutPage() {
             {/* Right: Quick info cards */}
             <div className="flex flex-col gap-4 flex-shrink-0">
               {[
-                { label: "Ιδρύθηκε", val: "2005", icon: Calendar, color: "bg-brand-teal" },
+                { label: "Ιδρύθηκε", val: "2001", icon: Calendar, color: "bg-brand-teal" },
                 { label: "Τοποθεσία", val: "Αθήνα", icon: MapPin, color: "bg-brand-orange" },
                 { label: "Καθηγητές", val: "10+", icon: GraduationCap, color: "bg-brand-green" },
               ].map((item) => {
