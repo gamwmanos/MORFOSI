@@ -399,92 +399,254 @@ function FeaturesGrid({ plan }: { plan: PlanData }) {
   );
 }
 
-function SubjectsSection({ plan }: { plan: PlanData }) {
-  const cfg = LEVEL_CONFIG[plan.level];
-  if (!plan.subjects?.length) return null;
+import { detailedPrograms, DetailedProgram } from '@/data/detailedPrograms';
 
-  const categories = [...new Set(plan.subjects.map((s) => s.category))];
-  const catColors = cfg.categoryColors as Record<string, string>;
+function DetailedProgramsSection({ plan, activeLevel }: { plan: PlanData, activeLevel: string }) {
+  const cfg = LEVEL_CONFIG[plan.level as keyof typeof LEVEL_CONFIG];
+  
+  const filterKey = activeLevel === 'gymnasio' ? 'ΓΥΜΝΑΣΙΟΥ' : 'ΛΥΚΕΙΟΥ';
+  const relevantPrograms = detailedPrograms.filter(p => p.grade.includes(filterKey));
+
+  // Fallback to old subjects section if no detailed programs exist for this level yet
+  if (relevantPrograms.length === 0) {
+    if (!plan.subjects?.length) return null;
+    const categories = [...new Set(plan.subjects.map((s) => s.category))];
+    const catColors = cfg.categoryColors as Record<string, string>;
+
+    return (
+      <section className="py-20" style={{ background: '#f8f8f8' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="mb-12 text-center">
+            <span
+              className="text-xs font-black uppercase tracking-[0.3em] mb-2 block"
+              style={{ color: cfg.color }}
+            >
+              Πρόγραμμα Μαθημάτων
+            </span>
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-gray-900">
+              ΤΙ <span style={{ color: cfg.color }}>ΔΙΔΑΣΚΟΥΜΕ</span>
+            </h2>
+          </div>
+
+          {/* Category Legend */}
+          <div className="flex flex-wrap gap-3 mb-10 justify-center">
+            {categories.map((cat) => (
+              <span
+                key={cat}
+                className="px-4 py-2 text-xs font-black uppercase tracking-widest text-white rounded-full border-2 border-black"
+                style={{ background: catColors[cat] || cfg.color }}
+              >
+                {cat}
+              </span>
+            ))}
+          </div>
+
+          {/* Subjects Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {plan.subjects.map((subject, i) => {
+              const barColor = catColors[subject.category] || cfg.color;
+              return (
+                <div
+                  key={i}
+                  className="bg-white border-4 border-black p-5 shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] transition-all group"
+                >
+                  <div
+                    className="h-1.5 mb-4 rounded-full"
+                    style={{ background: barColor }}
+                  />
+                  <div className="font-black text-gray-900 text-base mb-3 leading-tight uppercase tracking-tight">
+                    {subject.subjectName}
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span
+                      className="text-xs font-black uppercase tracking-widest px-2 py-1 rounded-full text-white"
+                      style={{ background: barColor }}
+                    >
+                      {subject.category}
+                    </span>
+                    <span className="text-gray-500 font-black text-xs">
+                      {subject.hoursPerWeek}h/εβδ.
+                    </span>
+                  </div>
+
+                  {/* Hours indicator */}
+                  <div className="mt-4">
+                    <div className="flex gap-1">
+                      {Array.from({ length: 6 }).map((_, dotIdx) => (
+                        <div
+                          key={dotIdx}
+                          className="flex-1 h-2 rounded-sm transition-all"
+                          style={{
+                            background:
+                              dotIdx < subject.hoursPerWeek
+                                ? barColor
+                                : '#e5e7eb',
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-[10px] text-gray-400 font-bold mt-1 block">
+                      {subject.hoursPerWeek} ώρες εβδομαδιαίως
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // --- NEW DETAILED PROGRAMS LAYOUT ---
+  // Group programs by grade
+  const groupedPrograms = relevantPrograms.reduce((acc, prog) => {
+    if (!acc[prog.grade]) acc[prog.grade] = [];
+    acc[prog.grade].push(prog);
+    return acc;
+  }, {} as Record<string, DetailedProgram[]>);
 
   return (
-    <section className="py-20" style={{ background: '#f8f8f8' }}>
+    <section className="py-24" style={{ background: '#f8f8f8' }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <div className="mb-12 text-center">
+        <div className="mb-16 text-center">
           <span
             className="text-xs font-black uppercase tracking-[0.3em] mb-2 block"
             style={{ color: cfg.color }}
           >
-            Πρόγραμμα Μαθημάτων
+            Αναλυτικά Προγράμματα
           </span>
           <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-gray-900">
-            ΤΙ <span style={{ color: cfg.color }}>ΔΙΔΑΣΚΟΥΜΕ</span>
+            ΠΡΟΓΡΑΜΜΑΤΑ <span style={{ color: cfg.color }}>ΣΠΟΥΔΩΝ</span>
           </h2>
         </div>
 
-        {/* Category Legend */}
-        <div className="flex flex-wrap gap-3 mb-10 justify-center">
-          {categories.map((cat) => (
-            <span
-              key={cat}
-              className="px-4 py-2 text-xs font-black uppercase tracking-widest text-white rounded-full border-2 border-black"
-              style={{ background: catColors[cat] || cfg.color }}
-            >
-              {cat}
-            </span>
-          ))}
-        </div>
-
-        {/* Subjects Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {plan.subjects.map((subject, i) => {
-            const barColor = catColors[subject.category] || cfg.color;
-            return (
-              <div
-                key={i}
-                className="bg-white border-4 border-black p-5 shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] transition-all group"
-              >
-                <div
-                  className="h-1.5 mb-4 rounded-full"
-                  style={{ background: barColor }}
-                />
-                <div className="font-black text-gray-900 text-base mb-3 leading-tight uppercase tracking-tight">
-                  {subject.subjectName}
-                </div>
-                <div className="flex items-center justify-between">
-                  <span
-                    className="text-xs font-black uppercase tracking-widest px-2 py-1 rounded-full text-white"
-                    style={{ background: barColor }}
-                  >
-                    {subject.category}
-                  </span>
-                  <span className="text-gray-500 font-black text-xs">
-                    {subject.hoursPerWeek}h/εβδ.
-                  </span>
-                </div>
-
-                {/* Hours indicator */}
-                <div className="mt-4">
-                  <div className="flex gap-1">
-                    {Array.from({ length: 6 }).map((_, dotIdx) => (
-                      <div
-                        key={dotIdx}
-                        className="flex-1 h-2 rounded-sm transition-all"
-                        style={{
-                          background:
-                            dotIdx < subject.hoursPerWeek
-                              ? barColor
-                              : '#e5e7eb',
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-[10px] text-gray-400 font-bold mt-1 block">
-                    {subject.hoursPerWeek} ώρες εβδομαδιαίως
-                  </span>
-                </div>
+        <div className="space-y-24">
+          {Object.entries(groupedPrograms).map(([grade, programsForGrade]) => (
+            <div key={grade} className="flex flex-col gap-8">
+              {/* Grade Divider */}
+              <div className="flex items-center gap-6">
+                <div className="h-1 flex-1" style={{ background: cfg.color }} />
+                <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter px-6 py-2 border-4 border-black bg-white text-black shadow-[4px_4px_0px_#000]">
+                  {grade}
+                </h3>
+                <div className="h-1 flex-1" style={{ background: cfg.color }} />
               </div>
-            );
-          })}
+
+              {/* Tracks / Programs Grid */}
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
+                {programsForGrade.map((prog, idx) => {
+                  
+                  const getTrackTheme = (trackName: string, defaultBg: string) => {
+                    if (!trackName) return { bg: defaultBg, text: 'text-gray-900', border: 'border-black' };
+                    // Handle B' Lykeio combo first
+                    if (trackName.includes('Θετικών') && trackName.includes('Υγείας')) return { bg: '#0c82a2', text: 'text-white', border: '#0c82a2' };
+                    
+                    if (trackName.includes('Θετικών')) return { bg: '#f58220', text: 'text-white', border: '#f58220' }; // Orange
+                    if (trackName.includes('Ανθρωπιστικών')) return { bg: '#8e4585', text: 'text-white', border: '#8e4585' }; // Purple
+                    if (trackName.includes('Υγείας')) return { bg: '#e31837', text: 'text-white', border: '#e31837' }; // Red
+                    if (trackName.includes('Οικονομίας')) return { bg: '#00a651', text: 'text-white', border: '#00a651' }; // Green
+                    return { bg: defaultBg, text: 'text-gray-900', border: 'border-black' };
+                  };
+
+                  const tTheme = getTrackTheme(prog.track, cfg.colorLight);
+
+                  return (
+                  <div key={idx} className="bg-white border-4 border-black flex flex-col shadow-[8px_8px_0px_#000] hover:-translate-y-2 hover:shadow-[12px_12px_0px_#000] transition-all duration-300">
+                    {/* Header */}
+                    <div className="p-6 md:p-8" style={{ background: tTheme.bg, borderBottom: '4px solid black' }}>
+                      {prog.track ? (
+                        <h4 className={`text-xl md:text-2xl font-black uppercase tracking-tight ${tTheme.text}`}>
+                          {prog.track}
+                        </h4>
+                      ) : (
+                        <h4 className={`text-xl md:text-2xl font-black uppercase tracking-tight ${tTheme.text}`}>
+                          ΓΕΝΙΚΟ ΠΡΟΓΡΑΜΜΑ
+                        </h4>
+                      )}
+                    </div>
+
+                    {/* Table styling */}
+                    <div className="flex-1 p-6 md:p-8">
+                      <div className={`grid ${prog.totalSummerHours > 0 ? 'grid-cols-[1fr_auto_auto]' : 'grid-cols-[1fr_auto]'} gap-x-4 md:gap-x-8 gap-y-3 mb-6 border-b-2 border-dashed border-gray-200 pb-4`}>
+                        <div className="text-xs md:text-sm font-black uppercase tracking-widest text-gray-400">ΜΑΘΗΜΑΤΑ</div>
+                        {prog.totalSummerHours > 0 && (
+                          <div className="text-xs md:text-sm font-black uppercase tracking-widest text-brand-orange text-center w-10">ΘΕΡ.</div>
+                        )}
+                        <div className={`text-xs md:text-sm font-black uppercase tracking-widest ${prog.totalSummerHours > 0 ? 'text-brand-teal' : 'text-gray-900'} text-center w-10`}>
+                          {prog.totalSummerHours > 0 ? 'ΧΕΙΜ.' : 'ΩΡΕΣ'}
+                        </div>
+                      </div>
+
+                      <div className="space-y-3 mb-8">
+                        {prog.subjects.map((sub, sIdx) => (
+                          <div key={sIdx} className={`grid ${prog.totalSummerHours > 0 ? 'grid-cols-[1fr_auto_auto]' : 'grid-cols-[1fr_auto]'} items-center gap-x-4 md:gap-x-8 hover:bg-gray-50 p-2 rounded-md transition-colors -mx-2`}>
+                            <div className="font-black text-sm md:text-base leading-tight uppercase text-gray-900">
+                              {sub.name}
+                            </div>
+                            {prog.totalSummerHours > 0 && (
+                              <div className="justify-self-center font-black text-lg text-gray-800 w-10 text-center">
+                                {sub.summerHours > 0 ? sub.summerHours : '-'}
+                              </div>
+                            )}
+                            <div className="justify-self-center font-black text-lg text-gray-800 w-10 text-center">
+                              {sub.winterHours > 0 ? sub.winterHours : '-'}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Totals */}
+                      <div className="bg-gray-100 p-4 border-2 border-black flex items-center justify-between mt-auto">
+                        <div className="font-black text-xs md:text-sm uppercase tracking-widest text-gray-500">ΣΥΝΟΛΟ ΩΡΩΝ</div>
+                        <div className="flex items-center gap-4 md:gap-8 pr-1 md:pr-3">
+                          {prog.totalSummerHours > 0 && (
+                            <div className="font-black text-xl text-brand-orange text-center w-8">
+                              {prog.totalSummerHours > 0 ? prog.totalSummerHours : '-'}
+                            </div>
+                          )}
+                          <div className={`font-black text-xl w-8 text-center ${prog.totalSummerHours > 0 ? 'text-brand-teal' : 'text-gray-900'}`}>
+                            {prog.totalWinterHours > 0 ? prog.totalWinterHours : '-'}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Info list */}
+                    {prog.info && prog.info.length > 0 && (
+                      <div className="bg-gray-900 border-t-4 border-black p-6 text-white text-xs md:text-sm">
+                        <ul className="space-y-3">
+                          {prog.info.map((item, iIdx) => {
+                            const splitIndex = item.indexOf(':');
+                            if (splitIndex > -1) {
+                              const title = item.substring(0, splitIndex + 1);
+                              const desc = item.substring(splitIndex + 1);
+                              return (
+                                <li key={iIdx} className="flex gap-3">
+                                  <span className="text-brand-orange mt-0.5">▶</span>
+                                  <span>
+                                    <strong className="text-brand-teal uppercase tracking-wider">{title}</strong>
+                                    <span className="text-gray-300 font-medium">{desc}</span>
+                                  </span>
+                                </li>
+                              )
+                            }
+                            return (
+                              <li key={iIdx} className="flex gap-3">
+                                <span className="text-brand-orange mt-0.5">▶</span>
+                                <span className="text-gray-300 font-medium">{item}</span>
+                              </li>
+                            )
+                          })}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -836,7 +998,7 @@ function PlanoPageContent() {
               <HeroSection active={activeLevel} plans={plans} />
               <FeaturesGrid plan={activePlan} />
               {activeLevel === 'lykeio' && <DirectionsSection sanityPrograms={sanityPrograms} />}
-              <SubjectsSection plan={activePlan} />
+              <DetailedProgramsSection plan={activePlan} activeLevel={activeLevel} />
               <MethodologyBanner plan={activePlan} />
               <CTASection plan={activePlan} />
             </div>
