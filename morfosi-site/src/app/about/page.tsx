@@ -159,7 +159,7 @@ const STATS = [
 const FACILITIES = [
   {
     title: "Αίθουσες Διδασκαλίας",
-    desc: "6 σύγχρονες αίθουσες εξοπλισμένες με smart boards, κλιματισμό και άρτιο ακουστικό περιβάλλον.",
+    desc: "8 σύγχρονες αίθουσες εξοπλισμένες με smart boards, κλιματισμό και άρτιο ακουστικό περιβάλλον.",
     icon: Building2,
     color: "bg-brand-teal",
   },
@@ -654,7 +654,8 @@ export default function AboutPage() {
               return (
                 <div
                   key={i}
-                  className={`p-10 bg-white border-b-[4px] border-r-[4px] border-gray-900 group hover:bg-gray-900 transition-colors duration-300 relative overflow-hidden ${i === 1 || i === 3 ? "border-r-0" : ""} ${i === 2 || i === 3 ? "border-b-0" : ""}`}
+                  onClick={i === 0 ? () => document.getElementById('facilities')?.scrollIntoView({ behavior: 'smooth' }) : undefined}
+                  className={`p-10 bg-white border-b-[4px] border-r-[4px] border-gray-900 group hover:bg-gray-900 transition-colors duration-300 relative overflow-hidden ${i === 0 ? "cursor-pointer" : ""} ${i === 1 || i === 3 ? "border-r-0" : ""} ${i === 2 || i === 3 ? "border-b-0" : ""}`}
                 >
                   <div className="absolute top-0 left-0 w-[6px] h-full opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: "currentColor" }} />
                   <div className={`w-16 h-16 ${f.color} border-4 border-gray-900 flex items-center justify-center mb-6 shadow-[4px_4px_0px_#111] group-hover:shadow-[2px_2px_0px_#fff]`}>
@@ -713,18 +714,23 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="relative border-[4px] border-white/10 shadow-[16px_16px_0px_#000] bg-black h-[400px] md:h-[600px] overflow-hidden group">
+          <div className="relative border-[4px] border-white/10 shadow-[16px_16px_0px_#000] bg-black overflow-hidden group transition-all duration-700 ease-in-out w-fit mx-auto max-w-full">
             {eventPhotos.length > 0 ? (
-              <>
+              <div className="relative w-full">
                 {eventPhotos.map((ep, i) => (
                   <div
                     key={ep._id}
-                    className={`absolute inset-0 transition-all duration-1000 ${i === activeEventPhoto ? "opacity-100 scale-100" : "opacity-0 scale-105 pointer-events-none"}`}
+                    className={`transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full ${
+                      i === activeEventPhoto 
+                        ? "relative opacity-100 scale-100 blur-none z-10" 
+                        : "absolute top-0 left-0 opacity-0 scale-[0.97] blur-xl pointer-events-none z-0"
+                    }`}
                   >
-                    <img src={ep.photoUrl} alt={ep.title} className="w-full h-full object-cover opacity-80" />
+                    {/* Native fitting photo bounded by viewport height to prevent scrolling jumps */}
+                    <img src={ep.photoUrl} alt={ep.title} className="max-h-[65vh] md:max-h-[80vh] w-auto max-w-full h-auto block object-contain opacity-90 mx-auto" />
                     
                     {/* Clean Gradient Overlay - No Text as requested */}
-                    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 to-transparent z-20 pointer-events-none" />
                   </div>
                 ))}
 
@@ -763,7 +769,7 @@ export default function AboutPage() {
                     </div>
                   </div>
                 )}
-              </>
+              </div>
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a]">
                 <div className="text-center relative z-10 px-6">
