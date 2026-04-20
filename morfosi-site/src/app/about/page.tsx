@@ -39,7 +39,7 @@ import {
 const now = new Date();
 const currentYear = now.getFullYear(); // 2026
 const prevYear = currentYear - 1; // 2025
-const foundingYear = 2002;
+const foundingYear = 2001;
 const yearsOfExp = currentYear - foundingYear;
 const academicYearShort = `${currentYear}-${(currentYear + 1).toString().slice(-2)}`;
 
@@ -59,7 +59,7 @@ const HISTORY_PLACEHOLDER = {
 
 const TIMELINE_ITEMS = [
   {
-    year: "2005",
+    year: "2001",
     title: "Η Αρχή",
     desc: "Ίδρυση του Φροντιστηρίου Μόρφωση με 3 καθηγητές και 45 μαθητές στο πρώτο έτος λειτουργίας.",
     color: "bg-brand-teal",

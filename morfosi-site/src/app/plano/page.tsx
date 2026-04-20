@@ -126,7 +126,7 @@ const FALLBACK_PLANS: PlanData[] = [
     stats: [
       { value: '95%', label: 'Επιτυχία Πανελληνίων' },
       { value: '1.200+', label: 'Επιτυχόντες Φοιτητές' },
-      { value: `${new Date().getFullYear() - 2002}+`, label: 'Χρόνια Εμπειρίας' },
+      { value: `${new Date().getFullYear() - 2001}+`, label: 'Χρόνια Εμπειρίας' },
     ],
     callToAction: 'Κάνε την Εγγραφή σου',
   },
