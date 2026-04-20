@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { client } from "@/sanity/client";
+import dynamic from 'next/dynamic';
+const PremiumFacilityGallery = dynamic(() => import('@/components/PremiumFacilityGallery'), { ssr: false });
 import {
   GraduationCap,
   Users,
@@ -27,6 +29,7 @@ import {
   Quote,
   Play,
   Zap,
+  Camera,
 } from "lucide-react";
 
 // ─────────────────────────────────────────────
@@ -294,7 +297,8 @@ export default function AboutPage() {
   const [address, setAddress] = useState("25ης Μαρτίου 84, Αγίου Δημητρίου 17, Πετρούπολη 132 31");
   const [contactEmail, setContactEmail] = useState("morfosifront@gmail.com");
   const [facilityPhotos, setFacilityPhotos] = useState<Array<{ _id: string; title: string; photoUrl: string }>>([]);
-  const [activeFacilityPhoto, setActiveFacilityPhoto] = useState(0);
+  const [eventPhotos, setEventPhotos] = useState<Array<{ _id: string; title: string; photoUrl: string; description?: string; date?: string }>>([]);
+  const [activeEventPhoto, setActiveEventPhoto] = useState(0);
 
   useEffect(() => {
     client.fetch(`*[_type == "siteSettings"][0]{ contactPhone, address, contactEmail }`).then(data => {
@@ -306,6 +310,10 @@ export default function AboutPage() {
     client.fetch(`*[_type == "facilityPhoto"] | order(order asc) { _id, title, "photoUrl": photo.asset->url }`)
       .then(data => { if (data?.length) setFacilityPhotos(data); })
       .catch(console.error);
+
+    client.fetch(`*[_type == "eventPhoto"] | order(order asc) { _id, title, description, date, "photoUrl": photo.asset->url }`)
+      .then(data => { if (data?.length) setEventPhotos(data); })
+      .catch(console.error);
   }, []);
 
   // Auto-rotate testimonials
@@ -316,14 +324,14 @@ export default function AboutPage() {
     return () => clearInterval(timer);
   }, []);
 
-  // Auto-rotate facility photos
+  // Auto-rotate event photos
   useEffect(() => {
-    if (facilityPhotos.length < 2) return;
+    if (eventPhotos.length < 2) return;
     const timer = setInterval(() => {
-      setActiveFacilityPhoto((prev) => (prev + 1) % facilityPhotos.length);
-    }, 4000);
+      setActiveEventPhoto((prev) => (prev + 1) % eventPhotos.length);
+    }, 5000);
     return () => clearInterval(timer);
-  }, [facilityPhotos]);
+  }, [eventPhotos]);
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-teal selection:text-white overflow-x-hidden">
@@ -664,47 +672,102 @@ export default function AboutPage() {
             })}
           </div>
 
-          {/* Facility Photo Banner — fetched from Sanity */}
-          <div id="facilities" className="mt-8 h-64 md:h-96 border-[4px] border-gray-900 shadow-[12px_12px_0px_#000] relative overflow-hidden group scroll-mt-32">
-            {facilityPhotos.length > 0 ? (
+          {/* Facility Photo Grid — Premium Editorial Gallery fetched from Sanity */}
+          <div id="facilities" className="mt-20 scroll-mt-32">
+            <PremiumFacilityGallery photos={facilityPhotos} />
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          NEW 6.5. EVENTS
+      ═══════════════════════════════════════════════════════════ */}
+      <section className="bg-[#031516] py-28 border-b-[8px] border-brand-orange relative overflow-hidden">
+        {/* Subtle background element */}
+        <div 
+          className="absolute inset-0 opacity-[0.03]" 
+          style={{ backgroundImage: "radial-gradient(circle, #f58220 1.5px, transparent 1.5px)", backgroundSize: "40px 40px" }}
+          aria-hidden="true"
+        />
+        
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
+            <div>
+              <div className="text-brand-orange font-black text-xs uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
+                <Camera size={16} />
+                <span>Οι Εκδηλώσεις μας</span>
+              </div>
+              <h2 className="text-5xl lg:text-7xl font-black text-white uppercase tracking-tighter leading-none">
+                ΣΤΙΓΜΕΣ<br />
+                <span className="text-brand-orange relative inline-block">
+                  ΠΟΥ ΜΕΝΟΥΝ
+                  <span className="absolute -bottom-2 left-0 w-full h-[6px] bg-brand-orange" />
+                </span>
+              </h2>
+            </div>
+            <div className="max-w-md">
+              <p className="text-gray-400 font-bold text-lg leading-relaxed border-l-[4px] border-brand-orange pl-4">
+                Η ζωή στο φροντιστήριο δεν είναι μόνο μαθήματα. Γιορτάζουμε, μαθαίνουμε και δημιουργούμε αναμνήσεις ως μια δεμένη ομάδα.
+              </p>
+            </div>
+          </div>
+
+          <div className="relative border-[4px] border-white/10 shadow-[16px_16px_0px_#000] bg-black h-[400px] md:h-[600px] overflow-hidden group">
+            {eventPhotos.length > 0 ? (
               <>
-                {facilityPhotos.map((fp, i) => (
+                {eventPhotos.map((ep, i) => (
                   <div
-                    key={fp._id}
-                    className={`absolute inset-0 transition-opacity duration-700 ${i === activeFacilityPhoto ? "opacity-100" : "opacity-0"
-                      }`}
+                    key={ep._id}
+                    className={`absolute inset-0 transition-all duration-1000 ${i === activeEventPhoto ? "opacity-100 scale-100" : "opacity-0 scale-105 pointer-events-none"}`}
                   >
-                    <img src={fp.photoUrl} alt={fp.title} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gray-900/30" />
-                    <div className="absolute bottom-4 left-4 bg-gray-900/80 text-white font-black text-sm uppercase tracking-widest px-4 py-2">
-                      {fp.title}
+                    <img src={ep.photoUrl} alt={ep.title} className="w-full h-full object-cover opacity-80" />
+                    
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                    
+                    {/* Content overlay */}
+                    <div className="absolute bottom-0 left-0 w-full p-8 md:p-12">
+                      <div className="max-w-3xl transform transition-transform duration-700 translate-y-0">
+                        {ep.date && (
+                          <div className="inline-block bg-brand-orange text-white font-black text-[10px] sm:text-xs uppercase tracking-widest px-3 py-1 mb-4 shadow-[4px_4px_0px_rgba(0,0,0,0.5)]">
+                            {new Date(ep.date).toLocaleDateString('el-GR', { year: 'numeric', month: 'long', day: 'numeric' })}
+                          </div>
+                        )}
+                        <h3 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-none mb-4 drop-shadow-lg">
+                          {ep.title}
+                        </h3>
+                        {ep.description && (
+                          <p className="text-gray-300 font-medium md:text-lg max-w-2xl drop-shadow-md">
+                            {ep.description}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
-                {facilityPhotos.length > 1 && (
-                  <div className="absolute bottom-4 right-4 flex gap-2 z-10">
-                    {facilityPhotos.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setActiveFacilityPhoto(i)}
-                        className={`w-3 h-3 border-2 border-white transition-all ${i === activeFacilityPhoto ? "bg-brand-orange" : "bg-transparent"
-                          }`}
-                        aria-label={`Φωτογραφία ${i + 1}`}
-                      />
-                    ))}
+
+                {/* Navigation Buttons and Progress */}
+                {eventPhotos.length > 1 && (
+                  <div className="absolute top-6 right-6 flex items-center gap-4 z-20">
+                    <div className="flex gap-2">
+                      {eventPhotos.map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setActiveEventPhoto(i)}
+                          className={`h-2 transition-all duration-300 ${i === activeEventPhoto ? "w-8 bg-brand-orange" : "w-2 bg-white/40 hover:bg-white/80"}`}
+                          aria-label={`Εκδήλωση ${i + 1}`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 )}
               </>
             ) : (
-              <div className="w-full h-full bg-gray-900 flex items-center justify-center">
-                <div
-                  className="absolute inset-0 opacity-10"
-                  style={{ backgroundImage: "radial-gradient(circle, #0c82a2 1px, transparent 1px)", backgroundSize: "30px 30px" }}
-                />
-                <div className="text-center relative z-10">
-                  <Play size={32} className="text-white/60 mx-auto mb-4" />
-                  <div className="text-white font-black text-xl uppercase tracking-widest mb-2">Φωτογραφίες Χώρου</div>
-                  <div className="text-gray-400 font-bold text-sm">Προσθέστε φωτογραφίες από τον τύπο &quot;Φωτογραφίες Χώρου&quot; στο Sanity Studio</div>
+              <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a]">
+                <div className="text-center relative z-10 px-6">
+                  <Camera size={48} className="text-brand-orange/40 mx-auto mb-6" />
+                  <div className="text-white font-black text-2xl uppercase tracking-widest mb-3">Φωτογραφίες Εκδηλώσεων</div>
+                  <div className="text-gray-500 font-bold max-w-sm mx-auto">Προσθέστε φωτογραφίες από τον τύπο &quot;Φωτογραφίες Εκδηλώσεων&quot; στο Sanity Studio για να εμφανιστούν εδώ.</div>
                 </div>
               </div>
             )}

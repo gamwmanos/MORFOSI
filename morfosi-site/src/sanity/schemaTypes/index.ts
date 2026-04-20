@@ -12,6 +12,7 @@ import { facilityPhotoType } from './facilityPhoto'
 import { examMaterialType } from './examMaterial'
 import { planPageType } from './planPage'
 import { successYearType } from './successYear'
+import { eventPhotoType } from './eventPhoto'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -26,5 +27,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     examMaterialType,
     planPageType,
     successYearType,
+    eventPhotoType,
   ],
 }
