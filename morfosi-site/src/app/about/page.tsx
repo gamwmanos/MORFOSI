@@ -5,6 +5,7 @@ import Link from "next/link";
 import { client } from "@/sanity/client";
 import dynamic from 'next/dynamic';
 const PremiumFacilityGallery = dynamic(() => import('@/components/PremiumFacilityGallery'), { ssr: false });
+import { motion, AnimatePresence } from "framer-motion";
 import {
   GraduationCap,
   Users,
@@ -799,33 +800,44 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          {/* Active testimonial */}
-          <div className="max-w-4xl mx-auto mb-12">
-            {TESTIMONIALS.map((t, i) => (
-              <div
-                key={i}
-                className={`transition-all duration-500 ${i === activeTestimonial ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 absolute pointer-events-none"}`}
-                style={{ position: i === activeTestimonial ? "relative" : "absolute" }}
-              >
-                <div className={`bg-white border-[6px] ${t.color} shadow-[16px_16px_0px_#111] p-10 md:p-14 relative`}>
-                  <Quote size={60} className={`${t.accent} opacity-20 absolute top-8 right-8`} />
-                  <p className="text-gray-800 font-bold text-2xl md:text-3xl leading-relaxed mb-10">
-                    &ldquo;{t.text}&rdquo;
-                  </p>
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div className="flex items-center gap-5">
-                      <div className={`w-16 h-16 ${t.color.replace("border-", "bg-").replace("brand-", "brand-")} bg-gray-100 border-4 border-gray-900 flex items-center justify-center flex-shrink-0`}>
-                        <GraduationCap size={32} className="opacity-40" />
+          {/* Active testimonial - Refactored with AnimatePresence for smooth transitions */}
+          <div className="max-w-4xl mx-auto mb-12 relative min-h-[420px] md:min-h-[380px]">
+            <AnimatePresence mode="wait">
+              {TESTIMONIALS.map((t, i) => i === activeTestimonial && (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.98, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 1.02, y: -10 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="w-full h-full"
+                >
+                  <div className={`bg-white border-[6px] ${t.color} shadow-[16px_16px_0px_#111] p-10 md:p-14 relative h-full`}>
+                    <Quote size={60} className={`${t.accent} opacity-20 absolute top-8 right-8`} />
+                    <p className="text-gray-800 font-bold text-2xl md:text-3xl leading-relaxed mb-10">
+                      &ldquo;{t.text}&rdquo;
+                    </p>
+                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                      <div className="flex items-center gap-5">
+                        <div className={`w-16 h-16 ${t.color.replace("border-", "bg-").replace("brand-", "brand-")} bg-gray-100 border-4 border-gray-900 flex items-center justify-center flex-shrink-0`}>
+                          <GraduationCap size={32} className="opacity-40" />
+                        </div>
+                        <div>
+                          <div className="font-black text-xl text-gray-900 uppercase tracking-tight">{t.name}</div>
+                          <div className="text-gray-500 font-bold">{t.school}</div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-black text-xl text-gray-900 uppercase tracking-tight">{t.name}</div>
-                        <div className="text-gray-500 font-bold">{t.school}</div>
+
+                      {/* Success badge */}
+                      <div className="hidden md:flex items-center gap-3 bg-gray-50 px-4 py-2 border-2 border-gray-900 rounded-lg">
+                        <Star className={t.accent} size={18} fill="currentColor" />
+                        <span className="font-black text-sm uppercase tracking-wider">{t.grade} ΜΟΡΙΑ</span>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
 
           {/* Dots */}
