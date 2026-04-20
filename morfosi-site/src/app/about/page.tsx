@@ -12,6 +12,7 @@ import {
   Award,
   BookOpen,
   ChevronRight,
+  ChevronLeft,
   MapPin,
   Phone,
   Mail,
@@ -722,30 +723,31 @@ export default function AboutPage() {
                   >
                     <img src={ep.photoUrl} alt={ep.title} className="w-full h-full object-cover opacity-80" />
                     
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                    
-                    {/* Content overlay */}
-                    <div className="absolute bottom-0 left-0 w-full p-8 md:p-12">
-                      <div className="max-w-3xl transform transition-transform duration-700 translate-y-0">
-                        {ep.date && (
-                          <div className="inline-block bg-brand-orange text-white font-black text-[10px] sm:text-xs uppercase tracking-widest px-3 py-1 mb-4 shadow-[4px_4px_0px_rgba(0,0,0,0.5)]">
-                            {new Date(ep.date).toLocaleDateString('el-GR', { year: 'numeric', month: 'long', day: 'numeric' })}
-                          </div>
-                        )}
-                        <h3 className="text-3xl md:text-5xl font-black text-white tracking-tight leading-none mb-4 drop-shadow-lg">
-                          {ep.title}
-                        </h3>
-                        {ep.description && (
-                          <p className="text-gray-300 font-medium md:text-lg max-w-2xl drop-shadow-md">
-                            {ep.description}
-                          </p>
-                        )}
-                      </div>
-                    </div>
+                    {/* Clean Gradient Overlay - No Text as requested */}
+                    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>
                 ))}
 
+                {/* Left/Right Navigation Arrows */}
+                {eventPhotos.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => setActiveEventPhoto((prev) => (prev - 1 + eventPhotos.length) % eventPhotos.length)}
+                      className="absolute top-1/2 -translate-y-1/2 left-4 md:left-8 w-12 h-12 flex items-center justify-center bg-black/40 hover:bg-brand-orange text-white rounded-full backdrop-blur-sm transition-all shadow-lg z-30 group"
+                      aria-label="Προηγούμενη φωτογραφία"
+                    >
+                      <ChevronLeft size={28} className="group-hover:-translate-x-1 transition-transform" />
+                    </button>
+
+                    <button
+                      onClick={() => setActiveEventPhoto((prev) => (prev + 1) % eventPhotos.length)}
+                      className="absolute top-1/2 -translate-y-1/2 right-4 md:right-8 w-12 h-12 flex items-center justify-center bg-black/40 hover:bg-brand-orange text-white rounded-full backdrop-blur-sm transition-all shadow-lg z-30 group"
+                      aria-label="Επόμενη φωτογραφία"
+                    >
+                      <ChevronRight size={28} className="group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  </>
+                )}
                 {/* Navigation Buttons and Progress */}
                 {eventPhotos.length > 1 && (
                   <div className="absolute top-6 right-6 flex items-center gap-4 z-20">
