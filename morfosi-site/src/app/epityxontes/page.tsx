@@ -73,9 +73,9 @@ export default function EpityxontesPage() {
             <p className="text-gray-500 font-bold mt-2">Η γραμματεία πρέπει να ανεβάσει PDF στο Sanity Studio.</p>
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row gap-12 items-start">
+          <div className="flex flex-col lg:flex-row gap-12 items-stretch">
              {/* LEFT SIDE: YEARS NAVIGATION */}
-             <div className="w-full lg:w-1/4 flex flex-col gap-4">
+             <div className="w-full lg:w-1/5 flex flex-col gap-4">
                <h3 className="font-black text-gray-900 uppercase tracking-widest border-b-4 border-gray-900 pb-4 mb-2">
                  Επιλογη Χρονιας
                </h3>
@@ -101,7 +101,7 @@ export default function EpityxontesPage() {
              </div>
 
              {/* RIGHT SIDE: PDF VIEWER */}
-             <div className="w-full lg:w-3/4">
+             <div className="w-full lg:w-4/5">
                 {activeYear ? (
                   <div className="bg-white border-[6px] border-black shadow-[16px_16px_0px_#000] flex flex-col">
                     <div className="bg-black text-white px-6 py-4 flex justify-between items-center">
@@ -113,11 +113,12 @@ export default function EpityxontesPage() {
                         <Download size={14} /> ΚΑΤΕΒΑΣΜΑ
                       </a>
                     </div>
-                    <div className="relative w-full aspect-[1/1.4] md:aspect-[16/10] bg-gray-100">
+                    <div className="relative w-full bg-gray-100" style={{ minHeight: '80vh' }}>
                       <iframe 
                         src={`${activeYear.pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`}
                         title={`Επιτυχόντες ${activeYear.year}`}
-                        className="w-full h-full border-0"
+                        className="w-full h-full border-0 absolute inset-0"
+                        style={{ minHeight: '80vh' }}
                       />
                     </div>
                   </div>
