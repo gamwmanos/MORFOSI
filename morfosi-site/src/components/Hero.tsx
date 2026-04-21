@@ -138,7 +138,7 @@ export default function Hero() {
                 quality={60}
                 fetchPriority="high"
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover grayscale-[10%] contrast-[1.05]"
+                className="object-cover contrast-[1.05]"
              />
             
             {/* Overlay Badge — Enhanced with stats */}

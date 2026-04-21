@@ -243,7 +243,7 @@ export default async function TeachersPage() {
                       <img
                         src={featured.imageUrl}
                         alt={`${featured.firstName} ${featured.lastName}`}
-                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                        className="w-full h-full object-cover transition-all duration-700"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-brand-teal/30 to-brand-orange/20">
@@ -331,7 +331,7 @@ export default async function TeachersPage() {
                       <img
                         src={teacher.imageUrl}
                         alt={`${teacher.firstName} ${teacher.lastName}`}
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-105 group-hover:scale-100 transition-all duration-700"
+                        className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-all duration-700"
                       />
                     ) : (
                       <div className={`w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100`}>

@@ -173,7 +173,7 @@ export default function Testimonials({ testimonials = [] }: { testimonials?: Tes
                     {/* Avatar (Square & Sharp instead of Round) */}
                     <div className="h-20 w-20 border-[4px] border-black shadow-[4px_4px_0px_#000] bg-gray-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
                        {testimonial.photoUrl ? (
-                         <Image src={testimonial.photoUrl} alt={testimonial.studentName} width={80} height={80} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                         <Image src={testimonial.photoUrl} alt={testimonial.studentName} width={80} height={80} className="w-full h-full object-cover transition-all duration-500" />
                        ) : (
                          <span className="font-black text-3xl text-gray-400">{testimonial.studentName.charAt(0)}</span>
                        )}
