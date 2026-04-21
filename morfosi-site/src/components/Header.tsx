@@ -718,14 +718,14 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
               : "bg-white shadow-[0_6px_0_0_rgba(12,130,162,1)] py-0"
             }`}
         >
-          <div className="w-full px-4 md:px-6 xl:px-2 min-[1400px]:px-4 2xl:px-8 flex items-center justify-between">
+          <div className="w-full px-4 md:px-6 lg:px-2 xl:px-2 min-[1400px]:px-4 2xl:px-8 flex items-center justify-between">
 
             {/* LEFT GROUP: Logo + Nav */}
             <div className="flex items-center">
               {/* Logo */}
               <Link
                 href="/"
-                className="flex-shrink-0 relative z-10 mr-4"
+                className="flex-shrink-0 relative z-10 mr-4 lg:mr-1 xl:mr-4"
               >
                 <Image
                   src="/morfosi.jpg"
@@ -733,7 +733,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
                   width={300}
                   height={80}
                   priority
-                  className={`object-contain w-auto transition-all duration-300 ${scrolled ? "h-12 md:h-14" : "h-16 md:h-20"
+                  className={`object-contain w-auto transition-all duration-300 ${scrolled ? "h-12 md:h-14 lg:h-10 xl:h-12" : "h-16 md:h-20 lg:h-12 xl:h-16"
                     }`}
                 />
               </Link>
@@ -752,7 +752,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
                     {item.href && !item.children ? (
                       <Link
                         href={item.href}
-                        className="flex items-center gap-1 lg:px-1 xl:px-2 2xl:px-3 py-5 font-black lg:text-[9px] xl:text-[11px] 2xl:text-[13px] uppercase lg:tracking-tighter xl:tracking-tight 2xl:tracking-widest text-gray-800 hover:text-brand-teal transition-colors relative group whitespace-nowrap"
+                        className="flex items-center gap-1 px-2 lg:px-0.5 xl:px-2 2xl:px-3 py-5 font-black lg:text-[8px] xl:text-[11px] 2xl:text-[13px] uppercase tracking-tighter lg:tracking-tight xl:tracking-tight 2xl:tracking-widest text-gray-800 hover:text-brand-teal transition-colors relative group whitespace-nowrap"
                       >
                         {item.label}
                         <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
@@ -762,7 +762,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
                         onClick={() =>
                           setOpenMenu(openMenu === item.id ? null : item.id)
                         }
-                        className={`flex items-center gap-1 lg:px-1 xl:px-2 2xl:px-3 py-5 font-black lg:text-[9px] xl:text-[11px] 2xl:text-[13px] uppercase lg:tracking-tighter xl:tracking-tight 2xl:tracking-widest transition-colors relative group cursor-pointer whitespace-nowrap ${openMenu === item.id
+                        className={`flex items-center gap-1 px-2 lg:px-0.5 xl:px-2 2xl:px-3 py-5 font-black lg:text-[8px] xl:text-[11px] 2xl:text-[13px] uppercase tracking-tighter lg:tracking-tight xl:tracking-tight 2xl:tracking-widest transition-colors relative group cursor-pointer whitespace-nowrap ${openMenu === item.id
                             ? "text-brand-teal"
                             : "text-gray-800 hover:text-brand-teal"
                           }`}
@@ -793,11 +793,11 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
             </div>
 
             {/* RIGHT GROUP: Phone + Buttons */}
-            <div className="flex items-center gap-2 lg:gap-1.5 xl:gap-3 2xl:gap-6 flex-shrink-0">
+            <div className="flex items-center gap-2 lg:gap-1 xl:gap-3 2xl:gap-6 flex-shrink-0">
               {/* Phone number - desktop */}
               <a
                 href={`tel:${contactPhone.replace(/\s+/g, "")}`}
-                className="hidden lg:flex flex-col items-end lg:scale-75 xl:scale-90 2xl:scale-100 origin-right transition-transform"
+                className="hidden lg:flex flex-col items-end lg:scale-[0.65] xl:scale-90 2xl:scale-100 origin-right transition-transform"
               >
                 <span className="text-[10px] font-black tracking-[0.15em] text-brand-orange uppercase">
                   Επικοινωνία
@@ -818,7 +818,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
               </Link>
               <Link
                 href="/contact"
-                className={`hidden md:inline-flex items-center gap-2 bg-brand-orange text-white font-black uppercase tracking-wider hover:bg-orange-600 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(245,130,32,0.5)] active:scale-95 relative overflow-hidden group/enroll ${scrolled ? "px-4 py-2.5 text-xs lg:px-2 lg:py-1.5 lg:text-[10px] xl:px-3 xl:py-2 2xl:px-4 2xl:py-2.5" : "px-5 py-3 text-xs lg:px-2 lg:py-1.5 lg:text-[10px] xl:px-4 xl:py-2.5 2xl:px-5 2xl:py-3"
+                className={`hidden md:inline-flex items-center gap-2 bg-brand-orange text-white font-black uppercase tracking-wider hover:bg-orange-600 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(245,130,32,0.5)] active:scale-95 relative overflow-hidden group/enroll ${scrolled ? "px-4 py-2.5 text-xs lg:px-1.5 lg:py-1 lg:text-[8px] xl:px-3 xl:py-2 2xl:px-4 2xl:py-2.5" : "px-5 py-3 text-xs lg:px-1.5 lg:py-1 lg:text-[8px] xl:px-4 xl:py-2.5 2xl:px-5 2xl:py-3"
                   }`}
               >
                 <span className="absolute inset-0 bg-white/10 translate-x-[-110%] group-hover/enroll:translate-x-[110%] transition-transform duration-500 skew-x-12 pointer-events-none" />
