@@ -446,14 +446,14 @@ function MobileMenu({
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-[300] bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
         onClick={onClose}
       />
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-full max-w-sm z-[400] bg-white shadow-2xl transform transition-transform duration-400 ease-out flex flex-col ${isOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 h-full w-full max-w-sm z-[10000] bg-white shadow-2xl transform transition-transform duration-400 ease-out flex flex-col ${isOpen ? "translate-x-0" : "translate-x-full"
           }`}
       >
         {/* Header */}
