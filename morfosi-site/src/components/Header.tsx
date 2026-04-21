@@ -818,7 +818,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
               </Link>
               <Link
                 href="/contact"
-                className={`hidden md:inline-flex items-center gap-2 bg-brand-orange text-white font-black uppercase tracking-wider hover:bg-orange-600 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(245,130,32,0.5)] active:scale-95 relative overflow-hidden group/enroll ${scrolled ? "px-4 py-2.5 text-xs lg:px-1.5 lg:py-1 lg:text-[8px] xl:px-3 xl:py-2 2xl:px-4 2xl:py-2.5" : "px-5 py-3 text-xs lg:px-1.5 lg:py-1 lg:text-[8px] xl:px-4 xl:py-2.5 2xl:px-5 2xl:py-3"
+                className={`hidden xl:inline-flex items-center gap-2 bg-brand-orange text-white font-black uppercase tracking-wider hover:bg-orange-600 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(245,130,32,0.5)] active:scale-95 relative overflow-hidden group/enroll ${scrolled ? "px-4 py-2.5 text-xs xl:px-3 xl:py-2 2xl:px-4 2xl:py-2.5" : "px-5 py-3 text-xs xl:px-4 xl:py-2.5 2xl:px-5 2xl:py-3"
                   }`}
               >
                 <span className="absolute inset-0 bg-white/10 translate-x-[-110%] group-hover/enroll:translate-x-[110%] transition-transform duration-500 skew-x-12 pointer-events-none" />
