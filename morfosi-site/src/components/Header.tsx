@@ -271,6 +271,12 @@ const NAV_ITEMS: NavItem[] = [
     label: "ΜΟΡΦΩΣΗ",
     children: [
       {
+        href: "/epityxontes",
+        label: "Επιτυχόντες",
+        description: "Οι επιτυχίες των μαθητών μας",
+        icon: <Star size={20} strokeWidth={2.5} />,
+      },
+      {
         href: "/about",
         label: "Σχετικά με Εμάς",
         description: "Ιστορία, αξίες & ομάδα του φροντιστηρίου",
