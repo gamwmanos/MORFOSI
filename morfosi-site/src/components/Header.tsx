@@ -740,7 +740,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
 
               {/* Desktop Nav */}
               <nav
-                className="hidden lg:flex items-center lg:gap-0 xl:gap-2 2xl:gap-4"
+                className="hidden lg:flex items-center lg:gap-0 xl:gap-0 2xl:gap-2"
                 onMouseLeave={handleMouseLeave}
               >
                 {dynamicNavItems.map((item) => (
@@ -752,7 +752,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
                     {item.href && !item.children ? (
                       <Link
                         href={item.href}
-                        className="flex items-center gap-1 px-2 lg:px-0.5 xl:px-2 2xl:px-3 py-5 font-black lg:text-[8px] xl:text-[11px] 2xl:text-[13px] uppercase tracking-tighter lg:tracking-tight xl:tracking-tight 2xl:tracking-widest text-gray-800 hover:text-brand-teal transition-colors relative group whitespace-nowrap"
+                        className="flex items-center gap-1 px-2 lg:px-0.5 xl:px-1 2xl:px-2 py-5 font-black lg:text-[8px] xl:text-[9px] 2xl:text-[11px] uppercase tracking-tighter lg:tracking-tight xl:tracking-tight 2xl:tracking-widest text-gray-800 hover:text-brand-teal transition-colors relative group whitespace-nowrap"
                       >
                         {item.label}
                         <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
@@ -762,7 +762,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
                         onClick={() =>
                           setOpenMenu(openMenu === item.id ? null : item.id)
                         }
-                        className={`flex items-center gap-1 px-2 lg:px-0.5 xl:px-2 2xl:px-3 py-5 font-black lg:text-[8px] xl:text-[11px] 2xl:text-[13px] uppercase tracking-tighter lg:tracking-tight xl:tracking-tight 2xl:tracking-widest transition-colors relative group cursor-pointer whitespace-nowrap ${openMenu === item.id
+                        className={`flex items-center gap-1 px-2 lg:px-0.5 xl:px-1 2xl:px-2 py-5 font-black lg:text-[8px] xl:text-[9px] 2xl:text-[11px] uppercase tracking-tighter lg:tracking-tight xl:tracking-tight 2xl:tracking-widest transition-colors relative group cursor-pointer whitespace-nowrap ${openMenu === item.id
                             ? "text-brand-teal"
                             : "text-gray-800 hover:text-brand-teal"
                           }`}
@@ -793,11 +793,11 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
             </div>
 
             {/* RIGHT GROUP: Phone + Buttons */}
-            <div className="flex items-center gap-2 lg:gap-1 xl:gap-3 2xl:gap-6 flex-shrink-0">
+            <div className="flex items-center gap-2 lg:gap-1 xl:gap-2 2xl:gap-4 flex-shrink-0">
               {/* Phone number - desktop */}
               <a
                 href={`tel:${contactPhone.replace(/\s+/g, "")}`}
-                className="hidden lg:flex flex-col items-end lg:scale-[0.65] xl:scale-90 2xl:scale-100 origin-right transition-transform"
+                className="hidden lg:flex flex-col items-end lg:scale-[0.65] xl:scale-75 2xl:scale-90 origin-right transition-transform"
               >
                 <span className="text-[10px] font-black tracking-[0.15em] text-brand-orange uppercase">
                   Επικοινωνία
@@ -818,7 +818,7 @@ export default function Header({ contactPhone = "210 506 3610" }: { contactPhone
               </Link>
               <Link
                 href="/contact"
-                className={`hidden xl:inline-flex items-center gap-2 bg-brand-orange text-white font-black uppercase tracking-wider hover:bg-orange-600 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(245,130,32,0.5)] active:scale-95 relative overflow-hidden group/enroll ${scrolled ? "px-4 py-2.5 text-xs xl:px-3 xl:py-2 2xl:px-4 2xl:py-2.5" : "px-5 py-3 text-xs xl:px-4 xl:py-2.5 2xl:px-5 2xl:py-3"
+                className={`hidden xl:inline-flex items-center gap-2 bg-brand-orange text-white font-black uppercase tracking-wider hover:bg-orange-600 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(245,130,32,0.5)] active:scale-95 relative overflow-hidden group/enroll ${scrolled ? "px-4 py-2.5 text-[10px] xl:px-2 xl:py-1.5 2xl:px-3 2xl:py-2" : "px-5 py-3 text-[11px] xl:px-3 xl:py-2 2xl:px-4 2xl:py-2.5"
                   }`}
               >
                 <span className="absolute inset-0 bg-white/10 translate-x-[-110%] group-hover/enroll:translate-x-[110%] transition-transform duration-500 skew-x-12 pointer-events-none" />
