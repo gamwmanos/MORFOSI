@@ -283,6 +283,12 @@ const NAV_ITEMS: NavItem[] = [
         icon: <Info size={20} strokeWidth={2.5} />,
       },
       {
+        href: "/teachers",
+        label: "Καθηγητές μας",
+        description: "Γνώρισε την ομάδα μας",
+        icon: <Users size={20} strokeWidth={2.5} />,
+      },
+      {
         href: "/contact#contact-form",
         label: "Φόρμα Επικοινωνίας",
         description: "Στείλε μας μήνυμα άμεσα",
