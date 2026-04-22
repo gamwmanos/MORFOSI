@@ -170,13 +170,6 @@ const NAV_ITEMS: NavItem[] = [
         description: "Μαθηματικά, ΑΟΔΕ, Πληροφορική",
         icon: <Globe size={20} strokeWidth={2.5} />,
       },
-      {
-        href: "/teachers",
-        label: "Καθηγητές μας",
-        description: "Γνώρισε την ομάδα μας",
-        icon: <Users size={20} strokeWidth={2.5} />,
-        badge: "ΝΕΟ",
-      },
     ],
     featured: {
       title: "Εγγράψου τώρα",
