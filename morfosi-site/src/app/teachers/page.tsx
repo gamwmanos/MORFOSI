@@ -1,6 +1,8 @@
 import { client } from "@/sanity/client";
 import { GraduationCap, Users, Star, Award, BookOpen, ChevronRight, Sparkles } from "lucide-react";
 
+export const revalidate = 60; // Refresh data from Sanity every 60 seconds
+
 export const metadata = {
   title: 'Οι Καθηγητές μας | Φροντιστήριο Μόρφωση',
   description: 'Γνωρίστε την ακαδημαϊκή ομάδα του Φροντιστηρίου Μόρφωση. Εκπαιδευτικοί με πάθος, εμπειρία και αποτελέσματα.',
