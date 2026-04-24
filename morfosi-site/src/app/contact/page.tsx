@@ -75,8 +75,8 @@ export default async function ContactPage() {
   const instagram= settings?.socialMedia?.instagram;
   const youtube  = settings?.socialMedia?.youtube;
 
-  // Direct Google Maps link to the school's exact location
-  const mapsUrl = "https://maps.app.goo.gl/bKQCyKZhgDC1iw2QA?g_st=ic";
+  // Permanent Google Maps link using Place ID (never breaks)
+  const mapsUrl = "https://www.google.com/maps/search/?api=1&query=Google&query_place_id=ChIJ2dY8P6WjoRQRkE-VfXoIcO8";
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-brand-teal selection:text-white overflow-x-hidden">
