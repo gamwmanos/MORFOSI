@@ -939,7 +939,7 @@ export default function AboutPage() {
                 val: address,
                 sub: "[Ενημερώσιμο από Sanity → siteSettings.address]",
                 color: "bg-brand-teal",
-                href: "https://maps.google.com",
+                href: "https://maps.app.goo.gl/bKQCyKZhgDC1iw2QA?g_st=ic",
               },
               {
                 icon: Phone,
